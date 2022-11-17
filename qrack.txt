@@ -1,0 +1,817 @@
+-------
+v2.018 (BUILD:6/26/2018)
+-------
+. mwheelscrolling for menus; mouse1 for enter mouse2 for back
+
+. fixed: server list as servers.quakeone.com went down.(pulls a default server.txt from quakeone.com/qrack)
+
+. added support for external .ogg/.mp3 music put your music tracks in /quake/{gamedir}/music/ naming files track##.{ogg}mp3} 
+	use 'fmod_music' command to toggle loading/playing external music. (requires reloading map)
+	add +fmod_music to your command line or edit your autoexec.cfg and add fmod_music to the bottom.
+	
+. disabled playing cd tracks when using timedemo!
+
+. changed cl_basespeedkey default value to 200. This is the median speed point between always run on or off. 
+	If forward speed is greater then basespeedkey then current speed will be reduced by the value of cl_basespeedkey when pressing +speed.
+	if cl_basespeedkey is 0 then +speed only multiplies current movement by cl_movespeedkey.
+	
+. Fixed QMB Particles with Fog Enabled.
+
+. Added BSP2 support with extended limits. 
+
+. Fixed ED_LoadFromFile bug on jrdm2 map.
+
+------
+v2.016 -- Release v. 2.016 build:5267 (July 28, 2016)
+------
+
+added cl_netfps from DarkPlaces, significantly reduces the nettraffic from the client to the server.
+	default 40, yet most netQuake servers run at 20fps; i suggest 40fps for CAx.
+	use m_filter 2 if you experience input lag.
+	developer 1 shows stats
+	
+tweaked enhanced explosions, added r_explosion_alpha cvar.
+
+Lowered muzzleflash particles; drawn behind the gun. Also, underwater shows bubbles instead now.
+
+Added: Volumetric Stencil Shadows (r_shadows 2), ALSO R_SHADOWS_THROW_DISTANCE.
+		
+Fixed: writeconfig while watching a demo crashed the engine.
+
++SPEED now toggles between walking and running, depending on 'always run on'.
+
+Fixed the alpha entvar in protocol 666, which made torches, teleporters and skip textures disappear.
+
+Fixed the server list with "gamedir". 
+	servers.txt is now written strictly to the "/qrack" folder not the gamedir folder.
+
+Changed key bind names for "PRTSCN" and "SCRLK" to represent the actual key labels.
+
+fixed colored deadbodies; added new command gl_color_deadbodies to toggle.
+
+gl_mipmap_lightmaps toggle so lightmaps are mipmaped or not.
+
+Added fitzQuake protocol 666 support. 
+
+Added support for Sock's mod In The Shadows.
+
+fixed chase_transparent with chase_active 2
+
+fixed slist menu, autodownloads new server list everytime the menu is loaded. kept the 'servers' command for those console junkies.
+
+fixed nomonsters cvar to freeze only monsters not time.
+
+Fixed: Alias commands are not stuffed to the client when watching demos.
+
+added: "cl_bobfall"					
+
+added: "cl_bobfall_scale"
+
+added: "con_clear_input_on_toggle"
+
+added: "con_clear_key_state"
+
+added: "in_raw_allbuttons"
+
+added: "r_outline_surf" 1 = black 2= green
+
+added: "sys_highpriority"
+
+added: con_notify_position, allows u to move the chatlines vertically on the screen.
+
+fixed: does not draw chatlines on-screen if in viewing menu, or scrolling back thru the console buffer.
+
+fixed: shaft with cl_truelightning 0, while walking up stairs.
+
+added: scr_drawautoids to label players during demos
+
+fixed: increased lightmap speeds using 24bit uploads with GL_RGBA8 and GL_BGRA/GL_UNSIGNED_INT_8_8_8_8_REV.
+
+added: vid_force_aspect_ratio cvar, to force the console text and 2d images to use the monitor's native aspect ratio instead of the aspect ratio of the custom resolution
+
+Added "servers" command
+
+		syntax: servers {all}
+		desc.:	Downloads an ascii webpage outputs it to the console listing current active quake
+				servers. By default it will only list the servers with players, though, using the 
+				optional 'all' parameter will show all servers active regardless.
+
+added:	m_raw_input support, as an alternate to directinput.
+
+added:	gl_lightning_alpha,	allows you to adjust the transparency of the bolt.mdl, 1 will make the bolt fullbright. Min 40%.
+		
+//////////////////////////////////////////////////////////////////////////////////////////[ QRACK v2.011.3467 (08.24.2011) ]]]]]]]]]]
+
+added:  teamscores to scr_printstats_type 1
+
+added:	gl_conback_image will specify the conback image in real-time.
+
+fixed:  -game MYMOD will load ALL 24-bit texture replacements from within the GAMEDIR "/mymod/" first.
+
+added:	Adjustable con_textsize resizing using [alt]UpArrow and [alt]DownArrow keys, with [alt]BackSpace to reset.
+
+added:	commandline option -monitor2 to select second monitor as default.
+
+(build 3467):
+added:	snd_ambient {0|1}, toggles the ambient background sounds, wind, frogs, water, torches etc...}
+
+Added:	cl_nomessageprint [0|1]	: suppress message text when recording demos.
+
+Added:	r_outline for .md3 models.
+
+Added:  writealiases {filename}.cfg : writes all alias commands to filename.cfg.
+	The ".cfg" extension is forced.
+
+Added:	cl_autofocus {0|1} returns back to Qrack when a match starts, if the
+	user ALT-TABs out.
+
+Added:	show_healthbar {0|1}, displays a graphical bar on screan of local
+	client's health
+	show_healthbar_x {#}, horizontal position of healthbar. Default 0 is the
+	center of the screen, negative moves left, positive moves right.
+	show_healthbar_y {#}, vertical position of the healthbar. Default is 0
+	center. Positive moves down, negative moves up.
+
+Added: 	show_armorbar {0|1}, displays graphical bar of local client's
+	armorvalue. Color is indeicated by type of armor. (R,Y,G)
+	show_armorbar_x {#}, horizontal position	
+	show_armorbar_y {#}, vertical position
+	
+Added:	show_ammobar {0|1}, displays a graphical bar of the ammount of ammo of
+	local client's weapon in hand.
+	show_ammobar_x {#}, horizontal position.
+	show_ammobar_y {#}, vertical position.
+	
+Fixed:	Bug when using ctrl and pageup keys. If you held down the pageup key it
+	would keep scrolling back past the beginning of the console buffer.
+
+Fixed:	Sometimes keys didn't repeat in the console.
+
+Fixed:	Tweaked the position of the muzzleflash particle, works now with
+	cl_gun_offset and v_viewheight.
+
+Added:	gl_part_muzzleflash {0|1} toggles the particle for muzzleflash when
+	shooting. (4 years later)
+
+Added: 	Support for mods that require 64k globals, via code from Spike of FTE.
+	
+Added: 	MEM command to show amount of HEAP memory used.
+
+Added: 	EndFrameQC support.
+
+Added: 	SV_PlayerPhysicsQC support, to override engine player physics for
+	QuakeC.
+
+Added: 	changed r_lightmode command to gl_overbright.
+
+Changed: MSG_Write*s and MSG_Read*s to mimic ProQuake server functions for
+	compatibility. cls.protocol will manage this in future.
+
+Fixed:	Bug with Quoth's pulsecannon, using invalid particletype.
+
+Added: 	Inability to (accidentally) load multiple versions of Qrack to save
+	resources..
+	Can be overridden with "-multipleinstance" command line parameter.
+
+Changed: MAX_ENT_LEAFS to 256 from 16
+
+Added:  host_maxfps (default 75), forces server timings to Quake standard for
+	single-player game physics.
+
+Changed: Typing changelevel with no mapname will pick a random map for you. Nice
+	for playing wih FrikBots.
+
+Added: 	gl_decal_count cvar sets maximum number of decals to be drawn at one
+	time.
+
+Fixed:	remove oldest decal from list if max decal limit hit, always drawing new
+	decals.
+
+Fixed: 	replaced calls to glBindTexture, with GL_Bind, which applies
+	gl_anisotropic to all textures passed through this function.
+	hopefully this will eliminate the glittery effect of decals.
+	
+Added: 	random decal sizes when created.
+
+Added: 	decal alpha channel support.
+
+Fixed:	if cl_web_download fails because of file not found Qrack should not
+crash.
+
+Fixed: 	reconnect command works now, just type reconnect if you get
+	disconnected.
+
+fixed: 	old bug with pq_teamscores when a team had a negative score!
+
+added: 	gl_powerupshell_size, to control the size of a model's polygon shell
+	effect.
+	(default 0), range: 0 to 10.
+
+fixed:	bug with m_filter.
+
+fixed:	if sv_defaultmap is null ("") then Qrack will return with error :
+	Couldn't load map: 'mymap.bsp'. if map not found.
+
+modified: gl_fogenable is set in worldspawn for maps that wish to autoload fog
+	settings,
+	using gl_fogenable 2 forces current fog settings to carry over if the
+	next map doesnt
+	have a fog key in worldspawn. This basically forces fog ON all the time.
+
+added: 	scr_bloodsplat 0 | 1
+	shows bloodsplats on player's screens when being hurt.
+
+Fixed: 	gl_rain is now alot faster.
+
+Fixed: 	R_Celshading 1 & 2 with cl_teamskins 1.
+
+Fixed: 	Decals are not added to animated textures.
+
+Added: 	When recording a demo, show_rec will display "[*REC]" on screen.
+		usage:
+		show_rec 0|1 to toggle
+		show_rec_x	horizontal positioning
+		show_rec_y	vertical positioning
+			
+Added: 	cl_levelshots 0 |1
+	Displays an image between level loads and fades out of view with the
+name of the map centerprinted.
+	(custom levelshot images should be placed in "/textures/levelshots" )
+
+Added: 	scr_centerprint_levelname 0|1
+	Displays a centerprint of the map's worldspawn key "message" at map
+start.
+	
+Fixed: 	if a server model is not found, or can't be downloaded use null.mdl
+	instead.
+
+Fixed: 	Fullbright skins on 8 bit player models only illuminate the original
+	fullbright colors (>224)
+	This allows gl_fb_models 1 to correctly work for player models without
+	making the entire skin fullbright!
+	Originally in Quake the player skin had a fullbright little RED dot on
+	the gun, which was broken in glQuake.
+	
+Added: 	CL_TEAMSKIN support for md3 models! :D
+
+fIXED: 	if transparent then no entity shadow!!
+
+Added: 	cl_viewbob 0|1 default 0, bobs the pov as a player walks.
+	This allows the gun to sway with cl_bob* commands but keeping the pov
+	steady.
+
+Fixed: 	coronas are not visable through doors/platforms :D
+
+Fixed 	chase_active so the view never pokes into the wall!
+
+added 	MOVETYPE_FOLLOW for Nehahra support (oops! was missing!)
+
+added 	LordHavoc's implementation of rotation on MOVETYPE_FOLLOW objects.
+
+added 	gl_free_world_textures cvar to clear out loaded texture before each map
+	load...
+	+ saves texture memory
+	+ reloads color pallete (and/or bpp)
+	+ resets the mipmap level
+	
+Fixed:	Better support for widescreen aspect in SCR_CalcRefdef.
+
+Added: 	Rotating BMODELS from DarkPlaces.
+
+Added:	preliminary support for HalfLife 1 maps with 24bit texture support
+//===================================================================================================================
+
+added: Adjustable con_textsize resizing using [alt]UpArrow and [alt]DownArrow keys, with [alt]BackSpace to reset.
+(also CTRL and MWHEELUP/DOWN)
+
+added: commandline option -monitor2 to select second monitor as default.
+
+Fixed: External textures for gamedir content. Loads the media from -game folder first.
+Bug reported by Lightning Hunter.
+
+Added: cl_nomessageprint [0|1] : suppress message text when recording demos.
+
+Added: r_outline for .md3 models.
+
+Added: writealiases {filename}.cfg : writes all alias commands to filename.cfg.
+The ".cfg" extension is forced.
+
+Added: cl_nomessageprint [0|1] : suppress message text when recording demos.
+
+Added: cl_autofocus {0|1} returns back to Qrack when a match starts, if the
+user ALT-TABs out.
+Added: show_healthbar {0|1}, displays a graphical bar on screan of local
+client's health
+show_healthbar_x {#}, horizontal position of healthbar. Default 0 is the
+center of the screen, negative moves left, positive moves right.
+show_healthbar_y {#}, vertical position of the healthbar. Default is 0
+center. Positive moves down, negative moves up.
+
+Added: show_armorbar {0|1}, displays graphical bar of local client's
+armorvalue. Color is indeicated by type of armor. (R,Y,G)
+show_armorbar_x {#}, horizontal position
+show_armorbar_y {#}, vertical position
+
+Added: show_ammobar {0|1}, displays a graphical bar of the ammount of ammo of
+local client's weapon in hand.
+show_ammobar_x {#}, horizontal position.
+show_ammobar_y {#}, vertical position.
+
+Tweak: using r_dynamic 2, loads static map dynamic lights (strobe lights)
+but doesnt update them, fixing performance problems with some ATI cards.
+
+Fixed: Bug when using ctrl and pageup keys. If you held down the pageup key it
+would keep scrolling back past the beginning of the console buffer.
+
+Fixed: Sometimes keys didn't repeat in the console.
+
+Fixed: Tweaked the position of the muzzleflash particle, works now with
+cl_gun_offset and v_viewheight.
+
+Added: gl_part_muzzleflash {0|1} toggles the particle for muzzleflash when
+shooting. (4 years later)
+
+Added: Support for mods that require 64k globals, via code from Spike of FTE.
+
+Added: MEM command to show amount of HEAP memory used.
+
+Added: EndFrameQC support.
+
+Added: SV_PlayerPhysicsQC support, to override engine player physics for
+QuakeC.
+
+Added: changed r_lightmode command to gl_overbright.
+
+Changed: MSG_Write*s and MSG_Read*s to mimic ProQuake server functions for
+compatibility. cls.protocol will manage this in future.
+
+Fixed: Bug with Quoth's pulsecannon, using invalid particletype.
+
+Added: Inability to (accidentally) load multiple versions of Qrack to save
+resources..
+Can be overridden with "-multipleinstance" command line parameter.
+
+Changed: MAX_ENT_LEAFS to 256 from 16
+
+Added: host_maxfps (default 75), forces server timings to Quake standard for
+single-player game physics.
+
+Changed: Typing changelevel with no mapname will pick a random map for you. Nice
+for playing wih FrikBots.
+
+Added: gl_decal_count cvar sets maximum number of decals to be drawn at one
+time.
+
+Fixed: remove oldest decal from list if max decal limit hit, always drawing new
+decals.
+
+Fixed: replaced calls to glBindTexture, with GL_Bind, which applies
+gl_anisotropic to all textures passed through this function.
+hopefully this will eliminate the glittery effect of decals.
+
+Added: random decal sizes when created.
+
+Added: decal alpha channel support.
+
+Fixed: if cl_web_download fails because of file not found Qrack should not crash.
+
+Fixed: reconnect command works now, just type reconnect if you get disconnected.
+
+fixed: old bug with pq_teamscores when a team had a negative score!
+
+added: gl_powerupshell_size, to control the size of a model's polygon shell effect.
+(default 0), range: 0 to 10.
+
+fixed: bug with m_filter.
+
+fixed: if sv_defaultmap is null ("") then Qrack will return with error :
+Couldn't load map: 'mymap.bsp'. if map not found.
+
+modified: gl_fogenable is set in worldspawn for maps that wish to autoload fog settings,
+using gl_fogenable 2 forces current fog settings to carry over if the next map doesnt
+have a fog key in worldspawn. This basically forces fog ON all the time.
+
+added: scr_bloodsplat 0 | 1
+shows bloodsplats on player's screens when being hurt.
+
+Fixed: gl_rain is now alot faster.
+
+Fixed: R_Celshading 1 & 2 with cl_teamskins 1.
+
+Fixed: Decals are not added to animated textures.
+
+Added: When recording a demo, show_rec will display "[*REC]" on screen.
+usage:
+show_rec 0|1 to toggle
+show_rec_x horizontal positioning
+show_rec_y vertical positioning
+
+Added: Enhanced BuiltIn Function System (EBFS) by Maddes
+
+Added: FrikFile Support
+
+Added: cl_levelshots 0 |1
+Displays an image between level loads and fades out of view with the name of the map centerprinted.
+(custom levelshot images should be placed in "/textures/levelshots" )
+
+Added: scr_centerprint_levelname 0|1
+Displays a centerprint of the map's worldspawn key "message" at map start.
+
+Fixed: if a server model is not found, or can't be downloaded use null.mdl instead.
+
+Fixed: Fullbright skins on 8 bit player models only illuminate the original
+fullbright colors (>224)
+This allows gl_fb_models 1 to correctly work for player models without making the entire skin fullbright!
+Originally in Quake the player skin had a fullbright little RED dot on the gun, which was broken in glQuake.
+
+Added: CL_TEAMSKIN support for md3 models! :D
+
+fIXED: if transparent then no entity shadow!!
+
+Added: cl_viewbob 0|1 default 0, bobs the pov as a player walks.
+This allows the gun to sway with cl_bob* commands but keeping the pov steady.
+
+Fixed: coronas are not visable through doors/platforms :D
+
+Fixed chase_active so the view never pokes into the wall!
+
+added MOVETYPE_FOLLOW for Nehahra support (oops! was missing!)
+
+added LordHavoc's implementation of rotation on MOVETYPE_FOLLOW objects.
+
+added gl_free_world_textures cvar to clear out loaded texture before each map load...
++ saves texture memory
++ reloads color pallete (and/or bpp)
++ resets the mipmap level
+
+Fixed: Better support for widescreen aspect in SCR_CalcRefdef.
+
+Added: Rotating BMODELS from DarkPlaces.
+
+Added: preliminary support for HalfLife 1 maps with 24bit texture support
+
+---
+** Changes 1.90 **
+   
+
+    scr_centersbar will center the hud, period. If in deathmatch, it just wont show the scores on the sbar.
+
+    r_simpleitems "sprites" are affected by world and dynamic lighting. No more glowing backpacks!
+
+    added r_drawviewmodelsize, moves the gunmodel closer or farther away from your pov.
+
+    added: outlines on player models are colored the color of the team, but do NOT glow in the dark!
+
+    fixed mouse after alt-tabbing. d_input was disabled.
+
+    fixed: gl_picmip was broken. I guess no one uses it anymore :P
+
+    implemented vertex arrays for particles and alias models.
+
+    show_ping 0|1 [show_ping_x,show_ping_y]
+    will place your ping average on the screen.
+    updates every 4 seconds. also shows person's ping in eyecam.
+
+    added cl_web_download [0/1] Toggles automatic downloading of missing files from the "cl_web_download_url" value.
+
+    fixed the angle of the gl_laserpoint beam to equal cl_gun_offset
+
+    added: Qrack will detect when a "match" begins and will force the client to main focus.
+    This way if a player alt-tabbed, the game will switch into view when everyone ready's up.
+
+    -no24bitwad will still use 24bit textures in the -game folder...
+
+    fixed capture_demo if disconnect was called at the end of the demo.
+
+    fixed - .tga screenshots
+
+    fixed crash fog field in worldspawn.
+
+    added r_interpolate_light - toggles lightstyle interpolation.
+
+    added cl_lightning_zadjust
+
+    new icon from GetoGamer!
+
+    added version checking, through web interface on Qrack's website
+
+    added sys_disableWinKeys, (finally) made winkeys bind-able
+    lwinkey = left windows key
+    rwinkey = right windows key
+    popupmenu = windows menu key
+
+    added toggling fullscreen with ALT-ENTER.
+
+    fixed -alias handling within console. Thanks Baker!
+
+    added pq_armor, defines armortype string for %a macro. default = "[G]:[Y]:[R]"
+    example: say_team "%a %h %l"
+    output: "R00k: 200[R] 100 Lower Bridge"
+
+    changed +strafe to convert m_forward to up/down movements if you are in water.
+
+    fixed default refreshrates on startup.
+
+    updated pak0/server.lst with all known quake 1 servers.
+
+    Fixed pq_scoreboardping and pq_teamfrags.
+
+    24-bit player skins now use only 3 files (included in pak0). Base, Pants, Shirt.
+    Pants and shirts are dynamically colored in realtime
+
+    Added 5 mouse button support
+
+    Added r_particle_type 0 = circle 1= square for classic particle mode
+
+    enable z-buffer filter on transparent models, this cleans up the image.
+
+    qrack will default to desktop display properties
+
+    added muzzleflashes for opponents
+
+    added Baker's APIPA ip address workaround.
+
+    lowered the lighting closer to black for ALL alias models, including the gun viewmodel.
+
+    added cl_gun_offset 0 = center, 1 = left, 2 = right. Hand placement of the weaponmodel.
+
+    added sv_cull_entities 0 = off 1 = only player models 2 = cull all entites, can save fps in singleplayer games
+
+    added weapon flash when being hit
+
+    added m_directinput and m_smooth cvars.
+
+    disabled checking of the resolution of the conback image.
+    Also upped 8bit texture resolutions to 1024x1024.
+
+    created a new cvar gl_particle_count to dynamically set number of particles
+    raising this can increase quality at the cost of fps
+    lower this setting for a gain in fps.
+    default: 2048
+    maximum: 32768
+
+    added slight gun sway to viewmodel in singleplayer
+
+    tweaked caustics a bit..
+
+    fixed animation interpolation when switching weapons.
+
+    allow footstep sounds during demo playback.
+
+    fixed r_skyscroll with r_novis 1, thanks MH!
+
+    added new message macros
+    %W = weapon in hand based on pq_weapons
+    %A = ammo output is "%d {ammotype} " whereas %d is a number of {ammotype} of the gun in hand.
+    %At = output the ammotype only, "shells", "nails","rockets", or "cells" based on weapon in hand
+    examples:
+    "say_team I am dropping %At at %l."
+    output:
+    "I am dropping rockets at yellow armor."
+
+    "say_team I am at %l with my %W and %A"
+    output:
+    "I am at Mound with my RL and 13 rockets "
+
+    only allow decal_bullets underwater.
+    fixed color of decals when viewed through water.
+    - ie. if your in water looking out at a decal, its not as vivid.
+
+    cl_sbar_style [0 = classic | 1 = qw style]
+    r_lavaalpha controls the transparency of lava textures.
+    r_telealpha controls the transparency of teleport textures.
+    cl_loadmapcfg execute a .cfg file based on the map name in the gamedir
+    cl_footsteps footstep sounds singleplayer games only or with frikbots
+    gl_particle_flies render flies around dead corpse
+    cl_basespeedkey toggle optional +speed behavior.
+    chase_transparent Player model is transparent for 3rd-person view (single player only).
+    r_simpleitems [0 = off | 1 = soild | 2 = 50% transparent]
+    r_drawflame [0 = off | 1 = on | 2 = render dynamic lights for wall torches]
+    gl_powerupshells Q3-style Powerup Shells .mdl only.
+    -no24bitwad commandline parameter to supress 24bit textures for hud, menus, and conback.
+    added skybox.cfg assign skyboxes for each map
+    changed r_wateralpha_distance to r_turbalpha_distance.
+    The command "gamedir" now loads proper conback and executes the gamedir/config.cfg
+    added crosshair13 to qrack/pak0
+    cleaned up charset-1
+    fixed a bug when loading a saved singleplayer game, after playing a multiplayer game (deathmatch 1)
+    fixed skyscroll bug on brushmodels
+    fixed reading proquake-created .loc files by increasing the z-plane +/- 32 units
+    fixed glitch with skybox/blooms/wateralpha.
+    updated the simpleitems sprites in pak0, they had incorrect frame sizes..
+    gl_laserpoint glow has correct color in singleplayer.
+    fixed a bug when using -current would not use correct bpp, and thus produce a white display
+    cl_maxfps 0 equals up to 4096 maximum fps...
+    fixed ipdump output with de-quaked names
+    fixed bind for shift and ctrl, pressing enter allows u to edit the values
+    bounding box corrections on alias models (LordHavoc)
+    Optimized the gl_rain code, sync to frametime.
+    Fixed mixed particle mode of QMB and Classic particles, it was drawing triangles for classic particles.
+    Fixed the crosshairsize selector on the menu
+    Elimate Z-Fighting of textures on same plane. (example: map E2M2, platform underwater near end)
+    gl_greyscale turns bsp textures to black & white (looks like an old movie)
+    Added "q_version" and "q_sysinfo" parsing in MessageMode1/2 to broadcast client information to all clients.
+    When online, if you type "say q_version" in console everyone using Qrack will respond with their version information.
+    added crosshair selector in the multiplayer/setup menu
+    revamped video setup menu option to change resolutions in-game! Woot!
+    added scr_sbaralpha cvar for cl_sbar 0 overlay (transparent sbar background)
+    set vid_hwgammacontrol default to 2. Allows users to adjust gamma in windowed mode.
+    changed, r_wateralpha_distance: only compares height distance from player to water now. Set to 9999 to disable this option.
+    Re-enabled the joystick support... :)
+    Added freelook command. Mimics +mlook, retained m_look cvar also.
+    Fixed: HELP command, plus added "ESC to EXIT"
+    Added: ability to change status bar resolution independant from console resolution!!
+    new cvars:
+    con_textsize (2..20) default 8, adjusts the console text size.
+    vid_conwidth, 320.."-width" value, default 640, dynamically changes the width of 2d images
+    also will automatically adjust conheight based on screen aspect
+    vid_conheight, 200.."-height" value, default 480, same as -conheight, but realtime.
+    fixed: crosshair (0/1) also affects the gl_crosshairimage display
+    moved QMB particles off heapspace.
+    Added: gl_laserpoint (0..4)
+    0 = off
+    1 = blue
+    2 = red
+    3 = yellow
+    4 = green
+    Fixed: .avi capturing a portion of a demo until the end would crash on exit.
+    FIXED: cl_gun_fovscale with .md3 viewmodels.
+    Added TEST on serverlist to show players currently online in the Menu
+    For MM2 messages if a player doesnt have a .loc definition for that point
+    instead of 'somewhere' the origin is printed to the console, where other players
+    using Qrack can parse the actual numbers and print the proper loc definition.
+    Fixed GL_POLYBLEND 1 with R_BLOOM 1
+    Added command CONDUMP, dumps console buffer to condump.txt
+    Fixed decals at distance fade color
+    (started at 1.0 alpha value then faded, instead of distance alpha->fade)
+    Added internal .loc file maker/editor with in game outlined boxes showing the
+    location definitions.
+    New cvars:
+    loc_deletecurrent: Erases current selected location.
+    loc_clear: Erase ALL location definitions.
+    loc_reload: Reload current .loc file.
+    loc_save: Save current location
+    loc_startpoint
+    loc_endpoint "locname"
+    r_drawlocs
+    1: shows current area
+    2: shows all defined locs
+    show_locnames (0/1/2), prints the location name and origin on the statusbar
+    Added UnAlias and UnAliasAll commands
+    Changed behavior of Alias command,
+    typing alias with no parameter shows a list of all aliases
+    typing alias aliasname (without a value) edits the alias value.
+    Changed Behavior of Bind,
+    whereas typing bind x (with previous bound value), edits the key value.
+    Main Menu is presented by default on loadup instead of the console
+    cannot see through lava with r_wateralpha < 1
+    added gl_rain to toggle a rainy quake day ;)
+    Added bloom support
+    blooms enable a glowing effect around fullbright colors.. ie explosions, skybox, lights etc..
+    use r_bloom to toggle
+    New Multiplayer scoreboard
+    cl_nocenterprint
+    Disables centerprint messages for demo watching... (default 0)
+    r_simpleitems
+    Replaces 3d models with equivelent sprites (default 0)
+    cl_gun_fovscale
+    Fixes proper rendering of viewmodel at fov values greater than 90 (default 0) (removed r_viewmodelsize cvar)
+    saving various cvars to config on exit
+    modified smoke particles a bit
+    correct fov rendering with widescreen resolutions
+    cleaned up the gun sway code when moving
+    added gl_texCompression to compress textures if supported (default 1)
+    increased blood and splatter pattern, blood decals look better!
+    greatly sped up gl_lavasmoke by clipping to r_farclip value.
+    centerprint logging to console
+    gl_part_trails 2 for simpler smoke trails on gl and rl
+    replace muzzleflash with particle effect!
+    fixed alias entities with fogenable
+    support for flamethower in QMB mode for RuneQuake and FvF.
+    changed servers.txt to servers.lst for server list file.
+    gl_shiny, adds gloss to mirrors and metalic surfaces
+    gl_nightmare mode.
+    added watercaustics to underwater models
+    fixed textures on cards with single TMU.
+    fixed luma textures with gl_fog enabled
+    fixed luma support.
+    Realtime model replacement for CTF flags, from keys to 3wave flag model!
+    Use cl_teamflags 0/1 to toggle.
+    Added r_mapname_skybox 0/1 .
+    Automatically uses mapname as the skybox, for each map.
+    24bit skins for players, using cl_teamskin 0/1
+    (see pak file link above..)
+    Added value 2 for r_celshading, smoother texture.
+    Reduced heapspace default back to 16mb from 64mb
+    use PRINTHUNK in console to test your heapspace.
+
+    Set default refresh rate to 60 to fix Fullscreen DIB error on flatpanel and Laptop displays
+
+    fixed skybox texture bug
+    dynamic wateralpha based on view distance
+    new cvar added r_wateralpha_radius, (default 512)
+    bug fixed: shotgun decal fps lag, optimized decal code!
+    fade decals based on distance.
+    altered r_powerupglow.
+    0 = off
+    1 = colored glows
+    2 = all white
+    reduced the velocity of the lavasmoke (woods)
+    Added NEW decal code with clipping on edges, requires new pak0 with decal textures(included).
+    toggle for decals 'toggledecals'.
+    added decal settings to menu particles.
+    iplog is always ON instead of commandline -iplog (woods)
+    appended video init message with current refreshrate (Hz).
+    automatically record demos on mapchange and connect
+    Clanring Match Support:
+    cl_autodemo 2 for match games, starts and ends at match begin and end.
+    cl_autodemo 1 for pub/local games. Starts when u connect and ends on intermission.
+    added: cl_hurtblur, blur vision based on damage encurred.
+    fixed: bug in namemaker.
+    added: simple oriented blood particles on bsp contact.
+    fixed: demo arrow shorcuts disabled while console is down.
+    added: new custom textures for r_skyscroll.
+    Q2 like skyscrolling, ala MHQuake
+    cvars:
+    r_skyscroll 1. - On, Q2 style clouds/motion.
+    r_skyspeed (0 - 10). Speed of skytexturemap rotation.
+    Multitextured CelShading on alias models.
+    cvar: r_celshading 0|1
+    r_outline 0|1|2 - Draw outline polys on entities and world map.
+    Direct Input support for mouse refresh rates.
+    use -msmooth on commandline with -dinput
+    in console type m_rate ###, m_showrate 1 to show current rate...
+    gl_farclip now defaults to 16384.
+    conwidth and conheight now defaults to current resolution.
+    If not specified on the commandline, each value will take
+    that of -width and -height; makes console fonts look more natural.
+    fix 32 bit modes for ALL modes!! *again*
+    added server list
+    cvar for death blurs: gl_deathblur 0|1
+    added coronas to the menus
+    added gl_beergoggles, requires 32bit color (-bpp 32)
+    blur view on death, requires -bpp 32
+    fixed pq_scoreboardpings (i think)
+    added MHquake's LavaSmoke
+
+    fixed windowed mouse flaw
+    added .jpg texture support
+    added steam effect to slime
+    realtime gl_anisotropic filtering support
+    added command TOGGLE, for cvar toggling
+    centered scoreboard so u can see the Menu / MOTD of most servers
+    added control keys for watching demos:
+    LEFTARROW: Rewind
+    RIGHTARROW: FORWARD
+    UPARROW: increase cl_demospeed
+    DOWNARROW: decrease cl_demospeed
+    ENTER: reset to Forward, normal demospeed.
+    fixed chase_active when watching demos
+    demos goes into /demos folder of the gamedir
+    Custom Particle Lightning - including sparks on contact with walls and floors
+    Optimized r_fastsky, and r_fast turb draws a blank texture based on the color average of the original save a few fps on slower gpus
+    gl_animate_entity [0 / 1] - Turns of torch animation, and waving of the ctf flag etc.
+    modifed r_shadows so that shadow intensity is dynamic
+    shadows are solid color u dont see the overlapping polygons
+    added r_drawflame [0 / 1] turns off all wall torches (save fps!)
+    MD3 support for weapons and items (no animations yet)
+    Freelook and freemove during demo playback
+    r_glowlg [0 / 1] emits a blue glow down the length of the lightning beam
+    cl_mute [0 / 1 / 2] controls the beep for messages
+    0 default u hear all messages
+    1 turn off beep of mm1 messages, only hear team messages
+    2 turn off beep of all messages.
+    messages now have two independant sounds for each mode. (talk.wav and talk2.wav)
+    gl_textureless makes all map textures 1 basic color, saves fps.
+    gl_anisotropic [0 / 2 / 4 / 6 / 8]
+    filters texture clarity at angles
+    added particle trail to nails
+    gl_flametype [0 / 1]
+    choose between 2 different particles for flames and explosions
+    fov_speed [0 .. 10]
+    when changing fov, this variable controls the stepping from the old FOV value to the NEW fov value
+    to create a smooth transition from one to the other.
+    setting to 0 will go from old to new immediately.
+    support for CRMOD's match time in the sbar
+    pq_teamscores
+    pq_scoreboard pings
+    renamed pq_maxfps to cl_maxfps
+    +mlook is now a cvar m_look default is ON, saves to config.cfg
+    modified skys, bottom layer is transparent
+    support for proquake's .loc files,
+    support for proquake's message macros %l %a %h etc..
+    support for 32bpp at ALL resolutions
+    disabled chase_active in online games
+    if not specifying udp port on connect command, then use default udp port.
+    added gl_beergoogles, requires 32bit color , also at 32bit modes, blur view on death.
+    added commandline parameter "-refreshrate <hz>"
+    example: glQrack.exe -refreshrate 85
+    This will set the refreshrate to 85hz
+    added vid_vsync <0/1>
+    syncs the frame updates with the refresh rate or maximum throuput.
+    default is ON.
+    forced iplog.dat to be written to /id1 instead of gamedir
+    screenshots written to "gamedir" /screenshots
+    cl_gibfilter remove body parts
+    cl_deadbodyfilter remove corpse
+
