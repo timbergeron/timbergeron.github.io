@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\dev",
+    "\\releases"
   ],
   "SelectedNode": "\\index.html",
   "PreviewInSolutionExplorer": false
