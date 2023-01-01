@@ -1,0 +1,800 @@
+﻿<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<TITLE>Quake Name Maker</TITLE>
+<!-- modified by xaGe on 20180228 for megatf wiki -->
+
+<SCRIPT LANGUAGE="JavaScript">
+
+function updateName() {
+
+    for (loop=0; loop<21; loop++) {
+        document.images[loop+5].src = "./qnmqwtde/chars/quake/" + document.oqnm.code[loop].value + ".gif"
+    }
+
+}
+
+function buttonClick(num) {
+
+    oldname = document.oqnm.name.value;
+    lngth = oldname.length;
+    newchar = document.oqnm.chr[num].value;
+    
+    if (lngth < 21) {
+    
+        document.oqnm.name.value = oldname + newchar;
+
+        newname = document.oqnm.name.value;
+        pos = newname.length;
+    
+        str = num;
+        if (num < 100) str = '0' + num;
+        if (num < 10)  str = '00' + num;
+        
+        document.oqnm.code[pos-1].value = str;
+
+        updateName();
+    }
+}
+
+function resetName() {
+
+    document.oqnm.name.value = '';
+
+    for (loop=0; loop<21; loop++) {
+        document.oqnm.code[loop].value = '032';
+    }
+
+    updateName();
+}
+
+function addSpace() {
+
+    oldname = document.oqnm.name.value;
+    document.oqnm.name.value = oldname + ' ';
+
+    updateName();
+}
+
+function backSpace() {
+
+    oldname = document.oqnm.name.value;
+    lngth = oldname.length;
+
+    newname = '';
+    for (loop=0; loop<(lngth-1); loop++) {
+        newname = newname + oldname.charAt(loop);
+    }
+
+    document.oqnm.name.value = newname;
+
+    if (lngth>0) {
+        document.oqnm.code[lngth-1].value = '032';
+    }
+
+    updateName();
+}
+
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR=#333333>
+<CENTER>
+
+<FORM NAME="oqnm">
+
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+<INPUT TYPE="hidden" NAME="code" VALUE="032">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#0;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="	">
+<INPUT TYPE="hidden" NAME="chr" VALUE="
+">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="
+">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE=" ">
+<INPUT TYPE="hidden" NAME="chr" VALUE="!">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#34;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="#">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="$">
+<INPUT TYPE="hidden" NAME="chr" VALUE="%">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#38;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="'">
+<INPUT TYPE="hidden" NAME="chr" VALUE="(">
+<INPUT TYPE="hidden" NAME="chr" VALUE=")">
+<INPUT TYPE="hidden" NAME="chr" VALUE="*">
+<INPUT TYPE="hidden" NAME="chr" VALUE="+">
+<INPUT TYPE="hidden" NAME="chr" VALUE=",">
+<INPUT TYPE="hidden" NAME="chr" VALUE="-">
+<INPUT TYPE="hidden" NAME="chr" VALUE=".">
+<INPUT TYPE="hidden" NAME="chr" VALUE="/">
+<INPUT TYPE="hidden" NAME="chr" VALUE="0">
+<INPUT TYPE="hidden" NAME="chr" VALUE="1">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="2">
+<INPUT TYPE="hidden" NAME="chr" VALUE="3">
+<INPUT TYPE="hidden" NAME="chr" VALUE="4">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="5">
+<INPUT TYPE="hidden" NAME="chr" VALUE="6">
+<INPUT TYPE="hidden" NAME="chr" VALUE="7">
+<INPUT TYPE="hidden" NAME="chr" VALUE="8">
+<INPUT TYPE="hidden" NAME="chr" VALUE="9">
+<INPUT TYPE="hidden" NAME="chr" VALUE=":">
+<INPUT TYPE="hidden" NAME="chr" VALUE=";">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#60;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="=">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#62;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="?">
+<INPUT TYPE="hidden" NAME="chr" VALUE="@">
+<INPUT TYPE="hidden" NAME="chr" VALUE="A">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="B">
+<INPUT TYPE="hidden" NAME="chr" VALUE="C">
+<INPUT TYPE="hidden" NAME="chr" VALUE="D">
+<INPUT TYPE="hidden" NAME="chr" VALUE="E">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="F">
+<INPUT TYPE="hidden" NAME="chr" VALUE="G">
+<INPUT TYPE="hidden" NAME="chr" VALUE="H">
+<INPUT TYPE="hidden" NAME="chr" VALUE="I">
+<INPUT TYPE="hidden" NAME="chr" VALUE="J">
+<INPUT TYPE="hidden" NAME="chr" VALUE="K">
+<INPUT TYPE="hidden" NAME="chr" VALUE="L">
+<INPUT TYPE="hidden" NAME="chr" VALUE="M">
+<INPUT TYPE="hidden" NAME="chr" VALUE="N">
+<INPUT TYPE="hidden" NAME="chr" VALUE="O">
+<INPUT TYPE="hidden" NAME="chr" VALUE="P">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Q">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="R">
+<INPUT TYPE="hidden" NAME="chr" VALUE="S">
+<INPUT TYPE="hidden" NAME="chr" VALUE="T">
+<INPUT TYPE="hidden" NAME="chr" VALUE="U">
+<INPUT TYPE="hidden" NAME="chr" VALUE="V">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="W">
+<INPUT TYPE="hidden" NAME="chr" VALUE="X">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Y">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Z">
+<INPUT TYPE="hidden" NAME="chr" VALUE="[">
+<INPUT TYPE="hidden" NAME="chr" VALUE="\">
+<INPUT TYPE="hidden" NAME="chr" VALUE="]">
+<INPUT TYPE="hidden" NAME="chr" VALUE="^">
+<INPUT TYPE="hidden" NAME="chr" VALUE="_">
+<INPUT TYPE="hidden" NAME="chr" VALUE="`">
+<INPUT TYPE="hidden" NAME="chr" VALUE="a">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="b">
+<INPUT TYPE="hidden" NAME="chr" VALUE="c">
+<INPUT TYPE="hidden" NAME="chr" VALUE="d">
+<INPUT TYPE="hidden" NAME="chr" VALUE="e">
+<INPUT TYPE="hidden" NAME="chr" VALUE="f">
+<INPUT TYPE="hidden" NAME="chr" VALUE="g">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="h">
+<INPUT TYPE="hidden" NAME="chr" VALUE="i">
+<INPUT TYPE="hidden" NAME="chr" VALUE="j">
+<INPUT TYPE="hidden" NAME="chr" VALUE="k">
+<INPUT TYPE="hidden" NAME="chr" VALUE="l">
+<INPUT TYPE="hidden" NAME="chr" VALUE="m">
+<INPUT TYPE="hidden" NAME="chr" VALUE="n">
+<INPUT TYPE="hidden" NAME="chr" VALUE="o">
+<INPUT TYPE="hidden" NAME="chr" VALUE="p">
+<INPUT TYPE="hidden" NAME="chr" VALUE="q">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="r">
+<INPUT TYPE="hidden" NAME="chr" VALUE="s">
+<INPUT TYPE="hidden" NAME="chr" VALUE="t">
+<INPUT TYPE="hidden" NAME="chr" VALUE="u">
+<INPUT TYPE="hidden" NAME="chr" VALUE="v">
+<INPUT TYPE="hidden" NAME="chr" VALUE="w">
+<INPUT TYPE="hidden" NAME="chr" VALUE="x">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="y">
+<INPUT TYPE="hidden" NAME="chr" VALUE="z">
+<INPUT TYPE="hidden" NAME="chr" VALUE="{">
+<INPUT TYPE="hidden" NAME="chr" VALUE="|">
+<INPUT TYPE="hidden" NAME="chr" VALUE="}">
+<INPUT TYPE="hidden" NAME="chr" VALUE="~">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="?">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#130;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#131;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#132;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#133;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#134;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#135;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#136;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#137;">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#138;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#139;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#140;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#142;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#145;">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#146;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#147;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#148;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#149;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#150;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#151;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#152;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#153;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#154;">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#155;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#156;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#158;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#159;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#160;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¡">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="¢">
+<INPUT TYPE="hidden" NAME="chr" VALUE="£">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¤">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¥">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¦">
+<INPUT TYPE="hidden" NAME="chr" VALUE="§">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¨">
+<INPUT TYPE="hidden" NAME="chr" VALUE="©">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ª">
+<INPUT TYPE="hidden" NAME="chr" VALUE="«">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="¬">
+<INPUT TYPE="hidden" NAME="chr" VALUE="&#173;">
+<INPUT TYPE="hidden" NAME="chr" VALUE="®">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¯">
+<INPUT TYPE="hidden" NAME="chr" VALUE="°">
+<INPUT TYPE="hidden" NAME="chr" VALUE="±">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="²">
+<INPUT TYPE="hidden" NAME="chr" VALUE="³">
+<INPUT TYPE="hidden" NAME="chr" VALUE="´">
+<INPUT TYPE="hidden" NAME="chr" VALUE="µ">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¶">
+<INPUT TYPE="hidden" NAME="chr" VALUE="·">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¸">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¹">
+<INPUT TYPE="hidden" NAME="chr" VALUE="º">
+<INPUT TYPE="hidden" NAME="chr" VALUE="»">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¼">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="½">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¾">
+<INPUT TYPE="hidden" NAME="chr" VALUE="¿">
+<INPUT TYPE="hidden" NAME="chr" VALUE="À">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Á">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="Â">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ã">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ä">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Å">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Æ">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ç">
+<INPUT TYPE="hidden" NAME="chr" VALUE="È">
+<INPUT TYPE="hidden" NAME="chr" VALUE="É">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ê">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ë">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ì">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Í">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="Î">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ï">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ð">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ñ">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ò">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ó">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ô">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Õ">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ö">
+<INPUT TYPE="hidden" NAME="chr" VALUE="×">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ø">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ù">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ú">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Û">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ü">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Ý">
+<INPUT TYPE="hidden" NAME="chr" VALUE="Þ">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="ß">
+<INPUT TYPE="hidden" NAME="chr" VALUE="à">
+<INPUT TYPE="hidden" NAME="chr" VALUE="á">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="â">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ã">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ä">
+<INPUT TYPE="hidden" NAME="chr" VALUE="å">
+<INPUT TYPE="hidden" NAME="chr" VALUE="æ">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ç">
+<INPUT TYPE="hidden" NAME="chr" VALUE="è">
+<INPUT TYPE="hidden" NAME="chr" VALUE="é">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ê">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ë">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ì">
+<INPUT TYPE="hidden" NAME="chr" VALUE="í">
+<INPUT TYPE="hidden" NAME="chr" VALUE="î">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ï">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="ð">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ñ">
+
+<INPUT TYPE="hidden" NAME="chr" VALUE="ò">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ó">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ô">
+<INPUT TYPE="hidden" NAME="chr" VALUE="õ">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ö">
+<INPUT TYPE="hidden" NAME="chr" VALUE="÷">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ø">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ù">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ú">
+<INPUT TYPE="hidden" NAME="chr" VALUE="û">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ü">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ý">
+<INPUT TYPE="hidden" NAME="chr" VALUE="þ">
+<INPUT TYPE="hidden" NAME="chr" VALUE="ÿ">
+
+<TABLE CELLSPACING=0 BORDER=0>
+    <TR>
+
+        <TD COLSPAN=3 ALIGN=CENTER><IMG SRC="qnmqwtde/qnmtfed.png" width="0" height="0"><br /><br /></TD>
+    </TR>
+    <TR>
+        <TD COLSPAN=3 HEIGHT=20></TD>
+    </TR>
+</TABLE>
+<TABLE CELLSPACING=0 BORDER=0>
+    <TR>
+
+        <TD COLSPAN=3 ALIGN=CENTER>
+
+<CENTER><TABLE BORDER=0><TR><TD>
+<A NAME="bottom"></A><IMG SRC="qnmqwtde/charmaps/quake.gif" BORDER=0 width="256" height="256" USEMAP=#lettermap ISMAP><BR>
+<MAP NAME="lettermap">
+<!-- AREA SHAPE="rect" coords="0,0,16,16"       HREF="javascript:buttonClick(0)" -->
+<AREA SHAPE="rect" coords="16,0,32,16"      HREF="javascript:buttonClick(1)">
+<AREA SHAPE="rect" coords="32,0,48,16"      HREF="javascript:buttonClick(2)">
+<AREA SHAPE="rect" coords="48,0,64,16"      HREF="javascript:buttonClick(3)">
+<AREA SHAPE="rect" coords="64,0,80,16"      HREF="javascript:buttonClick(4)">
+<AREA SHAPE="rect" coords="80,0,96,16"      HREF="javascript:buttonClick(5)">
+<AREA SHAPE="rect" coords="96,0,112,16"     HREF="javascript:buttonClick(6)">
+<AREA SHAPE="rect" coords="112,0,128,16"    HREF="javascript:buttonClick(7)">
+<AREA SHAPE="rect" coords="128,0,144,16"    HREF="javascript:buttonClick(8)">
+<!-- AREA SHAPE="rect" coords="144,0,160,16"    HREF="javascript:buttonClick(9)" -->
+<!-- AREA SHAPE="rect" coords="160,0,176,16"    HREF="javascript:buttonClick(10)" -->
+
+<AREA SHAPE="rect" coords="176,0,192,16"    HREF="javascript:buttonClick(11)">
+
+<!-- AREA SHAPE="rect" coords="192,0,208,16"    HREF="javascript:buttonClick(12)" -->
+<!-- AREA SHAPE="rect" coords="208,0,224,16"    HREF="javascript:buttonClick(13)" MAGIC TRIANGLE -->
+<AREA SHAPE="rect" coords="224,0,240,16"    HREF="javascript:buttonClick(14)">
+<AREA SHAPE="rect" coords="240,0,256,16"    HREF="javascript:buttonClick(15)">
+<AREA SHAPE="rect" coords="0,16,16,32"      HREF="javascript:buttonClick(16)">
+<AREA SHAPE="rect" coords="16,16,32,32"     HREF="javascript:buttonClick(17)">
+<AREA SHAPE="rect" coords="32,16,48,32"     HREF="javascript:buttonClick(18)">
+<AREA SHAPE="rect" coords="48,16,64,32"     HREF="javascript:buttonClick(19)">
+<AREA SHAPE="rect" coords="64,16,80,32"     HREF="javascript:buttonClick(20)">
+<AREA SHAPE="rect" coords="80,16,96,32"     HREF="javascript:buttonClick(21)">
+<AREA SHAPE="rect" coords="96,16,112,32"    HREF="javascript:buttonClick(22)">
+<AREA SHAPE="rect" coords="112,16,128,32"   HREF="javascript:buttonClick(23)">
+<AREA SHAPE="rect" coords="128,16,144,32"   HREF="javascript:buttonClick(24)">
+<AREA SHAPE="rect" coords="144,16,160,32"   HREF="javascript:buttonClick(25)">
+<AREA SHAPE="rect" coords="160,16,176,32"   HREF="javascript:buttonClick(26)">
+<AREA SHAPE="rect" coords="176,16,192,32"   HREF="javascript:buttonClick(27)">
+
+<AREA SHAPE="rect" coords="192,16,208,32"   HREF="javascript:buttonClick(28)">
+<AREA SHAPE="rect" coords="208,16,224,32"   HREF="javascript:buttonClick(29)">
+<AREA SHAPE="rect" coords="224,16,240,32"   HREF="javascript:buttonClick(30)">
+<AREA SHAPE="rect" coords="240,16,256,32"   HREF="javascript:buttonClick(31)">
+<AREA SHAPE="rect" coords="0,32,16,48"      HREF="javascript:buttonClick(32)">
+<AREA SHAPE="rect" coords="16,32,32,48"     HREF="javascript:buttonClick(33)">
+<AREA SHAPE="rect" coords="32,32,48,48"     HREF="javascript:buttonClick(34)">
+<AREA SHAPE="rect" coords="48,32,64,48"     HREF="javascript:buttonClick(35)">
+<AREA SHAPE="rect" coords="64,32,80,48"     HREF="javascript:buttonClick(36)">
+<AREA SHAPE="rect" coords="80,32,96,48"     HREF="javascript:buttonClick(37)">
+<AREA SHAPE="rect" coords="96,32,112,48"    HREF="javascript:buttonClick(38)">
+<AREA SHAPE="rect" coords="112,32,128,48"   HREF="javascript:buttonClick(39)">
+<AREA SHAPE="rect" coords="128,32,144,48"   HREF="javascript:buttonClick(40)">
+<AREA SHAPE="rect" coords="144,32,160,48"   HREF="javascript:buttonClick(41)">
+<AREA SHAPE="rect" coords="160,32,176,48"   HREF="javascript:buttonClick(42)">
+<AREA SHAPE="rect" coords="176,32,192,48"   HREF="javascript:buttonClick(43)">
+<AREA SHAPE="rect" coords="192,32,208,48"   HREF="javascript:buttonClick(44)">
+
+<AREA SHAPE="rect" coords="208,32,224,48"   HREF="javascript:buttonClick(45)">
+<AREA SHAPE="rect" coords="224,32,240,48"   HREF="javascript:buttonClick(46)">
+<AREA SHAPE="rect" coords="240,32,256,48"   HREF="javascript:buttonClick(47)">
+<AREA SHAPE="rect" coords="0,48,16,64"      HREF="javascript:buttonClick(48)">
+<AREA SHAPE="rect" coords="16,48,32,64"     HREF="javascript:buttonClick(49)">
+<AREA SHAPE="rect" coords="32,48,48,64"     HREF="javascript:buttonClick(50)">
+<AREA SHAPE="rect" coords="48,48,64,64"     HREF="javascript:buttonClick(51)">
+<AREA SHAPE="rect" coords="64,48,80,64"     HREF="javascript:buttonClick(52)">
+<AREA SHAPE="rect" coords="80,48,96,64"     HREF="javascript:buttonClick(53)">
+<AREA SHAPE="rect" coords="96,48,112,64"    HREF="javascript:buttonClick(54)">
+<AREA SHAPE="rect" coords="112,48,128,64"   HREF="javascript:buttonClick(55)">
+<AREA SHAPE="rect" coords="128,48,144,64"   HREF="javascript:buttonClick(56)">
+<AREA SHAPE="rect" coords="144,48,160,64"   HREF="javascript:buttonClick(57)">
+<AREA SHAPE="rect" coords="160,48,176,64"   HREF="javascript:buttonClick(58)">
+<AREA SHAPE="rect" coords="176,48,192,64"   HREF="javascript:buttonClick(59)">
+<AREA SHAPE="rect" coords="192,48,208,64"   HREF="javascript:buttonClick(60)">
+
+<AREA SHAPE="rect" coords="208,48,224,64"   HREF="javascript:buttonClick(61)">
+
+<AREA SHAPE="rect" coords="224,48,240,64"   HREF="javascript:buttonClick(62)">
+<AREA SHAPE="rect" coords="240,48,256,64"   HREF="javascript:buttonClick(63)">
+<AREA SHAPE="rect" coords="0,64,16,80"      HREF="javascript:buttonClick(64)">
+<AREA SHAPE="rect" coords="16,64,32,80"     HREF="javascript:buttonClick(65)">
+<AREA SHAPE="rect" coords="32,64,48,80"     HREF="javascript:buttonClick(66)">
+<AREA SHAPE="rect" coords="48,64,64,80"     HREF="javascript:buttonClick(67)">
+<AREA SHAPE="rect" coords="64,64,80,80"     HREF="javascript:buttonClick(68)">
+<AREA SHAPE="rect" coords="80,64,96,80"     HREF="javascript:buttonClick(69)">
+<AREA SHAPE="rect" coords="96,64,112,80"    HREF="javascript:buttonClick(70)">
+<AREA SHAPE="rect" coords="112,64,128,80"   HREF="javascript:buttonClick(71)">
+<AREA SHAPE="rect" coords="128,64,144,80"   HREF="javascript:buttonClick(72)">
+<AREA SHAPE="rect" coords="144,64,160,80"   HREF="javascript:buttonClick(73)">
+<AREA SHAPE="rect" coords="160,64,176,80"   HREF="javascript:buttonClick(74)">
+<AREA SHAPE="rect" coords="176,64,192,80"   HREF="javascript:buttonClick(75)">
+<AREA SHAPE="rect" coords="192,64,208,80"   HREF="javascript:buttonClick(76)">
+
+<AREA SHAPE="rect" coords="208,64,224,80"   HREF="javascript:buttonClick(77)">
+<AREA SHAPE="rect" coords="224,64,240,80"   HREF="javascript:buttonClick(78)">
+
+<AREA SHAPE="rect" coords="240,64,256,80"   HREF="javascript:buttonClick(79)">
+<AREA SHAPE="rect" coords="0,80,16,96"      HREF="javascript:buttonClick(80)">
+<AREA SHAPE="rect" coords="16,80,32,96"     HREF="javascript:buttonClick(81)">
+<AREA SHAPE="rect" coords="32,80,48,96"     HREF="javascript:buttonClick(82)">
+<AREA SHAPE="rect" coords="48,80,64,96"     HREF="javascript:buttonClick(83)">
+<AREA SHAPE="rect" coords="64,80,80,96"     HREF="javascript:buttonClick(84)">
+<AREA SHAPE="rect" coords="80,80,96,96"     HREF="javascript:buttonClick(85)">
+<AREA SHAPE="rect" coords="96,80,112,96"    HREF="javascript:buttonClick(86)">
+<AREA SHAPE="rect" coords="112,80,128,96"   HREF="javascript:buttonClick(87)">
+<AREA SHAPE="rect" coords="128,80,144,96"   HREF="javascript:buttonClick(88)">
+<AREA SHAPE="rect" coords="144,80,160,96"   HREF="javascript:buttonClick(89)">
+<AREA SHAPE="rect" coords="160,80,176,96"   HREF="javascript:buttonClick(90)">
+<AREA SHAPE="rect" coords="176,80,192,96"   HREF="javascript:buttonClick(91)">
+<AREA SHAPE="rect" coords="192,80,208,96"   HREF="javascript:buttonClick(92)">
+
+<AREA SHAPE="rect" coords="208,80,224,96"   HREF="javascript:buttonClick(93)">
+<AREA SHAPE="rect" coords="224,80,240,96"   HREF="javascript:buttonClick(94)">
+<AREA SHAPE="rect" coords="240,80,256,96"   HREF="javascript:buttonClick(95)">
+
+<AREA SHAPE="rect" coords="0,96,16,112"     HREF="javascript:buttonClick(96)">
+<AREA SHAPE="rect" coords="16,96,32,112"    HREF="javascript:buttonClick(97)">
+<AREA SHAPE="rect" coords="32,96,48,112"    HREF="javascript:buttonClick(98)">
+<AREA SHAPE="rect" coords="48,96,64,112"    HREF="javascript:buttonClick(99)">
+<AREA SHAPE="rect" coords="64,96,80,112"    HREF="javascript:buttonClick(100)">
+<AREA SHAPE="rect" coords="80,96,96,112"    HREF="javascript:buttonClick(101)">
+<AREA SHAPE="rect" coords="96,96,112,112"   HREF="javascript:buttonClick(102)">
+<AREA SHAPE="rect" coords="112,96,128,112"  HREF="javascript:buttonClick(103)">
+<AREA SHAPE="rect" coords="128,96,144,112"  HREF="javascript:buttonClick(104)">
+<AREA SHAPE="rect" coords="144,96,160,112"  HREF="javascript:buttonClick(105)">
+<AREA SHAPE="rect" coords="160,96,176,112"  HREF="javascript:buttonClick(106)">
+<AREA SHAPE="rect" coords="176,96,192,112"  HREF="javascript:buttonClick(107)">
+<AREA SHAPE="rect" coords="192,96,208,112"  HREF="javascript:buttonClick(108)">
+
+<AREA SHAPE="rect" coords="208,96,224,112"  HREF="javascript:buttonClick(109)">
+<AREA SHAPE="rect" coords="224,96,240,112"  HREF="javascript:buttonClick(110)">
+<AREA SHAPE="rect" coords="240,96,256,112"  HREF="javascript:buttonClick(111)">
+<AREA SHAPE="rect" coords="0,112,16,128"    HREF="javascript:buttonClick(112)">
+
+<AREA SHAPE="rect" coords="16,112,32,128"   HREF="javascript:buttonClick(113)">
+<AREA SHAPE="rect" coords="32,112,48,128"   HREF="javascript:buttonClick(114)">
+<AREA SHAPE="rect" coords="48,112,64,128"   HREF="javascript:buttonClick(115)">
+<AREA SHAPE="rect" coords="64,112,80,128"   HREF="javascript:buttonClick(116)">
+<AREA SHAPE="rect" coords="80,112,96,128"   HREF="javascript:buttonClick(117)">
+<AREA SHAPE="rect" coords="96,112,112,128"  HREF="javascript:buttonClick(118)">
+<AREA SHAPE="rect" coords="112,112,128,128" HREF="javascript:buttonClick(119)">
+<AREA SHAPE="rect" coords="128,112,144,128" HREF="javascript:buttonClick(120)">
+<AREA SHAPE="rect" coords="144,112,160,128" HREF="javascript:buttonClick(121)">
+<AREA SHAPE="rect" coords="160,112,176,128" HREF="javascript:buttonClick(122)">
+<AREA SHAPE="rect" coords="176,112,192,128" HREF="javascript:buttonClick(123)">
+<AREA SHAPE="rect" coords="192,112,208,128" HREF="javascript:buttonClick(124)">
+
+<AREA SHAPE="rect" coords="208,112,224,128" HREF="javascript:buttonClick(125)">
+<AREA SHAPE="rect" coords="224,112,240,128" HREF="javascript:buttonClick(126)">
+<AREA SHAPE="rect" coords="240,112,256,128" HREF="javascript:buttonClick(127)">
+<AREA SHAPE="rect" coords="0,128,16,144"    HREF="javascript:buttonClick(128)">
+<AREA SHAPE="rect" coords="16,128,32,144"   HREF="javascript:buttonClick(129)">
+
+<AREA SHAPE="rect" coords="32,128,48,144"   HREF="javascript:buttonClick(130)">
+<AREA SHAPE="rect" coords="48,128,64,144"   HREF="javascript:buttonClick(131)">
+<AREA SHAPE="rect" coords="64,128,80,144"   HREF="javascript:buttonClick(132)">
+<AREA SHAPE="rect" coords="80,128,96,144"   HREF="javascript:buttonClick(133)">
+<AREA SHAPE="rect" coords="96,128,112,144"  HREF="javascript:buttonClick(134)">
+<AREA SHAPE="rect" coords="112,128,128,144" HREF="javascript:buttonClick(135)">
+<AREA SHAPE="rect" coords="128,128,144,144" HREF="javascript:buttonClick(136)">
+<AREA SHAPE="rect" coords="144,128,160,144" HREF="javascript:buttonClick(137)">
+<AREA SHAPE="rect" coords="160,128,176,144" HREF="javascript:buttonClick(138)">
+<AREA SHAPE="rect" coords="176,128,192,144" HREF="javascript:buttonClick(139)">
+<AREA SHAPE="rect" coords="192,128,208,144" HREF="javascript:buttonClick(140)">
+
+<AREA SHAPE="rect" coords="208,128,224,144" HREF="javascript:buttonClick(141)">
+<AREA SHAPE="rect" coords="224,128,240,144" HREF="javascript:buttonClick(142)">
+<AREA SHAPE="rect" coords="240,128,256,144" HREF="javascript:buttonClick(143)">
+<AREA SHAPE="rect" coords="0,144,16,160"    HREF="javascript:buttonClick(144)">
+<AREA SHAPE="rect" coords="16,144,32,160"   HREF="javascript:buttonClick(145)">
+<AREA SHAPE="rect" coords="32,144,48,160"   HREF="javascript:buttonClick(146)">
+
+<AREA SHAPE="rect" coords="48,144,64,160"   HREF="javascript:buttonClick(147)">
+<AREA SHAPE="rect" coords="64,144,80,160"   HREF="javascript:buttonClick(148)">
+<AREA SHAPE="rect" coords="80,144,96,160"   HREF="javascript:buttonClick(149)">
+<AREA SHAPE="rect" coords="96,144,112,160"  HREF="javascript:buttonClick(150)">
+<AREA SHAPE="rect" coords="112,144,128,160" HREF="javascript:buttonClick(151)">
+<AREA SHAPE="rect" coords="128,144,144,160" HREF="javascript:buttonClick(152)">
+<AREA SHAPE="rect" coords="144,144,160,160" HREF="javascript:buttonClick(153)">
+<AREA SHAPE="rect" coords="160,144,176,160" HREF="javascript:buttonClick(154)">
+<AREA SHAPE="rect" coords="176,144,192,160" HREF="javascript:buttonClick(155)">
+<AREA SHAPE="rect" coords="192,144,208,160" HREF="javascript:buttonClick(156)">
+
+<AREA SHAPE="rect" coords="208,144,224,160" HREF="javascript:buttonClick(157)">
+<AREA SHAPE="rect" coords="224,144,240,160" HREF="javascript:buttonClick(158)">
+<AREA SHAPE="rect" coords="240,144,256,160" HREF="javascript:buttonClick(159)">
+<AREA SHAPE="rect" coords="0,160,16,176"    HREF="javascript:buttonClick(160)">
+<AREA SHAPE="rect" coords="16,160,32,176"   HREF="javascript:buttonClick(161)">
+<AREA SHAPE="rect" coords="32,160,48,176"   HREF="javascript:buttonClick(162)">
+<AREA SHAPE="rect" coords="48,160,64,176"   HREF="javascript:buttonClick(163)">
+
+<AREA SHAPE="rect" coords="64,160,80,176"   HREF="javascript:buttonClick(164)">
+<AREA SHAPE="rect" coords="80,160,96,176"   HREF="javascript:buttonClick(165)">
+<AREA SHAPE="rect" coords="96,160,112,176"  HREF="javascript:buttonClick(166)">
+<AREA SHAPE="rect" coords="112,160,128,176" HREF="javascript:buttonClick(167)">
+<AREA SHAPE="rect" coords="128,160,144,176" HREF="javascript:buttonClick(168)">
+<AREA SHAPE="rect" coords="144,160,160,176" HREF="javascript:buttonClick(169)">
+<AREA SHAPE="rect" coords="160,160,176,176" HREF="javascript:buttonClick(170)">
+<AREA SHAPE="rect" coords="176,160,192,176" HREF="javascript:buttonClick(171)">
+<AREA SHAPE="rect" coords="192,160,208,176" HREF="javascript:buttonClick(172)">
+
+<!-- AREA SHAPE="rect" coords="208,160,224,176" HREF="javascript:buttonClick(173)" -->
+<AREA SHAPE="rect" coords="224,160,240,176" HREF="javascript:buttonClick(174)">
+<AREA SHAPE="rect" coords="240,160,256,176" HREF="javascript:buttonClick(175)">
+<AREA SHAPE="rect" coords="0,176,16,192"    HREF="javascript:buttonClick(176)">
+<AREA SHAPE="rect" coords="16,176,32,192"   HREF="javascript:buttonClick(177)">
+<AREA SHAPE="rect" coords="32,176,48,192"   HREF="javascript:buttonClick(178)">
+<AREA SHAPE="rect" coords="48,176,64,192"   HREF="javascript:buttonClick(179)">
+<AREA SHAPE="rect" coords="64,176,80,192"   HREF="javascript:buttonClick(180)">
+
+<AREA SHAPE="rect" coords="80,176,96,192"   HREF="javascript:buttonClick(181)">
+<AREA SHAPE="rect" coords="96,176,112,192"  HREF="javascript:buttonClick(182)">
+<AREA SHAPE="rect" coords="112,176,128,192" HREF="javascript:buttonClick(183)">
+<AREA SHAPE="rect" coords="128,176,144,192" HREF="javascript:buttonClick(184)">
+<AREA SHAPE="rect" coords="144,176,160,192" HREF="javascript:buttonClick(185)">
+<AREA SHAPE="rect" coords="160,176,176,192" HREF="javascript:buttonClick(186)">
+<AREA SHAPE="rect" coords="176,176,192,192" HREF="javascript:buttonClick(187)">
+<AREA SHAPE="rect" coords="192,176,208,192" HREF="javascript:buttonClick(188)">
+
+<AREA SHAPE="rect" coords="208,176,224,192" HREF="javascript:buttonClick(189)">
+<AREA SHAPE="rect" coords="224,176,240,192" HREF="javascript:buttonClick(190)">
+<AREA SHAPE="rect" coords="240,176,256,192" HREF="javascript:buttonClick(191)">
+<AREA SHAPE="rect" coords="0,192,16,208"    HREF="javascript:buttonClick(192)">
+<AREA SHAPE="rect" coords="16,192,32,208"   HREF="javascript:buttonClick(193)">
+<AREA SHAPE="rect" coords="32,192,48,208"   HREF="javascript:buttonClick(194)">
+<AREA SHAPE="rect" coords="48,192,64,208"   HREF="javascript:buttonClick(195)">
+<AREA SHAPE="rect" coords="64,192,80,208"   HREF="javascript:buttonClick(196)">
+<AREA SHAPE="rect" coords="80,192,96,208"   HREF="javascript:buttonClick(197)">
+
+<AREA SHAPE="rect" coords="96,192,112,208"  HREF="javascript:buttonClick(198)">
+<AREA SHAPE="rect" coords="112,192,128,208" HREF="javascript:buttonClick(199)">
+<AREA SHAPE="rect" coords="128,192,144,208" HREF="javascript:buttonClick(200)">
+<AREA SHAPE="rect" coords="144,192,160,208" HREF="javascript:buttonClick(201)">
+<AREA SHAPE="rect" coords="160,192,176,208" HREF="javascript:buttonClick(202)">
+<AREA SHAPE="rect" coords="176,192,192,208" HREF="javascript:buttonClick(203)">
+<AREA SHAPE="rect" coords="192,192,208,208" HREF="javascript:buttonClick(204)">
+
+<AREA SHAPE="rect" coords="208,192,224,208" HREF="javascript:buttonClick(205)">
+<AREA SHAPE="rect" coords="224,192,240,208" HREF="javascript:buttonClick(206)">
+<AREA SHAPE="rect" coords="240,192,256,208" HREF="javascript:buttonClick(207)">
+<AREA SHAPE="rect" coords="0,208,16,224"    HREF="javascript:buttonClick(208)">
+<AREA SHAPE="rect" coords="16,208,32,224"   HREF="javascript:buttonClick(209)">
+<AREA SHAPE="rect" coords="32,208,48,224"   HREF="javascript:buttonClick(210)">
+<AREA SHAPE="rect" coords="48,208,64,224"   HREF="javascript:buttonClick(211)">
+<AREA SHAPE="rect" coords="64,208,80,224"   HREF="javascript:buttonClick(212)">
+<AREA SHAPE="rect" coords="80,208,96,224"   HREF="javascript:buttonClick(213)">
+<AREA SHAPE="rect" coords="96,208,112,224"  HREF="javascript:buttonClick(214)">
+
+<AREA SHAPE="rect" coords="112,208,128,224" HREF="javascript:buttonClick(215)">
+<AREA SHAPE="rect" coords="128,208,144,224" HREF="javascript:buttonClick(216)">
+<AREA SHAPE="rect" coords="144,208,160,224" HREF="javascript:buttonClick(217)">
+<AREA SHAPE="rect" coords="160,208,176,224" HREF="javascript:buttonClick(218)">
+<AREA SHAPE="rect" coords="176,208,192,224" HREF="javascript:buttonClick(219)">
+<AREA SHAPE="rect" coords="192,208,208,224" HREF="javascript:buttonClick(220)">
+
+<AREA SHAPE="rect" coords="208,208,224,224" HREF="javascript:buttonClick(221)">
+<AREA SHAPE="rect" coords="224,208,240,224" HREF="javascript:buttonClick(222)">
+<AREA SHAPE="rect" coords="240,208,256,224" HREF="javascript:buttonClick(223)">
+<AREA SHAPE="rect" coords="0,224,16,240"    HREF="javascript:buttonClick(224)">
+<AREA SHAPE="rect" coords="16,224,32,240"   HREF="javascript:buttonClick(225)">
+<AREA SHAPE="rect" coords="32,224,48,240"   HREF="javascript:buttonClick(226)">
+<AREA SHAPE="rect" coords="48,224,64,240"   HREF="javascript:buttonClick(227)">
+<AREA SHAPE="rect" coords="64,224,80,240"   HREF="javascript:buttonClick(228)">
+<AREA SHAPE="rect" coords="80,224,96,240"   HREF="javascript:buttonClick(229)">
+<AREA SHAPE="rect" coords="96,224,112,240"  HREF="javascript:buttonClick(230)">
+<AREA SHAPE="rect" coords="112,224,128,240" HREF="javascript:buttonClick(231)">
+
+<AREA SHAPE="rect" coords="128,224,144,240" HREF="javascript:buttonClick(232)">
+<AREA SHAPE="rect" coords="144,224,160,240" HREF="javascript:buttonClick(233)">
+<AREA SHAPE="rect" coords="160,224,176,240" HREF="javascript:buttonClick(234)">
+<AREA SHAPE="rect" coords="176,224,192,240" HREF="javascript:buttonClick(235)">
+<AREA SHAPE="rect" coords="192,224,208,240" HREF="javascript:buttonClick(236)">
+
+<AREA SHAPE="rect" coords="208,224,224,240" HREF="javascript:buttonClick(237)">
+<AREA SHAPE="rect" coords="224,224,240,240" HREF="javascript:buttonClick(238)">
+<AREA SHAPE="rect" coords="240,224,256,240" HREF="javascript:buttonClick(239)">
+<AREA SHAPE="rect" coords="0,240,16,256"    HREF="javascript:buttonClick(240)">
+<AREA SHAPE="rect" coords="16,240,32,256"   HREF="javascript:buttonClick(241)">
+<AREA SHAPE="rect" coords="32,240,48,256"   HREF="javascript:buttonClick(242)">
+<AREA SHAPE="rect" coords="48,240,64,256"   HREF="javascript:buttonClick(243)">
+<AREA SHAPE="rect" coords="64,240,80,256"   HREF="javascript:buttonClick(244)">
+<AREA SHAPE="rect" coords="80,240,96,256"   HREF="javascript:buttonClick(245)">
+<AREA SHAPE="rect" coords="96,240,112,256"  HREF="javascript:buttonClick(246)">
+<AREA SHAPE="rect" coords="112,240,128,256" HREF="javascript:buttonClick(247)">
+<AREA SHAPE="rect" coords="128,240,144,256" HREF="javascript:buttonClick(248)">
+
+<AREA SHAPE="rect" coords="144,240,160,256" HREF="javascript:buttonClick(249)">
+<AREA SHAPE="rect" coords="160,240,176,256" HREF="javascript:buttonClick(250)">
+<AREA SHAPE="rect" coords="176,240,192,256" HREF="javascript:buttonClick(251)">
+<AREA SHAPE="rect" coords="192,240,208,256" HREF="javascript:buttonClick(252)">
+
+<AREA SHAPE="rect" coords="208,240,224,256" HREF="javascript:buttonClick(253)">
+<AREA SHAPE="rect" coords="224,240,240,256" HREF="javascript:buttonClick(254)">
+<AREA SHAPE="rect" coords="240,240,256,256" HREF="javascript:buttonClick(255)">
+</MAP></TD></TR></TABLE></CENTER>
+
+        </TD>
+    </TR>
+    <TR>
+        <TD HEIGHT=35 VALIGN=BOTTOM>
+
+            <A HREF="index.html" onClick="resetName();">
+            <IMG SRC="./qnmqwtde/start_over.png" name="reset" BORDER=0></A>
+
+        </TD>
+        <TD HEIGHT=35 VALIGN=BOTTOM>
+            <A HREF="index.html#bottom" onClick="addSpace();">
+            <IMG SRC="./qnmqwtde/add_space.png" name="space" BORDER=0></A>
+        </TD>
+        <TD HEIGHT=35 VALIGN=BOTTOM>
+            <A HREF="index.html#bottom" onClick="backSpace();">
+
+            <IMG SRC="./qnmqwtde/backspace.png" name="back" BORDER=0></A>
+
+        </TD>
+    </TR>
+    <TR>
+        <TD HEIGHT=5></TD>
+    </TR>
+    <TR>
+        <TD COLSPAN=3>
+            <FONT COLOR=#AAAAAA SIZE=+1 FACE="Helvetica, Arial">Preview</FONT> <BR>            
+            <TABLE CELLSPACING=0 CELLPADDING=0 BORDER=0>
+
+                <TR>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
+                    
+                </TR>
+            </TABLE>
+
+        </TD>
+    </TR>
+    <TR>
+        <TD HEIGHT=10></TD>
+    </TR>
+    <TR>
+
+        <TD COLSPAN=3>
+            <FONT COLOR=#AAAAAA SIZE=+1 FACE="Helvetica, Arial">Your name</FONT><BR>
+
+            <INPUT TYPE="text" STYLE="width=100%;color='black'" name="name" value="" SIZE=38>
+        </TD>
+    </TR>
+</TABLE>
+</FORM>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+    // RESET ALL OF THE FIELDS
+
+    document.oqnm.name.value = '';
+
+    for (loop=0; loop<21; loop++) {
+        document.oqnm.code[loop].value = '032';
+        document.images[loop+5].src = "./qnmqwtde/chars/quake/" + document.oqnm.code[loop].value + ".gif"
+    }
+
+
+</SCRIPT>
+
+<br>
+
+<FONT size=-3 FACE="Helvetica, Arial" COLOR=#725951>
+Based on code by Ryan Lowe 1997-1999<BR>
+</FONT>
+
+<BR>
+
+</CENTER>
+
+</BODY>
+
+</HTML>
