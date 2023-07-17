@@ -1,4 +1,12 @@
 /********** common setting **********/
+
+::selection {
+    background: #595858; /* WebKit/Blink Browsers */
+  }
+  ::-moz-selection {
+    background: #595858; /* Gecko Browsers */
+  }
+
 h2 {
     font-size: 2.8rem !important;
     font-weight: 700;
