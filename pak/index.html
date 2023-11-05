@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PAK File Tool</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/tga-js@1.1.1/dist/umd/tga.js"></script>
+</head>
+<body>
+    <h1>PAK File Tool</h1>
+
+    <!-- File Drop Zone for PAK files -->
+    <div id="drop_zone">
+        <span class="text-color-view-create">View / Convert</span>: Drag and drop a PAK here or click to select
+        <input type="file" id="packfile" onchange="handleFileSelect(this.files)" />
+    </div>
+    
+    <!-- File Drop Zone for Folders -->
+    <div id="folder_drop_zone">
+        <span class="text-color-view-create">Create</span>: Drag and drop a folder here or click to select
+        <input type="file" id="folderpicker" webkitdirectory onchange="handleFolderSelect(this.files)" />
+    </div>
+    
+    <!-- Progress Bar Wrapper -->
+    <div id="progressWrapper">
+        <div id="progressBar"></div>
+    </div>
+    
+
+   <!-- Download All Button -->
+   <button id="downloadAll">Download All as Zip</button>
+
+    <!-- Display PAK File Contents -->
+    <div id="packfilecontents"></div>
+    
+
+    <!-- Modal for Confirming PAK Creation -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>New .pak created and download initiated!</p>
+        </div>
+    </div>
+    
+ 
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    <script>
+    let fileBlobs = [];
+    let currentPakFileName = ''; // This will store the name of the current PAK file
+
+    // This function creates a PAK file structure from an array of file objects
+    function createPAK(files) {
+        // Filter out any system files that should not be included, such as .DS_Store
+        files = files.filter(file => !file.name.startsWith('.'));
+
+        // Define the magic number "PACK" for the PAK file header
+        const magicNumber = "PACK";
+        let dirOffset = 12; // Initial offset after the header, accounting for the header size
+        let dirSize = 0; // The size of the directory, will be computed based on entries
+
+        // Arrays to hold the directory entries and corresponding file data
+        let directoryEntries = [];
+        let fileData = [];
+
+        // Process each file to create directory entries and collect file data
+        files.forEach(file => {
+            // Pad the filename to 56 characters with null characters for alignment
+            let filenamePadded = file.name.padEnd(56, '\0');
+            let fileEntry = {
+            filename: filenamePadded,
+            offset: dirOffset,
+            size: file.size
+            };
+            directoryEntries.push(fileEntry);
+
+            // Update the directory offset for the next file based on current file size
+            dirOffset += file.size;
+
+            // Add the file's data to the fileData array as a Blob
+            fileData.push(new Blob([file], { type: 'application/octet-stream' }));
+        });
+
+        // Calculate the total size of the directory, assuming each entry is 64 bytes
+        dirSize = directoryEntries.length * 64;
+
+        // Construct the directory part of the PAK file
+        let directoryBlobParts = [];
+        directoryEntries.forEach(entry => {
+            directoryBlobParts.push(entry.filename);
+            directoryBlobParts.push(new Uint32Array([entry.offset]));
+            directoryBlobParts.push(new Uint32Array([entry.size]));
+        });
+        let directoryBlob = new Blob(directoryBlobParts, { type: 'application/octet-stream' });
+
+        // Construct the header part of the PAK file with the magic number, directory offset, and directory size
+        let headerBlob = new Blob([magicNumber, new Uint32Array([dirOffset]), new Uint32Array([dirSize])], { type: 'application/octet-stream' });
+
+        // Combine the header, file data, and directory into one Blob to form the complete PAK file
+        return new Blob([headerBlob, ...fileData, directoryBlob], { type: 'application/octet-stream' });
+    }
+
+    function showModal(pakFileName, totalFiles, totalSize) {
+        // Format the total size of the files for display
+        const formattedTotalSize = formatFileSize(totalSize);
+
+        // Access the modal element by its ID
+        var modal = document.getElementById("myModal");
+
+        // Access the close button of the modal
+        var closeButton = document.getElementsByClassName("close")[0];
+
+        // Set the modal content to display the PAK file information and download message
+        var modalContent = modal.querySelector('.modal-content p');
+        modalContent.textContent = `New PAK file "${pakFileName}" with ${totalFiles} file(s) created, total size: ${formattedTotalSize}. Download initiated!`;
+
+        // Define the behavior for closing the modal when the close button is clicked
+        closeButton.onclick = function() {
+            modal.style.display = "none";
+        };
+
+        // Define the behavior for closing the modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target === modal) {
+            modal.style.display = "none";
+            }
+        };
+
+        // Display the modal
+        modal.style.display = "block";
+    }
+
+    function resetGlobalState() {
+    // Reset any global variables involved in the PAK creation process
+    fileBlobs = [];
+    currentPakFileName = '';
+}
+
+
+function clearFileInput(inputId) {
+    const fileInput = document.getElementById(inputId);
+    fileInput.value = ''; // This will clear the current selection
+}
+
+function handleFolderSelect(files, folderName) {
+    // Exit the function early if no files were selected
+    if (!files.length) {
+        alert('No files were selected.');
+        return;
+    }
+
+    // Check if multiple files were selected or if the webkitRelativePath property is set
+    if (files.length === 1 && (!files[0].webkitRelativePath || files[0].webkitRelativePath.split('/').length < 2)) {
+        alert('Only folder selections are allowed.');
+        return;
+    }
+
+    // Extract the folder name from the files if not provided
+    if (!folderName && files[0].webkitRelativePath) {
+        folderName = files[0].webkitRelativePath.split('/')[0];
+    }
+
+    // Exit the function if the folder name could not be determined
+    if (!folderName) {
+        console.error('No folder name provided and unable to determine from files.');
+        return;
+    }
+
+    // Collect all files from the selected folder into an array
+    let folderFiles = Array.from(files);
+
+    // Process the files to create a .pak file using a hypothetical createPAK function
+    let pakFileBlob = createPAK(folderFiles);
+
+    // Calculate the total size and number of files
+    let totalSize = folderFiles.reduce((acc, file) => acc + file.size, 0);
+    let totalFiles = folderFiles.length;
+    let pakFileName = `${folderName}.pak`;
+
+    // Initiate the download of the .pak file
+    let downloadLink = URL.createObjectURL(pakFileBlob);
+    let downloadAnchor = document.createElement('a');
+    downloadAnchor.href = downloadLink;
+    downloadAnchor.download = pakFileName;
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    document.body.removeChild(downloadAnchor);
+
+    // Clean up by revoking the object URL
+    URL.revokeObjectURL(downloadLink);
+
+    // Show the download modal with details about the .pak file
+    showModal(pakFileName, totalFiles, totalSize);
+
+
+    resetGlobalState();
+
+    clearFileInput('packfile'); // Assuming 'packfile' is the ID of your file input
+clearFileInput('folderpicker'); // Assuming 'folderpicker' is the ID of your folder input
+}
+
+// Handles the selection of a file and prepares it for processing
+function handleFileSelect(files) {
+    // If no files are selected, exit the function
+    if (files.length === 0) {
+        return;
+    }
+    
+    // Extract the base name of the first selected file, stripping the extension
+    currentPakFileName = files[0].name.replace(/\..+$/, '');
+    
+    // Pass the file to a function that reads and processes the PAK file
+    readPackFile(files[0]);
+}
+
+// Converts a file size in bytes to a human-readable format
+function formatFileSize(bytes) {
+    const KB = 1024;
+    const MB = KB * KB;
+    
+    // Return the size in KB if less than 1 MB, otherwise in MB
+    if (bytes < MB) {
+        return Math.round(bytes / KB) + ' KB'; // Size rounded to the nearest KB
+    } else {
+        return (bytes / MB).toFixed(2) + ' MB'; // Size formatted with two decimal places
+    }
+}
+
+function readPackFile(file) {
+    // Clear the fileBlobs array each time a new PAK file is read
+    fileBlobs = [];
+    const reader = new FileReader();
+
+    // Define the onload callback
+    reader.onload = function(e) {
+        const buffer = e.target.result;
+        const view = new DataView(buffer);
+
+        // Check for the PACK magic number
+        const magic = new TextDecoder("utf-8").decode(new Uint8Array(buffer, 0, 4));
+        if (magic !== "PACK") {
+            alert("This is not a valid PACK file.");
+            return;
+        }
+
+        // Read the directory offset and size
+        const diroffset = view.getUint32(4, true);
+        const dirsize = view.getUint32(8, true);
+        const numEntries = dirsize / 64;
+
+        // Clear the contents display
+        const contentsDiv = document.getElementById('packfilecontents');
+        contentsDiv.innerHTML = '';
+
+        // Create and append a new table to the contents div
+        const table = document.createElement('table');
+        contentsDiv.appendChild(table);
+
+        // Iterate over each entry in the directory
+        for (let i = 0; i < numEntries; i++) {
+            const entryOffset = diroffset + i * 64;
+            const filenameBytes = new Uint8Array(buffer, entryOffset, 56);
+            const filename = new TextDecoder("utf-8").decode(filenameBytes).split('\0', 1)[0];
+            const fileOffset = view.getUint32(entryOffset + 56, true);
+            const fileSize = view.getUint32(entryOffset + 60, true);
+            const formattedSize = formatFileSize(fileSize);
+
+            // Create a blob for each file entry
+            const fileBlob = new Blob([new Uint8Array(buffer, fileOffset, fileSize)], { type: 'application/octet-stream' });
+            fileBlobs.push({ filename, blob: fileBlob });
+
+            // Create a link for the file download
+            const link = document.createElement('a');
+            link.className = 'file-item';
+            link.href = URL.createObjectURL(fileBlob);
+            link.download = filename;
+
+            // Append the filename and file size to the link
+            const filenameText = document.createTextNode(filename);
+            const separatorSpan = document.createElement('span');
+            separatorSpan.className = 'separator-style';
+            separatorSpan.textContent = ' - ';
+            const fileSizeSpan = document.createElement('span');
+            fileSizeSpan.className = 'file-size';
+            fileSizeSpan.textContent = formattedSize;
+            link.appendChild(filenameText);
+            link.appendChild(separatorSpan);
+            link.appendChild(fileSizeSpan);
+
+            // Create a table row for each file with name and preview
+            const row = table.insertRow();
+            const nameCell = row.insertCell();
+            nameCell.appendChild(link);
+            const previewCell = row.insertCell();
+
+            // Preview image if it's a supported format
+            if (/\.(jpe?g|png)$/i.test(filename)) {
+                const image = new Image();
+                image.src = link.href;
+                image.className = 'preview';
+                image.alt = 'Preview of ' + filename;
+                previewCell.appendChild(image);
+            } 
+            // Handle TGA file previews
+            else if (/\.(tga)$/i.test(filename)) {
+                const tga = new TgaLoader();
+                const fileBuffer = new Uint8Array(buffer, fileOffset, fileSize);
+                tga.load(fileBuffer);
+                const imageCanvas = tga.getCanvas();
+                const scale = 256 / imageCanvas.width;
+                const scaledHeight = imageCanvas.height * scale;
+                imageCanvas.width = 256;
+                imageCanvas.height = scaledHeight;
+                const ctx = imageCanvas.getContext('2d');
+                ctx.drawImage(tga.getCanvas(), 0, 0, imageCanvas.width, imageCanvas.height);
+                imageCanvas.className = 'preview';
+                previewCell.appendChild(imageCanvas);
+            }
+            // Add play icon for WAV files
+            else if (/\.wav$/i.test(filename)) {
+                const playIcon = document.createElement('div');
+                playIcon.className = 'play-icon';
+                playIcon.addEventListener('click', function() {
+                    const audio = new Audio(link.href);
+                    audio.play();
+                });
+                previewCell.appendChild(playIcon);
+            } else {
+                previewCell.textContent = '';
+            }
+        }
+
+        // Show the download all button if there are entries
+        document.getElementById('downloadAll').style.display = numEntries > 0 ? 'inline-block' : 'none';
+    };
+
+    // Read the file as an ArrayBuffer
+    reader.readAsArrayBuffer(file);
+}
+
+document.getElementById('folder_drop_zone').addEventListener('click', function() {
+    document.getElementById('folderpicker').click();
+});
+
+// Get the drop zone element
+var dropZone = document.getElementById('folder_drop_zone');
+
+// Drag over event listener to add the hover effect
+dropZone.addEventListener('dragover', function(event) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy'; // Show as a copy cursor (optional)
+    event.currentTarget.classList.add('hover'); // Add the hover class for visual feedback
+}, false);
+
+// Drag leave event listener to remove the hover effect
+dropZone.addEventListener('dragleave', function(event) {
+    event.currentTarget.classList.remove('hover'); // Remove the hover class when dragging leaves the drop zone
+}, false);
+
+
+
+function handleFiles(files) {
+    // This function should now process an array of File objects
+    console.log("Processing files:", files);
+    handleFolderSelect(files); // This will trigger your existing logic for handling the files
+}
+
+async function getAllFileEntries(directoryEntry) {
+    const entries = [];
+    const reader = directoryEntry.createReader();
+    let readEntries = async () => {
+        const partialEntries = await new Promise((resolve, reject) => {
+            reader.readEntries(resolve, reject);
+        });
+        if (partialEntries.length) {
+            entries.push(...partialEntries);
+            await readEntries(); // Recursively read more entries
+        }
+    };
+    await readEntries();
+    const fileEntries = entries.filter((entry) => entry.isFile);
+    const directoryEntries = entries.filter((entry) => entry.isDirectory);
+    for (const directoryEntry of directoryEntries) {
+        fileEntries.push(...(await getAllFileEntries(directoryEntry)));
+    }
+    return fileEntries;
+}
+
+async function handleDrop(event) {
+    event.preventDefault();
+    event.stopPropagation(); // Stop the event from propagating further
+    event.currentTarget.classList.remove('hover'); // Remove the hover class upon drop
+    const items = event.dataTransfer.items;
+    let folderDropped = false;
+
+    console.log('Drop event items:', items); // Debugging: Log the raw drop event items
+
+    for (const item of items) {
+        console.log('Handling item:', item); // Debugging: Log the item being handled
+        if (item.kind === 'file') {
+            if ('getAsFileSystemHandle' in item) {
+                // Chrome path
+                const entry = await item.getAsFileSystemHandle();
+                console.log('Chrome entry:', entry); // Debugging
+                if (entry.kind === 'directory') {
+                    folderDropped = true;
+                    const files = await getFiles(entry);
+                    handleFolderSelect(files, entry.name);
+                    break;
+                }
+            } else if (item.webkitGetAsEntry) {
+                // Safari path
+                const entry = item.webkitGetAsEntry();
+                console.log('Safari entry:', entry); // Debugging
+                if (entry && entry.isDirectory) {
+                    folderDropped = true;
+                    const files = await getFiles(entry);
+                    handleFolderSelect(files, entry.name);
+                    break;
+                }
+            }
+        }
+    }
+
+    if (!folderDropped) {
+        console.error('No folder was dropped'); // Debugging: Log an error if no folder was found
+        alert('Please drop a folder.');
+    }
+}
+
+
+async function getFiles(entry) {
+    let files = [];
+    // For Chrome's FileSystemDirectoryHandle
+    if (entry.kind === 'directory' && 'values' in entry) {
+        for await (const handle of entry.values()) {
+            if (handle.kind === 'file') {
+                files.push(await handle.getFile());
+            } else if (handle.kind === 'directory') {
+                files.push(...await getFiles(handle));
+            }
+        }
+    }
+    // For Safari's FileSystemDirectoryEntry
+    else if (entry.isDirectory) {
+        files = await readAllEntries(entry.createReader());
+    }
+    return files;
+}
+
+async function readAllEntries(reader) {
+    let allEntries = [];
+    let readEntries = async () => {
+        let entries = await new Promise((resolve, reject) => reader.readEntries(resolve, reject));
+        if (entries.length) {
+            allEntries.push(...entries);
+            await readEntries(); // Recursively read more entries
+        }
+    };
+    await readEntries();
+
+    // Process entries for files and directories
+    let files = [];
+    for (const entry of allEntries) {
+        if (entry.isFile) {
+            files.push(await new Promise((resolve) => entry.file(resolve)));
+        } else if (entry.isDirectory) {
+            files.push(...await getFiles(entry));
+        }
+    }
+    return files;
+}
+
+
+
+document.getElementById('folder_drop_zone').addEventListener('drop', handleDrop, false);
+
+
+document.getElementById('drop_zone').addEventListener('click', function() {
+    document.getElementById('packfile').click();
+});
+
+document.getElementById('drop_zone').addEventListener('dragover', function(event) {
+    event.preventDefault();
+    event.currentTarget.classList.add('hover');
+});
+
+document.getElementById('drop_zone').addEventListener('dragleave', function(event) {
+    event.currentTarget.classList.remove('hover');
+});
+
+document.getElementById('drop_zone').addEventListener('drop', function(event) {
+    event.preventDefault();
+    event.currentTarget.classList.remove('hover');
+    handleFileSelect(event.dataTransfer.files);
+});
+
+document.getElementById('downloadAll').addEventListener('click', function() {
+    const zip = new JSZip();
+    const mainFolderName = currentPakFileName; // Use the PAK file name for the main folder's name
+
+    fileBlobs.forEach(function(file) {
+        // Prepend the main folder name to the file's path
+        const filePath = mainFolderName + '/' + file.filename;
+        zip.file(filePath, file.blob);
+    });
+
+    // Show the progress wrapper and reset the progress bar to 0%
+    document.getElementById('progressWrapper').style.display = 'block';
+    const progressBar = document.getElementById('progressBar');
+    progressBar.style.width = '0%';
+    progressBar.textContent = '0%';
+
+    // Update the zip.generateAsync call to handle progress updates
+    zip.generateAsync({ type: "blob" }, function(metadata) {
+        // Update the progress bar with the current percentage
+        const percent = metadata.percent.toFixed(2);
+        progressBar.style.width = percent + '%';
+        progressBar.textContent = percent + '%';
+    }).then(function(content) {
+        // Use the PAK file name for the zip file's name
+        const url = URL.createObjectURL(content);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = currentPakFileName + ".zip"; // Use the PAK file name here
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 100);
+
+        // Hide the progress bar when done
+        document.getElementById('progressWrapper').style.display = 'none';
+    }, function(err) {
+        alert('Error generating zip: ' + err);
+        // Hide the progress bar if there's an error
+        document.getElementById('progressWrapper').style.display = 'none';
+    });
+});
+
+    </script>
+</body>
+</html>

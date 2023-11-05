@@ -1,0 +1,192 @@
+body {
+    background-color: #121212;
+    color: #E0E0E0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+#drop_zone {
+    border: 2px dashed #4C4C4C;
+    border-radius: 5px;
+    background: #1E1E1E;
+    padding: 20px;
+    text-align: center;
+    color: #A0A0A0;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#folder_drop_zone.hover {
+    background-color: #333;
+    color: #FFF;
+}
+
+
+#folder_drop_zone {
+    border: 2px dashed #4C4C4C;
+    border-radius: 5px;
+    background: #1E1E1E;
+    padding: 20px;
+    text-align: center;
+    color: #A0A0A0;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#drop_zone.hover {
+    background-color: #333;
+    color: #FFF;
+}
+
+
+.file-item {
+    cursor: pointer;
+    display: block;
+    color: #685E5E;
+    text-decoration: none;
+    margin-bottom: 5px;
+}
+
+.file-item:hover {
+    color: #BDBDBD;
+}
+
+#downloadAll {
+    background-color: #3F3F3F;
+    color: #FFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    display: none;
+}
+
+#downloadAll:hover {
+    background-color: #555;
+}
+
+#packfilecontents {
+    margin-top: 20px;
+}
+
+img.preview {
+    max-width: 200px;
+    max-height: 200px;
+    margin-top: 10px;
+    border: 1px solid #555;
+    background: #FFF;
+}
+
+.audio-control {
+    display: none;
+}
+
+.play-icon {
+    cursor: pointer;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url('data:image/svg+xml;utf8,<svg fill="%23FFF" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>') no-repeat center;
+    background-size: contain;
+    vertical-align: middle;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #555;
+    padding: 8px;
+    text-align: left;
+}
+
+#progressWrapper {
+    display: none;
+    margin-top: 10px;
+}
+
+#progressBar {
+    width: 0;
+    height: 20px;
+    background-color: #555;
+    text-align: left;
+    line-height: 20px;
+    font-size: 10pt;
+    padding-left: 5px;
+    color: #FFF; /* Text color */
+    transition: width 0.4s ease; /* Smooth transition for width changes */
+}
+
+.file-size {
+    color: #969696; /* Example: a shade of grey */
+}
+
+.file-size:hover {
+    color: #685E5E; /* Darker shade when hovered */
+}
+
+.separator-style {
+    color: #A0A0A0; /* Adjust the color as needed */
+    padding: 0 5px; /* Add some padding around the separator */
+}
+
+#packfile {
+    display: none;
+  }
+
+  #folderpicker {
+    display: none;
+  }
+
+  /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #7a7a7a;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: relative; /* or absolute, depending on the layout */
+    top: -10px; /* moves the button 10px up */
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .modal-content {
+    border-radius: 10px; /* Adjust as needed */
+    /* Other styles for .modal-content */
+}
+
+.text-color-view-create {
+    color: #685E5E; /* Replace #colorCode1 with the color you want for View / Convert */
+}
