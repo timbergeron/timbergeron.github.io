@@ -1,3 +1,4 @@
+/* Base layout styles */
 body {
     background-color: #121212;
     color: #E0E0E0;
@@ -6,23 +7,8 @@ body {
     padding: 20px;
 }
 
-#drop_zone {
-    border: 2px dashed #4C4C4C;
-    border-radius: 5px;
-    background: #1E1E1E;
-    padding: 20px;
-    text-align: center;
-    color: #A0A0A0;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-#folder_drop_zone.hover {
-    background-color: #333;
-    color: #FFF;
-}
-
-
+/* Drop zone styles */
+#drop_zone,
 #folder_drop_zone {
     border: 2px dashed #4C4C4C;
     border-radius: 5px;
@@ -34,12 +20,13 @@ body {
     cursor: pointer;
 }
 
-#drop_zone.hover {
+#drop_zone.hover,
+#folder_drop_zone.hover {
     background-color: #333;
     color: #FFF;
 }
 
-
+/* File item styles */
 .file-item {
     cursor: pointer;
     display: block;
@@ -52,13 +39,15 @@ body {
     color: #BDBDBD;
 }
 
+/* Download button styles */
 #downloadAll {
     background-color: #3F3F3F;
     color: #FFF;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    margin-top: 10px;
+    margin-top: 0px;
+    margin-bottom: 10px;
     cursor: pointer;
     display: none;
 }
@@ -67,10 +56,7 @@ body {
     background-color: #555;
 }
 
-#packfilecontents {
-    margin-top: 20px;
-}
-
+/* Image preview styles */
 img.preview {
     max-width: 200px;
     max-height: 200px;
@@ -79,10 +65,12 @@ img.preview {
     background: #FFF;
 }
 
+/* Audio control styles */
 .audio-control {
     display: none;
 }
 
+/* Play icon styles */
 .play-icon {
     cursor: pointer;
     display: inline-block;
@@ -93,6 +81,7 @@ img.preview {
     vertical-align: middle;
 }
 
+/* Table styles */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -104,9 +93,12 @@ th, td {
     text-align: left;
 }
 
+/* Progress bar styles */
 #progressWrapper {
     display: none;
     margin-top: 10px;
+    margin-bottom: 10px;
+
 }
 
 #progressBar {
@@ -121,6 +113,7 @@ th, td {
     transition: width 0.4s ease; /* Smooth transition for width changes */
 }
 
+/* File size color styles */
 .file-size {
     color: #969696; /* Example: a shade of grey */
 }
@@ -129,20 +122,19 @@ th, td {
     color: #685E5E; /* Darker shade when hovered */
 }
 
+/* Separator styles */
 .separator-style {
     color: #A0A0A0; /* Adjust the color as needed */
     padding: 0 5px; /* Add some padding around the separator */
 }
 
-#packfile {
+/* Hidden elements */
+#packfile,
+#folderpicker {
     display: none;
-  }
+}
 
-  #folderpicker {
-    display: none;
-  }
-
-  /* The Modal (background) */
+/* Modal styles */
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -154,39 +146,47 @@ th, td {
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
-  
-  /* Modal Content */
-  .modal-content {
+}
+
+.modal-content {
     background-color: #7a7a7a;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
-  }
-  
-  /* The Close Button */
-  .close {
+    border-radius: 10px; /* Adjust as needed */
+}
+
+.close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
     position: relative; /* or absolute, depending on the layout */
     top: -10px; /* moves the button 10px up */
-  }
-  
-  .close:hover,
-  .close:focus {
+}
+
+.close:hover,
+.close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
-  }
-  
-  .modal-content {
-    border-radius: 10px; /* Adjust as needed */
-    /* Other styles for .modal-content */
 }
 
+/* Specific text color styles */
 .text-color-view-create {
     color: #685E5E; /* Replace #colorCode1 with the color you want for View / Convert */
 }
+
+.header-image {
+    width: 35px; /* Adjust as needed */
+    height: auto; /* This will maintain the aspect ratio */
+    margin-right: 12px;
+  }
+
+  .header-container {
+    display: flex;
+    align-items: center; /* This aligns the items vertically in the center */
+    margin-bottom: 12px;
+    margin-top: 0px;
+  }
