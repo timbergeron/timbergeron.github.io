@@ -1,800 +1,1030 @@
-﻿<HTML>
-<HEAD>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<TITLE>Quake Name Maker</TITLE>
-<!-- modified by xaGe on 20180228 for megatf wiki -->
+<!DOCTYPE html>
+<html lang="en">
 
-<SCRIPT LANGUAGE="JavaScript">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Quake Name Maker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jschardet@2.1.1/dist/jschardet.min.js"></script>
 
-function updateName() {
+    <!-- Modified by xaGe on 20180228 for megatf wiki / woods 11/5/23 -->
+</head>
 
-    for (loop=0; loop<21; loop++) {
-        document.images[loop+5].src = "./qnmqwtde/chars/quake/" + document.oqnm.code[loop].value + ".gif"
-    }
+<body>
+    <script>
+        function updateName() {
 
-}
+            for (loop = 0; loop < 21; loop++) {
+                document.images[loop + 4].src = "images/chars/quake/" + document.oqnm.code[loop].value + ".gif"
+            }
+        }
 
-function buttonClick(num) {
+        function buttonClick(num) {
 
-    oldname = document.oqnm.name.value;
-    lngth = oldname.length;
-    newchar = document.oqnm.chr[num].value;
-    
-    if (lngth < 21) {
-    
-        document.oqnm.name.value = oldname + newchar;
+            oldname = document.oqnm.name.value;
+            lngth = oldname.length;
+            newchar = document.oqnm.chr[num].value;
 
-        newname = document.oqnm.name.value;
-        pos = newname.length;
-    
-        str = num;
-        if (num < 100) str = '0' + num;
-        if (num < 10)  str = '00' + num;
+            if (lngth < 21) {
+
+                document.oqnm.name.value = oldname + newchar;
+
+                newname = document.oqnm.name.value;
+                pos = newname.length;
+
+                str = num;
+                if (num < 100) str = '0' + num;
+                if (num < 10) str = '00' + num;
+
+                document.oqnm.code[pos - 1].value = str;
+
+                updateName();
+            }
+        }
+
+        function resetName() {
+
+            document.oqnm.name.value = '';
+
+            for (loop = 0; loop < 21; loop++) {
+                document.oqnm.code[loop].value = '032';
+            }
+
+            updateName();
+        }
+
+        function addSpace() {
+
+            oldname = document.oqnm.name.value;
+            document.oqnm.name.value = oldname + ' ';
+
+            updateName();
+        }
+
+        function backSpace() {
+
+            oldname = document.oqnm.name.value;
+            lngth = oldname.length;
+
+            newname = '';
+            for (loop = 0; loop < (lngth - 1); loop++) {
+                newname = newname + oldname.charAt(loop);
+            }
+
+            document.oqnm.name.value = newname;
+
+            if (lngth > 0) {
+                document.oqnm.code[lngth - 1].value = '032';
+            }
+
+            updateName();
+        }
+    </script>
+
+    <form name="oqnm">
+
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+        <input type="hidden" name="code" value="032">
+         <!-- Row 1 - 0-15 -->
+        <input type="hidden" name="chr" value="&#0;">
+        <input type="hidden" name="chr" value="&#1;">
+        <input type="hidden" name="chr" value="&#2;">
+        <input type="hidden" name="chr" value="&#3;">
+        <input type="hidden" name="chr" value="&#4;">
+        <input type="hidden" name="chr" value="&#5;">
+        <input type="hidden" name="chr" value="&#6;">
+        <input type="hidden" name="chr" value="&#7;">
+        <input type="hidden" name="chr" value="&#8;">
+        <input type="hidden" name="chr" value="	">
+        <input type="hidden" name="chr" value="">
+        <input type="hidden" name="chr" value="&#11;">
+        <input type="hidden" name="chr" value="&#12;">
+        <input type="hidden" name="chr" value="&#141;">
+        <input type="hidden" name="chr" value="&#14;">
+        <input type="hidden" name="chr" value="&#15;">
+        <!-- Row 2 - Gold []01234 - 16-31 -->
+        <input type="hidden" name="chr" value="&#16;">
+        <input type="hidden" name="chr" value="&#17;">
+        <input type="hidden" name="chr" value="&#18;">
+        <input type="hidden" name="chr" value="&#19;">
+        <input type="hidden" name="chr" value="&#20;">
+        <input type="hidden" name="chr" value="&#21;">
+        <input type="hidden" name="chr" value="&#22;">
+        <input type="hidden" name="chr" value="&#23;">
+        <input type="hidden" name="chr" value="&#24;">
+        <input type="hidden" name="chr" value="&#25;">
+        <input type="hidden" name="chr" value="&#26;">
+        <input type="hidden" name="chr" value="&#27;">
+        <input type="hidden" name="chr" value="&#28;">
+        <input type="hidden" name="chr" value="&#29;">
+        <input type="hidden" name="chr" value="&#30;">
+        <input type="hidden" name="chr" value="&#31;">
+        <!-- Row 3 - White - !"#$% - 32-47 -->
+        <input type="hidden" name="chr" value=" ">
+        <input type="hidden" name="chr" value="!">
+        <input type="hidden" name="chr" value="&#34;">
+        <input type="hidden" name="chr" value="#">
+        <input type="hidden" name="chr" value="$">
+        <input type="hidden" name="chr" value="%">
+        <input type="hidden" name="chr" value="&#38;">
+        <input type="hidden" name="chr" value="'">
+        <input type="hidden" name="chr" value="(">
+        <input type="hidden" name="chr" value=")">
+        <input type="hidden" name="chr" value="*">
+        <input type="hidden" name="chr" value="+">
+        <input type="hidden" name="chr" value=",">
+        <input type="hidden" name="chr" value="-">
+        <input type="hidden" name="chr" value=".">
+        <input type="hidden" name="chr" value="/">
+        <!-- Row 4 - White 012345 48-63 -->
+        <input type="hidden" name="chr" value="0">
+        <input type="hidden" name="chr" value="1">
+        <input type="hidden" name="chr" value="2">
+        <input type="hidden" name="chr" value="3">
+        <input type="hidden" name="chr" value="4">
+        <input type="hidden" name="chr" value="5">
+        <input type="hidden" name="chr" value="6">
+        <input type="hidden" name="chr" value="7">
+        <input type="hidden" name="chr" value="8">
+        <input type="hidden" name="chr" value="9">
+        <input type="hidden" name="chr" value=":">
+        <input type="hidden" name="chr" value=";">
+        <input type="hidden" name="chr" value="&#60;">
+        <input type="hidden" name="chr" value="=">
+        <input type="hidden" name="chr" value="&#62;">
+        <input type="hidden" name="chr" value="?">
+        <!-- Row 5 - White @ABCDE 64-79 -->
+        <input type="hidden" name="chr" value="@">
+        <input type="hidden" name="chr" value="A">
+        <input type="hidden" name="chr" value="B">
+        <input type="hidden" name="chr" value="C">
+        <input type="hidden" name="chr" value="D">
+        <input type="hidden" name="chr" value="E">
+        <input type="hidden" name="chr" value="F">
+        <input type="hidden" name="chr" value="G">
+        <input type="hidden" name="chr" value="H">
+        <input type="hidden" name="chr" value="I">
+        <input type="hidden" name="chr" value="J">
+        <input type="hidden" name="chr" value="K">
+        <input type="hidden" name="chr" value="L">
+        <input type="hidden" name="chr" value="M">
+        <input type="hidden" name="chr" value="N">
+        <input type="hidden" name="chr" value="O">
+        <!-- Row 6 - White PQRST - 80-95 -->
+        <input type="hidden" name="chr" value="P">
+        <input type="hidden" name="chr" value="Q">
+        <input type="hidden" name="chr" value="R">
+        <input type="hidden" name="chr" value="S">
+        <input type="hidden" name="chr" value="T">
+        <input type="hidden" name="chr" value="U">
+        <input type="hidden" name="chr" value="V">
+        <input type="hidden" name="chr" value="W">
+        <input type="hidden" name="chr" value="X">
+        <input type="hidden" name="chr" value="Y">
+        <input type="hidden" name="chr" value="Z">
+        <input type="hidden" name="chr" value="[">
+        <input type="hidden" name="chr" value="\">
+        <input type="hidden" name="chr" value="]">
+        <input type="hidden" name="chr" value="^">
+        <input type="hidden" name="chr" value="_">
+        <!-- Row 7 - White 'abcde 98-111 -->
+        <input type="hidden" name="chr" value="`">
+        <input type="hidden" name="chr" value="a">
+        <input type="hidden" name="chr" value="b">
+        <input type="hidden" name="chr" value="c">
+        <input type="hidden" name="chr" value="d">
+        <input type="hidden" name="chr" value="e">
+        <input type="hidden" name="chr" value="f">
+        <input type="hidden" name="chr" value="g">
+        <input type="hidden" name="chr" value="h">
+        <input type="hidden" name="chr" value="i">
+        <input type="hidden" name="chr" value="j">
+        <input type="hidden" name="chr" value="k">
+        <input type="hidden" name="chr" value="l">
+        <input type="hidden" name="chr" value="m">
+        <input type="hidden" name="chr" value="n">
+        <input type="hidden" name="chr" value="o">
+        <!-- Row 8 - White pqrst - 112-127 -->
+        <input type="hidden" name="chr" value="p">
+        <input type="hidden" name="chr" value="q">
+        <input type="hidden" name="chr" value="r">
+        <input type="hidden" name="chr" value="s">
+        <input type="hidden" name="chr" value="t">
+        <input type="hidden" name="chr" value="u">
+        <input type="hidden" name="chr" value="v">
+        <input type="hidden" name="chr" value="w">
+        <input type="hidden" name="chr" value="x">
+        <input type="hidden" name="chr" value="y">
+        <input type="hidden" name="chr" value="z">
+        <input type="hidden" name="chr" value="{">
+        <input type="hidden" name="chr" value="|">
+        <input type="hidden" name="chr" value="}">
+        <input type="hidden" name="chr" value="~">
+        <input type="hidden" name="chr" value="&#127;">
+        <!-- Row 9 - Top Row, But Mid - 128-143 -->
+        <input type="hidden" name="chr" value="&#8364;">
+        <input type="hidden" name="chr" value="&#157;">
+        <input type="hidden" name="chr" value="&#130;">
+        <input type="hidden" name="chr" value="&#131;">
+        <input type="hidden" name="chr" value="&#132;">
+        <input type="hidden" name="chr" value="&#133;">
+        <input type="hidden" name="chr" value="&#134;">
+        <input type="hidden" name="chr" value="&#135;">
+        <input type="hidden" name="chr" value="&#136;">
+        <input type="hidden" name="chr" value="&#137;">
+        <input type="hidden" name="chr" value="&#138;">
+        <input type="hidden" name="chr" value="&#139;">
+        <input type="hidden" name="chr" value="&#140;">
+        <input type="hidden" name="chr" value="&#141;">
+        <input type="hidden" name="chr" value="&#142;">
+        <input type="hidden" name="chr" value="&#143;">
+        <!-- Row 10 Gold []012345 - 144-159 -->
+        <input type="hidden" name="chr" value="&#144;">
+        <input type="hidden" name="chr" value="&#145;">
+        <input type="hidden" name="chr" value="&#146;">
+        <input type="hidden" name="chr" value="&#147;">
+        <input type="hidden" name="chr" value="&#148;">
+        <input type="hidden" name="chr" value="&#149;">
+        <input type="hidden" name="chr" value="&#150;">
+        <input type="hidden" name="chr" value="&#151;">
+        <input type="hidden" name="chr" value="&#152;">
+        <input type="hidden" name="chr" value="&#153;">
+        <input type="hidden" name="chr" value="&#154;">
+        <input type="hidden" name="chr" value="&#155;">
+        <input type="hidden" name="chr" value="&#156;">
+        <input type="hidden" name="chr" value="&#157;">
+        <input type="hidden" name="chr" value="&#158;">
+        <input type="hidden" name="chr" value="&#159;">
+        <!-- Row 11 - Bronze !"#$%" - 160-175 -->
+        <input type="hidden" name="chr" value="&#160;">
+        <input type="hidden" name="chr" value="&#161;">
+        <input type="hidden" name="chr" value="&#162;">
+        <input type="hidden" name="chr" value="&#163;">
+        <input type="hidden" name="chr" value="&#164;">
+        <input type="hidden" name="chr" value="&#165;">
+        <input type="hidden" name="chr" value="&#166;">
+        <input type="hidden" name="chr" value="&#167;">
+        <input type="hidden" name="chr" value="&#168;">
+        <input type="hidden" name="chr" value="&#169;">
+        <input type="hidden" name="chr" value="&#170;">
+        <input type="hidden" name="chr" value="&#171;">
+        <input type="hidden" name="chr" value="&#172;">
+        <input type="hidden" name="chr" value="&#1085;">
+        <input type="hidden" name="chr" value="&#174;">
+        <input type="hidden" name="chr" value="&#175;">
         
-        document.oqnm.code[pos-1].value = str;
+        <!-- Row 12 - Bronze 123456 - 176-191 -->
+        <input type="hidden" name="chr" value="&#176;">
+        <input type="hidden" name="chr" value="&#177;">
+        <input type="hidden" name="chr" value="&#178;">
+        <input type="hidden" name="chr" value="&#179;">
+        <input type="hidden" name="chr" value="&#180;">
+        <input type="hidden" name="chr" value="&#181;">
+        <input type="hidden" name="chr" value="&#182;">
+        <input type="hidden" name="chr" value="&#183;">
+        <input type="hidden" name="chr" value="&#184;">
+        <input type="hidden" name="chr" value="&#185;">
+        <input type="hidden" name="chr" value="&#186;">
+        <input type="hidden" name="chr" value="&#187;">
+        <input type="hidden" name="chr" value="&#188;">
+        <input type="hidden" name="chr" value="&#189;">
+        <input type="hidden" name="chr" value="&#190;">
+        <input type="hidden" name="chr" value="&#191;">
+        
+        <!-- Row 13 - Bronze @ABCDE - 192-207 -->
+        <input type="hidden" name="chr" value="&#192;">
+        <input type="hidden" name="chr" value="&#193;">
+        <input type="hidden" name="chr" value="&#194;">
+        <input type="hidden" name="chr" value="&#195;">
+        <input type="hidden" name="chr" value="&#196;">
+        <input type="hidden" name="chr" value="&#197;">
+        <input type="hidden" name="chr" value="&#198;">
+        <input type="hidden" name="chr" value="&#199;">
+        <input type="hidden" name="chr" value="&#200;">
+        <input type="hidden" name="chr" value="&#201;">
+        <input type="hidden" name="chr" value="&#202;">
+        <input type="hidden" name="chr" value="&#203;">
+        <input type="hidden" name="chr" value="&#204;">
+        <input type="hidden" name="chr" value="&#205;">
+        <input type="hidden" name="chr" value="&#206;">
+        <input type="hidden" name="chr" value="&#207;">
+        
+        <!-- Row 14 - Bronze PQRST - 208-223 -->
+        <input type="hidden" name="chr" value="&#208;">
+        <input type="hidden" name="chr" value="&#209;">
+        <input type="hidden" name="chr" value="&#210;">
+        <input type="hidden" name="chr" value="&#211;">
+        <input type="hidden" name="chr" value="&#212;">
+        <input type="hidden" name="chr" value="&#213;">
+        <input type="hidden" name="chr" value="&#214;">
+        <input type="hidden" name="chr" value="&#215;">
+        <input type="hidden" name="chr" value="&#216;">
+        <input type="hidden" name="chr" value="&#217;">
+        <input type="hidden" name="chr" value="&#218;">
+        <input type="hidden" name="chr" value="&#219;">
+        <input type="hidden" name="chr" value="&#220;">
+        <input type="hidden" name="chr" value="&#221;">
+        <input type="hidden" name="chr" value="&#222;">
+        <input type="hidden" name="chr" value="&#223;">
+        
+        <!-- Row 15 - Bronze 'abcde - 224-239 -->
+        <input type="hidden" name="chr" value="&#224;">
+        <input type="hidden" name="chr" value="&#225;">
+        <input type="hidden" name="chr" value="&#226;">
+        <input type="hidden" name="chr" value="&#227;">
+        <input type="hidden" name="chr" value="&#228;">
+        <input type="hidden" name="chr" value="&#229;">
+        <input type="hidden" name="chr" value="&#230;">
+        <input type="hidden" name="chr" value="&#231;">
+        <input type="hidden" name="chr" value="&#232;">
+        <input type="hidden" name="chr" value="&#233;">
+        <input type="hidden" name="chr" value="&#234;">
+        <input type="hidden" name="chr" value="&#235;">
+        <input type="hidden" name="chr" value="&#236;">
+        <input type="hidden" name="chr" value="&#237;">
+        <input type="hidden" name="chr" value="&#238;">
+        <input type="hidden" name="chr" value="&#239;">
+        
+        <!-- Row 16 - Bronze pqrst - 240-255 -->
+        <input type="hidden" name="chr" value="&#240;">
+        <input type="hidden" name="chr" value="&#241;">
+        <input type="hidden" name="chr" value="&#242;">
+        <input type="hidden" name="chr" value="&#243;">
+        <input type="hidden" name="chr" value="&#244;">
+        <input type="hidden" name="chr" value="&#245;">
+        <input type="hidden" name="chr" value="&#246;">
+        <input type="hidden" name="chr" value="&#247;">
+        <input type="hidden" name="chr" value="&#248;">
+        <input type="hidden" name="chr" value="&#249;">
+        <input type="hidden" name="chr" value="&#250;">
+        <input type="hidden" name="chr" value="&#251;">
+        <input type="hidden" name="chr" value="&#252;">
+        <input type="hidden" name="chr" value="&#253;">
+        <input type="hidden" name="chr" value="&#254;">
+        <input type="hidden" name="chr" value="&#255;">
+        
 
-        updateName();
-    }
+        <div id="container">
+            <div id="selections">
+                <div id="qcharstable">
+                    <a name="bottom"></a><img src="images/charmaps/quake.gif" border=0 width="400" height="400" usemap=#lettermap ismap><br>
+                    <map name="lettermap">
+                        <!-- Row 1 - 0-15 -->
+                        <!-- area shape="rect" coords="0,0,16,16"       href="javascript:buttonClick(0)" -->
+                        <area shape="rect" coords="16,0,32,16" href="javascript:buttonClick(1)">
+                        <area shape="rect" coords="32,0,48,16" href="javascript:buttonClick(2)">
+                        <area shape="rect" coords="48,0,64,16" href="javascript:buttonClick(3)">
+                        <area shape="rect" coords="64,0,80,16" href="javascript:buttonClick(4)">
+                        <area shape="rect" coords="80,0,96,16" href="javascript:buttonClick(5)">
+                        <area shape="rect" coords="96,0,112,16" href="javascript:buttonClick(6)">
+                        <area shape="rect" coords="112,0,128,16" href="javascript:buttonClick(7)">
+                        <area shape="rect" coords="128,0,144,16" href="javascript:buttonClick(8)">
+                        <!-- area shape="rect" coords="144,0,160,16"    href="javascript:buttonClick(9)" -->
+                        <!-- area shape="rect" coords="160,0,176,16"    href="javascript:buttonClick(10)" -->
+                        <area shape="rect" coords="176,0,192,16" href="javascript:buttonClick(11)">
+                        <!-- area shape="rect" coords="192,0,208,16"    href="javascript:buttonClick(12)" -->
+                        <area shape="rect" coords="208,0,224,16" href="javascript:buttonClick(13)">
+                        <area shape="rect" coords="224,0,240,16" href="javascript:buttonClick(14)">
+                        <area shape="rect" coords="240,0,256,16" href="javascript:buttonClick(15)">
+                        <!-- Row 2 - Gold []01234 - 16-31 -->
+                        <area shape="rect" coords="0,16,16,32" href="javascript:buttonClick(16)">
+                        <area shape="rect" coords="16,16,32,32" href="javascript:buttonClick(17)">
+                        <area shape="rect" coords="32,16,48,32" href="javascript:buttonClick(18)">
+                        <area shape="rect" coords="48,16,64,32" href="javascript:buttonClick(19)">
+                        <area shape="rect" coords="64,16,80,32" href="javascript:buttonClick(20)">
+                        <area shape="rect" coords="80,16,96,32" href="javascript:buttonClick(21)">
+                        <area shape="rect" coords="96,16,112,32" href="javascript:buttonClick(22)">
+                        <area shape="rect" coords="112,16,128,32" href="javascript:buttonClick(23)">
+                        <area shape="rect" coords="128,16,144,32" href="javascript:buttonClick(24)">
+                        <area shape="rect" coords="144,16,160,32" href="javascript:buttonClick(25)">
+                        <area shape="rect" coords="160,16,176,32" href="javascript:buttonClick(26)">
+                        <area shape="rect" coords="176,16,192,32" href="javascript:buttonClick(27)">
+                        <area shape="rect" coords="192,16,208,32" href="javascript:buttonClick(28)">
+                        <area shape="rect" coords="208,16,224,32" href="javascript:buttonClick(29)">
+                        <area shape="rect" coords="224,16,240,32" href="javascript:buttonClick(30)">
+                        <area shape="rect" coords="240,16,256,32" href="javascript:buttonClick(31)">
+                         <!-- Row 3 - White - !"#$% - 32-47 -->
+                        <area shape="rect" coords="0,32,16,48" href="javascript:buttonClick(32)">
+                        <area shape="rect" coords="16,32,32,48" href="javascript:buttonClick(33)">
+                        <area shape="rect" coords="32,32,48,48" href="javascript:buttonClick(34)">
+                        <area shape="rect" coords="48,32,64,48" href="javascript:buttonClick(35)">
+                        <area shape="rect" coords="64,32,80,48" href="javascript:buttonClick(36)">
+                        <area shape="rect" coords="80,32,96,48" href="javascript:buttonClick(37)">
+                        <area shape="rect" coords="96,32,112,48" href="javascript:buttonClick(38)">
+                        <area shape="rect" coords="112,32,128,48" href="javascript:buttonClick(39)">
+                        <area shape="rect" coords="128,32,144,48" href="javascript:buttonClick(40)">
+                        <area shape="rect" coords="144,32,160,48" href="javascript:buttonClick(41)">
+                        <area shape="rect" coords="160,32,176,48" href="javascript:buttonClick(42)">
+                        <area shape="rect" coords="176,32,192,48" href="javascript:buttonClick(43)">
+                        <area shape="rect" coords="192,32,208,48" href="javascript:buttonClick(44)">
+                        <area shape="rect" coords="208,32,224,48" href="javascript:buttonClick(45)">
+                        <area shape="rect" coords="224,32,240,48" href="javascript:buttonClick(46)">
+                        <area shape="rect" coords="240,32,256,48" href="javascript:buttonClick(47)">
+                        <!-- Row 4 - White 012345 48-63 -->
+                        <area shape="rect" coords="0,48,16,64" href="javascript:buttonClick(48)">
+                        <area shape="rect" coords="16,48,32,64" href="javascript:buttonClick(49)">
+                        <area shape="rect" coords="32,48,48,64" href="javascript:buttonClick(50)">
+                        <area shape="rect" coords="48,48,64,64" href="javascript:buttonClick(51)">
+                        <area shape="rect" coords="64,48,80,64" href="javascript:buttonClick(52)">
+                        <area shape="rect" coords="80,48,96,64" href="javascript:buttonClick(53)">
+                        <area shape="rect" coords="96,48,112,64" href="javascript:buttonClick(54)">
+                        <area shape="rect" coords="112,48,128,64" href="javascript:buttonClick(55)">
+                        <area shape="rect" coords="128,48,144,64" href="javascript:buttonClick(56)">
+                        <area shape="rect" coords="144,48,160,64" href="javascript:buttonClick(57)">
+                        <area shape="rect" coords="160,48,176,64" href="javascript:buttonClick(58)">
+                        <area shape="rect" coords="176,48,192,64" href="javascript:buttonClick(59)">
+                        <area shape="rect" coords="192,48,208,64" href="javascript:buttonClick(60)">
+                        <area shape="rect" coords="208,48,224,64" href="javascript:buttonClick(61)">
+                        <area shape="rect" coords="224,48,240,64" href="javascript:buttonClick(62)">
+                        <area shape="rect" coords="240,48,256,64" href="javascript:buttonClick(63)">
+                        <!-- Row 5 - White @ABCDE 64-79 -->
+                        <area shape="rect" coords="0,64,16,80" href="javascript:buttonClick(64)">
+                        <area shape="rect" coords="16,64,32,80" href="javascript:buttonClick(65)">
+                        <area shape="rect" coords="32,64,48,80" href="javascript:buttonClick(66)">
+                        <area shape="rect" coords="48,64,64,80" href="javascript:buttonClick(67)">
+                        <area shape="rect" coords="64,64,80,80" href="javascript:buttonClick(68)">
+                        <area shape="rect" coords="80,64,96,80" href="javascript:buttonClick(69)">
+                        <area shape="rect" coords="96,64,112,80" href="javascript:buttonClick(70)">
+                        <area shape="rect" coords="112,64,128,80" href="javascript:buttonClick(71)">
+                        <area shape="rect" coords="128,64,144,80" href="javascript:buttonClick(72)">
+                        <area shape="rect" coords="144,64,160,80" href="javascript:buttonClick(73)">
+                        <area shape="rect" coords="160,64,176,80" href="javascript:buttonClick(74)">
+                        <area shape="rect" coords="176,64,192,80" href="javascript:buttonClick(75)">
+                        <area shape="rect" coords="192,64,208,80" href="javascript:buttonClick(76)">
+                        <area shape="rect" coords="208,64,224,80" href="javascript:buttonClick(77)">
+                        <area shape="rect" coords="224,64,240,80" href="javascript:buttonClick(78)">
+                        <area shape="rect" coords="240,64,256,80" href="javascript:buttonClick(79)">
+                        <!-- Row 6 - White PQRST - 80-95 -->
+                        <area shape="rect" coords="0,80,16,96" href="javascript:buttonClick(80)">
+                        <area shape="rect" coords="16,80,32,96" href="javascript:buttonClick(81)">
+                        <area shape="rect" coords="32,80,48,96" href="javascript:buttonClick(82)">
+                        <area shape="rect" coords="48,80,64,96" href="javascript:buttonClick(83)">
+                        <area shape="rect" coords="64,80,80,96" href="javascript:buttonClick(84)">
+                        <area shape="rect" coords="80,80,96,96" href="javascript:buttonClick(85)">
+                        <area shape="rect" coords="96,80,112,96" href="javascript:buttonClick(86)">
+                        <area shape="rect" coords="112,80,128,96" href="javascript:buttonClick(87)">
+                        <area shape="rect" coords="128,80,144,96" href="javascript:buttonClick(88)">
+                        <area shape="rect" coords="144,80,160,96" href="javascript:buttonClick(89)">
+                        <area shape="rect" coords="160,80,176,96" href="javascript:buttonClick(90)">
+                        <area shape="rect" coords="176,80,192,96" href="javascript:buttonClick(91)">
+                        <area shape="rect" coords="192,80,208,96" href="javascript:buttonClick(92)">
+                        <area shape="rect" coords="208,80,224,96" href="javascript:buttonClick(93)">
+                        <area shape="rect" coords="224,80,240,96" href="javascript:buttonClick(94)">
+                        <area shape="rect" coords="240,80,256,96" href="javascript:buttonClick(95)">
+                        <!-- Row 7 - White 'abcde 98-111 -->
+                        <area shape="rect" coords="0,96,16,112" href="javascript:buttonClick(96)">
+                        <area shape="rect" coords="16,96,32,112" href="javascript:buttonClick(97)">
+                        <area shape="rect" coords="32,96,48,112" href="javascript:buttonClick(98)">
+                        <area shape="rect" coords="48,96,64,112" href="javascript:buttonClick(99)">
+                        <area shape="rect" coords="64,96,80,112" href="javascript:buttonClick(100)">
+                        <area shape="rect" coords="80,96,96,112" href="javascript:buttonClick(101)">
+                        <area shape="rect" coords="96,96,112,112" href="javascript:buttonClick(102)">
+                        <area shape="rect" coords="112,96,128,112" href="javascript:buttonClick(103)">
+                        <area shape="rect" coords="128,96,144,112" href="javascript:buttonClick(104)">
+                        <area shape="rect" coords="144,96,160,112" href="javascript:buttonClick(105)">
+                        <area shape="rect" coords="160,96,176,112" href="javascript:buttonClick(106)">
+                        <area shape="rect" coords="176,96,192,112" href="javascript:buttonClick(107)">
+                        <area shape="rect" coords="192,96,208,112" href="javascript:buttonClick(108)">
+                        <area shape="rect" coords="208,96,224,112" href="javascript:buttonClick(109)">
+                        <area shape="rect" coords="224,96,240,112" href="javascript:buttonClick(110)">
+                        <area shape="rect" coords="240,96,256,112" href="javascript:buttonClick(111)">
+                        <!-- Row 8 - White pqrst - 112-127 -->
+                        <area shape="rect" coords="0,112,16,128" href="javascript:buttonClick(112)">
+                        <area shape="rect" coords="16,112,32,128" href="javascript:buttonClick(113)">
+                        <area shape="rect" coords="32,112,48,128" href="javascript:buttonClick(114)">
+                        <area shape="rect" coords="48,112,64,128" href="javascript:buttonClick(115)">
+                        <area shape="rect" coords="64,112,80,128" href="javascript:buttonClick(116)">
+                        <area shape="rect" coords="80,112,96,128" href="javascript:buttonClick(117)">
+                        <area shape="rect" coords="96,112,112,128" href="javascript:buttonClick(118)">
+                        <area shape="rect" coords="112,112,128,128" href="javascript:buttonClick(119)">
+                        <area shape="rect" coords="128,112,144,128" href="javascript:buttonClick(120)">
+                        <area shape="rect" coords="144,112,160,128" href="javascript:buttonClick(121)">
+                        <area shape="rect" coords="160,112,176,128" href="javascript:buttonClick(122)">
+                        <area shape="rect" coords="176,112,192,128" href="javascript:buttonClick(123)">
+                        <area shape="rect" coords="192,112,208,128" href="javascript:buttonClick(124)">
+                        <area shape="rect" coords="208,112,224,128" href="javascript:buttonClick(125)">
+                        <area shape="rect" coords="224,112,240,128" href="javascript:buttonClick(126)">
+                        <area shape="rect" coords="240,112,256,128" href="javascript:buttonClick(127)">
+                        <!-- Row 9 - Top Row, But Mid - 128-143 -->
+                        <area shape="rect" coords="0,128,16,144" href="javascript:buttonClick(128)">
+                        <area shape="rect" coords="16,128,32,144" href="javascript:buttonClick(129)">
+                        <area shape="rect" coords="32,128,48,144" href="javascript:buttonClick(130)">
+                        <area shape="rect" coords="48,128,64,144" href="javascript:buttonClick(131)">
+                        <area shape="rect" coords="64,128,80,144" href="javascript:buttonClick(132)">
+                        <area shape="rect" coords="80,128,96,144" href="javascript:buttonClick(133)">
+                        <area shape="rect" coords="96,128,112,144" href="javascript:buttonClick(134)">
+                        <area shape="rect" coords="112,128,128,144" href="javascript:buttonClick(135)">
+                        <area shape="rect" coords="128,128,144,144" href="javascript:buttonClick(136)">
+                        <area shape="rect" coords="144,128,160,144" href="javascript:buttonClick(137)">
+                        <area shape="rect" coords="160,128,176,144" href="javascript:buttonClick(138)">
+                        <area shape="rect" coords="176,128,192,144" href="javascript:buttonClick(139)">
+                        <area shape="rect" coords="192,128,208,144" href="javascript:buttonClick(140)">
+                        <area shape="rect" coords="208,128,224,144" href="javascript:buttonClick(141)">
+                        <area shape="rect" coords="224,128,240,144" href="javascript:buttonClick(142)">
+                        <area shape="rect" coords="240,128,256,144" href="javascript:buttonClick(143)">
+                        <!-- Row 10 Gold []012345 - 144-159 -->
+                        <area shape="rect" coords="0,144,16,160" href="javascript:buttonClick(144)">
+                        <area shape="rect" coords="16,144,32,160" href="javascript:buttonClick(145)">
+                        <area shape="rect" coords="32,144,48,160" href="javascript:buttonClick(146)">
+                        <area shape="rect" coords="48,144,64,160" href="javascript:buttonClick(147)">
+                        <area shape="rect" coords="64,144,80,160" href="javascript:buttonClick(148)">
+                        <area shape="rect" coords="80,144,96,160" href="javascript:buttonClick(149)">
+                        <area shape="rect" coords="96,144,112,160" href="javascript:buttonClick(150)">
+                        <area shape="rect" coords="112,144,128,160" href="javascript:buttonClick(151)">
+                        <area shape="rect" coords="128,144,144,160" href="javascript:buttonClick(152)">
+                        <area shape="rect" coords="144,144,160,160" href="javascript:buttonClick(153)">
+                        <area shape="rect" coords="160,144,176,160" href="javascript:buttonClick(154)">
+                        <area shape="rect" coords="176,144,192,160" href="javascript:buttonClick(155)">
+                        <area shape="rect" coords="192,144,208,160" href="javascript:buttonClick(156)">
+                        <area shape="rect" coords="208,144,224,160" href="javascript:buttonClick(157)">
+                        <area shape="rect" coords="224,144,240,160" href="javascript:buttonClick(158)">
+                        <area shape="rect" coords="240,144,256,160" href="javascript:buttonClick(159)">
+                        <!-- Row 11 - Bronze !"#$%" - 160-175 -->
+                        <area shape="rect" coords="0,160,16,176" href="javascript:buttonClick(160)">
+                        <area shape="rect" coords="16,160,32,176" href="javascript:buttonClick(161)">
+                        <area shape="rect" coords="32,160,48,176" href="javascript:buttonClick(162)">
+                        <area shape="rect" coords="48,160,64,176" href="javascript:buttonClick(163)">
+                        <area shape="rect" coords="64,160,80,176" href="javascript:buttonClick(164)">
+                        <area shape="rect" coords="80,160,96,176" href="javascript:buttonClick(165)">
+                        <area shape="rect" coords="96,160,112,176" href="javascript:buttonClick(166)">
+                        <area shape="rect" coords="112,160,128,176" href="javascript:buttonClick(167)">
+                        <area shape="rect" coords="128,160,144,176" href="javascript:buttonClick(168)">
+                        <area shape="rect" coords="144,160,160,176" href="javascript:buttonClick(169)">
+                        <area shape="rect" coords="160,160,176,176" href="javascript:buttonClick(170)">
+                        <area shape="rect" coords="176,160,192,176" href="javascript:buttonClick(171)">
+                        <area shape="rect" coords="192,160,208,176" href="javascript:buttonClick(172)">
+                        <area shape="rect" coords="208,160,224,176" href="javascript:buttonClick(173)">
+                        <area shape="rect" coords="224,160,240,176" href="javascript:buttonClick(174)">
+                        <!-- Row 12 - Bronze 123456 - 176-191 -->
+                        <area shape="rect" coords="240,160,256,176" href="javascript:buttonClick(175)">
+                        <area shape="rect" coords="0,176,16,192" href="javascript:buttonClick(176)">
+                        <area shape="rect" coords="16,176,32,192" href="javascript:buttonClick(177)">
+                        <area shape="rect" coords="32,176,48,192" href="javascript:buttonClick(178)">
+                        <area shape="rect" coords="48,176,64,192" href="javascript:buttonClick(179)">
+                        <area shape="rect" coords="64,176,80,192" href="javascript:buttonClick(180)">
+                        <area shape="rect" coords="80,176,96,192" href="javascript:buttonClick(181)">
+                        <area shape="rect" coords="96,176,112,192" href="javascript:buttonClick(182)">
+                        <area shape="rect" coords="112,176,128,192" href="javascript:buttonClick(183)">
+                        <area shape="rect" coords="128,176,144,192" href="javascript:buttonClick(184)">
+                        <area shape="rect" coords="144,176,160,192" href="javascript:buttonClick(185)">
+                        <area shape="rect" coords="160,176,176,192" href="javascript:buttonClick(186)">
+                        <area shape="rect" coords="176,176,192,192" href="javascript:buttonClick(187)">
+                        <area shape="rect" coords="192,176,208,192" href="javascript:buttonClick(188)">
+                        <area shape="rect" coords="208,176,224,192" href="javascript:buttonClick(189)">
+                        <area shape="rect" coords="224,176,240,192" href="javascript:buttonClick(190)">
+                        <area shape="rect" coords="240,176,256,192" href="javascript:buttonClick(191)">
+                        <!-- Row 13 - Bronze @ABCDE - 192-207 -->
+                        <area shape="rect" coords="0,192,16,208" href="javascript:buttonClick(192)">
+                        <area shape="rect" coords="16,192,32,208" href="javascript:buttonClick(193)">
+                        <area shape="rect" coords="32,192,48,208" href="javascript:buttonClick(194)">
+                        <area shape="rect" coords="48,192,64,208" href="javascript:buttonClick(195)">
+                        <area shape="rect" coords="64,192,80,208" href="javascript:buttonClick(196)">
+                        <area shape="rect" coords="80,192,96,208" href="javascript:buttonClick(197)">
+                        <area shape="rect" coords="96,192,112,208" href="javascript:buttonClick(198)">
+                        <area shape="rect" coords="112,192,128,208" href="javascript:buttonClick(199)">
+                        <area shape="rect" coords="128,192,144,208" href="javascript:buttonClick(200)">
+                        <area shape="rect" coords="144,192,160,208" href="javascript:buttonClick(201)">
+                        <area shape="rect" coords="160,192,176,208" href="javascript:buttonClick(202)">
+                        <area shape="rect" coords="176,192,192,208" href="javascript:buttonClick(203)">
+                        <area shape="rect" coords="192,192,208,208" href="javascript:buttonClick(204)">
+                        <area shape="rect" coords="208,192,224,208" href="javascript:buttonClick(205)">
+                        <area shape="rect" coords="224,192,240,208" href="javascript:buttonClick(206)">
+                        <area shape="rect" coords="240,192,256,208" href="javascript:buttonClick(207)">
+                        <!-- Row 14 - Bronze PQRST - 208-223 -->
+                        <area shape="rect" coords="0,208,16,224" href="javascript:buttonClick(208)">
+                        <area shape="rect" coords="16,208,32,224" href="javascript:buttonClick(209)">
+                        <area shape="rect" coords="32,208,48,224" href="javascript:buttonClick(210)">
+                        <area shape="rect" coords="48,208,64,224" href="javascript:buttonClick(211)">
+                        <area shape="rect" coords="64,208,80,224" href="javascript:buttonClick(212)">
+                        <area shape="rect" coords="80,208,96,224" href="javascript:buttonClick(213)">
+                        <area shape="rect" coords="96,208,112,224" href="javascript:buttonClick(214)">
+                        <area shape="rect" coords="112,208,128,224" href="javascript:buttonClick(215)">
+                        <area shape="rect" coords="128,208,144,224" href="javascript:buttonClick(216)">
+                        <area shape="rect" coords="144,208,160,224" href="javascript:buttonClick(217)">
+                        <area shape="rect" coords="160,208,176,224" href="javascript:buttonClick(218)">
+                        <area shape="rect" coords="176,208,192,224" href="javascript:buttonClick(219)">
+                        <area shape="rect" coords="192,208,208,224" href="javascript:buttonClick(220)">
+                        <area shape="rect" coords="208,208,224,224" href="javascript:buttonClick(221)">
+                        <area shape="rect" coords="224,208,240,224" href="javascript:buttonClick(222)">
+                        <area shape="rect" coords="240,208,256,224" href="javascript:buttonClick(223)">
+                         <!-- Row 15 - Bronze 'abcde - 224-239 -->
+                        <area shape="rect" coords="0,224,16,240" href="javascript:buttonClick(224)">
+                        <area shape="rect" coords="16,224,32,240" href="javascript:buttonClick(225)">
+                        <area shape="rect" coords="32,224,48,240" href="javascript:buttonClick(226)">
+                        <area shape="rect" coords="48,224,64,240" href="javascript:buttonClick(227)">
+                        <area shape="rect" coords="64,224,80,240" href="javascript:buttonClick(228)">
+                        <area shape="rect" coords="80,224,96,240" href="javascript:buttonClick(229)">
+                        <area shape="rect" coords="96,224,112,240" href="javascript:buttonClick(230)">
+                        <area shape="rect" coords="112,224,128,240" href="javascript:buttonClick(231)">
+                        <area shape="rect" coords="128,224,144,240" href="javascript:buttonClick(232)">
+                        <area shape="rect" coords="144,224,160,240" href="javascript:buttonClick(233)">
+                        <area shape="rect" coords="160,224,176,240" href="javascript:buttonClick(234)">
+                        <area shape="rect" coords="176,224,192,240" href="javascript:buttonClick(235)">
+                        <area shape="rect" coords="192,224,208,240" href="javascript:buttonClick(236)">
+                        <area shape="rect" coords="208,224,224,240" href="javascript:buttonClick(237)">
+                        <area shape="rect" coords="224,224,240,240" href="javascript:buttonClick(238)">
+                        <area shape="rect" coords="240,224,256,240" href="javascript:buttonClick(239)">
+                        <!-- Row 16 - Bronze pqrst - 240-255 -->
+                        <area shape="rect" coords="0,240,16,256" href="javascript:buttonClick(240)">
+                        <area shape="rect" coords="16,240,32,256" href="javascript:buttonClick(241)">
+                        <area shape="rect" coords="32,240,48,256" href="javascript:buttonClick(242)">
+                        <area shape="rect" coords="48,240,64,256" href="javascript:buttonClick(243)">
+                        <area shape="rect" coords="64,240,80,256" href="javascript:buttonClick(244)">
+                        <area shape="rect" coords="80,240,96,256" href="javascript:buttonClick(245)">
+                        <area shape="rect" coords="96,240,112,256" href="javascript:buttonClick(246)">
+                        <area shape="rect" coords="112,240,128,256" href="javascript:buttonClick(247)">
+                        <area shape="rect" coords="128,240,144,256" href="javascript:buttonClick(248)">
+                        <area shape="rect" coords="144,240,160,256" href="javascript:buttonClick(249)">
+                        <area shape="rect" coords="160,240,176,256" href="javascript:buttonClick(250)">
+                        <area shape="rect" coords="176,240,192,256" href="javascript:buttonClick(251)">
+                        <area shape="rect" coords="192,240,208,256" href="javascript:buttonClick(252)">
+                        <area shape="rect" coords="208,240,224,256" href="javascript:buttonClick(253)">
+                        <area shape="rect" coords="224,240,240,256" href="javascript:buttonClick(254)">
+                        <area shape="rect" coords="240,240,256,256" href="javascript:buttonClick(255)">
+                    </map>
+                </div>
+
+                <div id="controls">
+                    <a href="index.html" onClick="resetName();">
+                        <img src="images/start_over.png" alt="reset" class="image-margin">
+                    </a>
+                    <a href="index.html#bottom" onClick="addSpace();">
+                        <img src="images/add_space.png" alt="add space" class="image-margin">
+                    </a>
+                    <a href="index.html#bottom" onClick="backSpace();">
+                        <img src="images/backspace.png" alt="backspace" class="image-no-margin">
+                    </a>
+                </div>
+            </div>
+            <div id="right_fields">
+                <div id="preview">
+                    Preview
+                    <table class=pre cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                            <td><img src="images/chars/quake/032.gif" width="16" height="16"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="below_preview">
+                    <div id="yourname">
+                        Translate<br>
+                        <input id="converted" type="text" name="name">
+                        <input type="button" value="&#xf021;" class="input-button fa" id="previewButton">
+                        <input type="button" value="&#xf0c5;" class="input-button fa" onclick="copyToClipboard();" title="Copy">
+                    </div>
+
+                    <div id="saveContainer">
+                        <input type="text" id="filename" placeholder="Enter file name" value="QuakeName.txt">
+                        <input type="button" id="saveButton" class="input-button fa" value="&#xf019;"
+                            onclick="saveName();">
+                    </div>
+
+                    <div id="dropZone">
+                        View: Drag and drop a name file here or click to select one (set encoding to windows-1252)
+                        <input type="file" id="fileInput" style="display: none;" />
+                    </div>
+
+                    <div id="credits">
+                        Based on code by Ryan Lowe 1997-1999, xaGe megatf 2018
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </form>
+
+    <script>
+
+function saveName() {
+    var name = document.oqnm.name.value; // Get the value from the name field
+    var filename = document.getElementById('filename').value; // Get the filename from the new input field
+
+    // Modify the name to include the format 'name "value"'
+    var formattedName = `name "${name}"`;
+
+    // Use FormData to build the POST data
+    var formData = new FormData();
+    formData.append('name', formattedName);
+    formData.append('filename', filename);
+
+    // Send a POST request to the server-side PHP script
+    fetch('save-name.php', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.blob())
+    .then(blob => {
+        // Create a link and click it to download the file
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
 
-function resetName() {
 
+        function scaleMapCoords(factor) {
+            // Get all area elements
+            var areas = document.getElementsByTagName('area');
+
+            // Loop over each area and update the coords
+            for (var i = 0; i < areas.length; i++) {
+                // Get the original coords as an array of numbers
+                var coords = areas[i].coords.split(',').map(function (coord) {
+                    return parseInt(coord, 10);
+                });
+
+                // Scale the coords
+                var scaledCoords = coords.map(function (coord) {
+                    return Math.round(coord * factor);
+                });
+
+                // Set the scaled coords back on the area
+                areas[i].coords = scaledCoords.join(',');
+            }
+        }
+
+        var scaleFactor = 400 / 256;
+
+        scaleMapCoords(scaleFactor);
+
+        function scalePreviewImages(factor) {
+            // Select all preview images
+            var previewImages = document.querySelectorAll('img[src^="images/chars/quake/"]');
+
+            // Loop over each image and update its dimensions
+            previewImages.forEach(function (img) {
+                img.width = Math.round(img.width * 1.4);
+                img.height = Math.round(img.height * 1.4);
+            });
+        }
+
+        scalePreviewImages(scaleFactor);
+
+        function copyToClipboard() {
+            var copyText = document.getElementById("converted");
+
+            if (copyText.value === '') {
+                console.error('No text to copy');
+                return;
+            }
+
+            navigator.clipboard.writeText(copyText.value)
+            .then(() => {
+                console.log('Text successfully copied to clipboard');
+            })
+            .catch((err) => {
+                console.error('Failed to copy text to clipboard', err);
+            });
+        }
+
+        var dropZone = document.getElementById('dropZone');
+
+        dropZone.addEventListener('dragover', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        });
+
+        dropZone.addEventListener('drop', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var files = e.dataTransfer.files; // Array of all files
+
+            if (files.length > 0) {
+                var file = files[0]; // We'll just take the first file
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var contents = e.target.result;
+                    var lines = contents.split('\n');
+                    var filteredLines = lines.filter(function (line) {
+                        return line.trim() !== '' && !line.trim().startsWith('//');
+                    });
+                    var filteredContents = filteredLines.join('\n');
+                    updateNamePreview(filteredContents);
+                };
+
+                reader.readAsText(file);
+            }
+        });
+
+        document.getElementById('previewButton').addEventListener('click', function () {
+            var nameValue = document.getElementById('converted').value; // Get the value from the 'converted' input field
+            updateNamePreview(nameValue); // Update the preview with this value
+        });
+
+        function updateNamePreview(content) {
+    // Split the content by new lines
+    var lines = content.split(/\r?\n/);
+
+    // Filter and process lines
+    var processedLines = lines.map(function(line) {
+        // Remove lines that start with "//"
+        if (line.trim().startsWith('//')) {
+            return '';
+        }
+
+        // Find and process lines containing 'name "someName"'
+        var nameMatch = line.match(/name\s+"([^"]+)"/);
+        if (nameMatch) {
+            return nameMatch[1]; // Return just the name without 'name ""'
+        }
+
+        return line; // Return the line unmodified if no name pattern is found
+    }).filter(function(line) {
+        return line.length > 0; // Filter out any empty lines resulting from the removal
+    });
+
+    // Join the processed lines back into a single string
+    var nameValue = processedLines.join('\n');
+
+    // Clear the existing name and codes to prevent duplication in the preview
     document.oqnm.name.value = '';
-
-    for (loop=0; loop<21; loop++) {
-        document.oqnm.code[loop].value = '032';
+    for (var i = 0; i < 21; i++) {
+        document.oqnm.code[i].value = '032'; // '032' is assumed to be the default blank character code
+        document.images[i + 4].src = "images/chars/quake/032.gif";
     }
 
-    updateName();
+    // Update the images and hidden inputs based on the nameValue
+    for (var i = 0, j = 0; i < nameValue.length && j < 21; i++) {
+        var char = nameValue[i];
+        // Skip newline characters in the preview
+        if (char === '\n') continue;
+
+        console.log("Processing character: " + char); // Debug print
+
+        if (map.hasOwnProperty(char)) {
+            var asciiValue = map[char]; // Get the ASCII value from the map
+            var formattedCharCode = ("00" + asciiValue).slice(-3); // Format as three-digit code
+            document.oqnm.code[j].value = formattedCharCode;
+            document.images[j + 4].src = "images/chars/quake/" + formattedCharCode + ".gif";
+            j++; // Only increment j when a character is processed
+        } else {
+            console.error("Character '" + char + "' not found in map");
+        }
+    }
+
+    // Set the name value to the nameValue
+    document.oqnm.name.value = nameValue.slice(0, 21);
 }
+        map = {
+            '': 0, '\u0001': 1, '\u0002': 2, '\u0003': 3, '\u0004': 4, '\u0005': 5, '\u0006': 6, '\u0007': 7,
+            '\u0008': 8, '': 9, '': 10, '\u000B': 11, '': 12, '\u008D': 13, '\u000E': 14, '\u000F': 15,
+            '\u0010': 16, '\u0011': 17, '\u0012': 18, '\u0013': 19, '\u0014': 20, '\u0015': 21, '\u0016': 22, '\u0017': 23,
+            '\u0018': 24, '\u0019': 25, '\u001A': 26, '\u001B': 27, '\u001D': 28, '\u001D': 29, '\u001E': 30, '\u001F': 31,
+            ' ': 32, '!': 33, '"': 34, '#': 35, '$': 36, '%': 37, '&': 38, "'": 39,
+            '(': 40, ')': 41, '*': 42, '+': 43, ',': 44, '-': 45, '.': 46, '/': 47,
+            '0': 48, '1': 49, '2': 50, '3': 51, '4': 52, '5': 53, '6': 54, '7': 55,
+            '8': 56, '9': 57, ':': 58, ';': 59, '<': 60, '=': 61, '>': 62, '?': 63,
+            '@': 64, 'A': 65, 'B': 66, 'C': 67, 'D': 68, 'E': 69, 'F': 70, 'G': 71,
+            'H': 72, 'I': 73, 'J': 74, 'K': 75, 'L': 76, 'M': 77, 'N': 78, 'O': 79,
+            'P': 80, 'Q': 81, 'R': 82, 'S': 83, 'T': 84, 'U': 85, 'V': 86, 'W': 87,
+            'X': 88, 'Y': 89, 'Z': 90, '[': 91, '\\': 92, ']': 93, '^': 94, '_': 95,
+            '`': 96, 'a': 97, 'b': 98, 'c': 99, 'd': 100, 'e': 101, 'f': 102, 'g': 103,
+            'h': 104, 'i': 105, 'j': 106, 'k': 107, 'l': 108, 'm': 109, 'n': 110, 'o': 111,
+            'p': 112, 'q': 113, 'r': 114, 's': 115, 't': 116, 'u': 117, 'v': 118, 'w': 119,
+            'x': 120, 'y': 121, 'z': 122, '{': 123, '|': 124, '}': 125, '~': 126, '\u007F': 127,
+            '\u003F': 128, '\u0081': 129, '\u201A': 130, '\u0192': 131, '\u201E': 132, '\u2026': 133, '\u2021': 134, '\u2021': 135,
+            '\u02C6': 136, '\u2030': 137, '\u0160': 138, '\u2039': 139, '\u0152': 140, '\u008D': 141, '\u017D': 142, '\u017D': 143,
+            '\u0090': 144, '\u2018': 145, '\u2019': 146, '\u201C': 147, '\u201D': 148, '\u2022': 149, '\u2013': 150, '\u2014': 151,
+            '\u02DC': 152, '\u2122': 153, '\u0161': 154, '\u203A': 155, '\u0153': 156, '\u009D': 157, '\u017E': 158, '\u0178': 159,
+            '\u00A0': 160, '\u00A1': 161, '\u00A2': 162, '\u00A3': 163, '\u00A4': 164, '\u00A5': 165, '\u00A6': 166, '\u00A7': 167,
+            '\u00A8': 168, '\u00A9': 169, '\u00AA': 170, '\u00AB': 171, '\u00AC': 172, '\u00AD': 173, '\u00AE': 174, '\u00AF': 175,
+            '\u00B0': 176, '\u00B1': 177, '\u00B2': 178, '\u00B3': 179, '\u00B4': 180, '\u00B5': 181, '\u00B6': 182, '\u00B7': 183,
+            '\u00B8': 184, '\u00B9': 185, '\u00BA': 186, '\u00BB': 187, '\u00BC': 188, '\u00BD': 189, '\u00BE': 190, '\u00BF': 191,
+            '\u00C0': 192, '\u00C1': 193, '\u00C2': 194, '\u00C3': 195, '\u00C4': 196, '\u00C5': 197, '\u00C6': 198, '\u00C7': 199,
+            '\u00C8': 200, '\u00C9': 201, '\u00CA': 202, '\u00CB': 203, '\u00CC': 204, '\u00CD': 205, '\u00CE': 206, '\u00CF': 207,
+            '\u00D0': 208, '\u00D1': 209, '\u00D2': 210, '\u00D3': 211, '\u00D4': 212, '\u00D5': 213, '\u00D6': 214, '\u00D7': 215,
+            '\u00D8': 216, '\u00D9': 217, '\u00DA': 218, '\u00DB': 219, '\u00DC': 220, '\u00DD': 221, '\u00DE': 222, '\u00DF': 223,
+            '\u00E0': 224, '\u00E1': 225, '\u00E2': 226, '\u00E3': 227, '\u00E4': 228, '\u00E5': 229, '\u00E6': 230, '\u00E7': 231,
+            '\u00E8': 232, '\u00E9': 233, '\u00EA': 234, '\u00EB': 235, '\u00EC': 236, '\u00ED': 237, '\u00EE': 238, '\u00EF': 239,
+            '\u00F0': 240, '\u00F1': 241, '\u00F2': 242, '\u00F3': 243, '\u00F4': 244, '\u00F5': 245, '\u00F6': 246, '\u00F7': 247,
+            '\u00F8': 248, '\u00F9': 249, '\u00FA': 250, '\u00FB': 251, '\u00FC': 252, '\u00FD': 253, '\u00FE': 254, '\u00FF': 255
+        }
+
+        var dropZone = document.getElementById('dropZone');
+        var fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('click', function () {
+            fileInput.click(); // Trigger the file input when the drop zone is clicked
+        });
+
+        fileInput.addEventListener('change', function (e) {
+            handleFiles(this.files); // Call the function to handle files when they are selected
+        });
+
+        dropZone.addEventListener('dragover', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+            dropZone.classList.add('active');
+        });
+
+        dropZone.addEventListener('dragleave', function (e) {
+            dropZone.classList.remove('active');
+        });
+
+        dropZone.addEventListener('drop', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            dropZone.classList.remove('active'); // Remove the active class when the file is dropped
+            handleFiles(e.dataTransfer.files); // Call the function to handle files when they are dropped
+        });
+
+        function handleFiles(files) {
+    if (files.length > 0) {
+        var file = files[0];
+        var reader = new FileReader();
+
+        // Define the onload callback for readAsBinaryString
+        reader.onload = function (e) {
+            var binaryString = e.target.result;
+
+            // Attempt to detect the encoding
+            var detected = jschardet.detect(binaryString);
+            console.log(detected); // Logs the detected encoding to the console
+
+            // Check if the detected encoding is UTF-8
+            if (detected.encoding === "UTF-8") {
+                // If UTF-8, read the file as text
+                var textReader = new FileReader();
+                textReader.onload = function(e) {
+                    updateNamePreview(e.target.result);
+                };
+                textReader.readAsText(file);
+            } else {
+            // If not UTF-8, attempt to read the file as 'windows-1252'
+            var textReader = new FileReader();
+                textReader.onload = function(e) {
+                    updateNamePreview(e.target.result);
+                };
+                textReader.readAsText(file, 'windows-1252');
+                        }
+                    };
+                    // Read the file as a binary string for encoding detection
+                    reader.readAsBinaryString(file);
+                }
+        }
+        
+
+        // RESET ALL OF THE FIELDS
 
-function addSpace() {
+        document.oqnm.name.value = '';
 
-    oldname = document.oqnm.name.value;
-    document.oqnm.name.value = oldname + ' ';
+        for (loop = 0; loop < 21; loop++) {
+            document.oqnm.code[loop].value = '032';
+            document.images[loop + 4].src = "images/chars/quake/" + document.oqnm.code[loop].value + ".gif"
+        }
 
-    updateName();
-}
+    </script>
+</body>
 
-function backSpace() {
-
-    oldname = document.oqnm.name.value;
-    lngth = oldname.length;
-
-    newname = '';
-    for (loop=0; loop<(lngth-1); loop++) {
-        newname = newname + oldname.charAt(loop);
-    }
-
-    document.oqnm.name.value = newname;
-
-    if (lngth>0) {
-        document.oqnm.code[lngth-1].value = '032';
-    }
-
-    updateName();
-}
-
-</SCRIPT>
-</HEAD>
-
-<BODY BGCOLOR=#333333>
-<CENTER>
-
-<FORM NAME="oqnm">
-
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-<INPUT TYPE="hidden" NAME="code" VALUE="032">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#0;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="	">
-<INPUT TYPE="hidden" NAME="chr" VALUE="
-">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="
-">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE=" ">
-<INPUT TYPE="hidden" NAME="chr" VALUE="!">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#34;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="#">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="$">
-<INPUT TYPE="hidden" NAME="chr" VALUE="%">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#38;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="'">
-<INPUT TYPE="hidden" NAME="chr" VALUE="(">
-<INPUT TYPE="hidden" NAME="chr" VALUE=")">
-<INPUT TYPE="hidden" NAME="chr" VALUE="*">
-<INPUT TYPE="hidden" NAME="chr" VALUE="+">
-<INPUT TYPE="hidden" NAME="chr" VALUE=",">
-<INPUT TYPE="hidden" NAME="chr" VALUE="-">
-<INPUT TYPE="hidden" NAME="chr" VALUE=".">
-<INPUT TYPE="hidden" NAME="chr" VALUE="/">
-<INPUT TYPE="hidden" NAME="chr" VALUE="0">
-<INPUT TYPE="hidden" NAME="chr" VALUE="1">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="2">
-<INPUT TYPE="hidden" NAME="chr" VALUE="3">
-<INPUT TYPE="hidden" NAME="chr" VALUE="4">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="5">
-<INPUT TYPE="hidden" NAME="chr" VALUE="6">
-<INPUT TYPE="hidden" NAME="chr" VALUE="7">
-<INPUT TYPE="hidden" NAME="chr" VALUE="8">
-<INPUT TYPE="hidden" NAME="chr" VALUE="9">
-<INPUT TYPE="hidden" NAME="chr" VALUE=":">
-<INPUT TYPE="hidden" NAME="chr" VALUE=";">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#60;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="=">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#62;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="?">
-<INPUT TYPE="hidden" NAME="chr" VALUE="@">
-<INPUT TYPE="hidden" NAME="chr" VALUE="A">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="B">
-<INPUT TYPE="hidden" NAME="chr" VALUE="C">
-<INPUT TYPE="hidden" NAME="chr" VALUE="D">
-<INPUT TYPE="hidden" NAME="chr" VALUE="E">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="F">
-<INPUT TYPE="hidden" NAME="chr" VALUE="G">
-<INPUT TYPE="hidden" NAME="chr" VALUE="H">
-<INPUT TYPE="hidden" NAME="chr" VALUE="I">
-<INPUT TYPE="hidden" NAME="chr" VALUE="J">
-<INPUT TYPE="hidden" NAME="chr" VALUE="K">
-<INPUT TYPE="hidden" NAME="chr" VALUE="L">
-<INPUT TYPE="hidden" NAME="chr" VALUE="M">
-<INPUT TYPE="hidden" NAME="chr" VALUE="N">
-<INPUT TYPE="hidden" NAME="chr" VALUE="O">
-<INPUT TYPE="hidden" NAME="chr" VALUE="P">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Q">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="R">
-<INPUT TYPE="hidden" NAME="chr" VALUE="S">
-<INPUT TYPE="hidden" NAME="chr" VALUE="T">
-<INPUT TYPE="hidden" NAME="chr" VALUE="U">
-<INPUT TYPE="hidden" NAME="chr" VALUE="V">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="W">
-<INPUT TYPE="hidden" NAME="chr" VALUE="X">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Y">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Z">
-<INPUT TYPE="hidden" NAME="chr" VALUE="[">
-<INPUT TYPE="hidden" NAME="chr" VALUE="\">
-<INPUT TYPE="hidden" NAME="chr" VALUE="]">
-<INPUT TYPE="hidden" NAME="chr" VALUE="^">
-<INPUT TYPE="hidden" NAME="chr" VALUE="_">
-<INPUT TYPE="hidden" NAME="chr" VALUE="`">
-<INPUT TYPE="hidden" NAME="chr" VALUE="a">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="b">
-<INPUT TYPE="hidden" NAME="chr" VALUE="c">
-<INPUT TYPE="hidden" NAME="chr" VALUE="d">
-<INPUT TYPE="hidden" NAME="chr" VALUE="e">
-<INPUT TYPE="hidden" NAME="chr" VALUE="f">
-<INPUT TYPE="hidden" NAME="chr" VALUE="g">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="h">
-<INPUT TYPE="hidden" NAME="chr" VALUE="i">
-<INPUT TYPE="hidden" NAME="chr" VALUE="j">
-<INPUT TYPE="hidden" NAME="chr" VALUE="k">
-<INPUT TYPE="hidden" NAME="chr" VALUE="l">
-<INPUT TYPE="hidden" NAME="chr" VALUE="m">
-<INPUT TYPE="hidden" NAME="chr" VALUE="n">
-<INPUT TYPE="hidden" NAME="chr" VALUE="o">
-<INPUT TYPE="hidden" NAME="chr" VALUE="p">
-<INPUT TYPE="hidden" NAME="chr" VALUE="q">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="r">
-<INPUT TYPE="hidden" NAME="chr" VALUE="s">
-<INPUT TYPE="hidden" NAME="chr" VALUE="t">
-<INPUT TYPE="hidden" NAME="chr" VALUE="u">
-<INPUT TYPE="hidden" NAME="chr" VALUE="v">
-<INPUT TYPE="hidden" NAME="chr" VALUE="w">
-<INPUT TYPE="hidden" NAME="chr" VALUE="x">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="y">
-<INPUT TYPE="hidden" NAME="chr" VALUE="z">
-<INPUT TYPE="hidden" NAME="chr" VALUE="{">
-<INPUT TYPE="hidden" NAME="chr" VALUE="|">
-<INPUT TYPE="hidden" NAME="chr" VALUE="}">
-<INPUT TYPE="hidden" NAME="chr" VALUE="~">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="?">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#130;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#131;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#132;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#133;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#134;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#135;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#136;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#137;">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#138;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#139;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#140;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#142;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#145;">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#146;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#147;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#148;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#149;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#150;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#151;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#152;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#153;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#154;">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#155;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#156;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#158;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#159;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#160;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¡">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="¢">
-<INPUT TYPE="hidden" NAME="chr" VALUE="£">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¤">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¥">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¦">
-<INPUT TYPE="hidden" NAME="chr" VALUE="§">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¨">
-<INPUT TYPE="hidden" NAME="chr" VALUE="©">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ª">
-<INPUT TYPE="hidden" NAME="chr" VALUE="«">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="¬">
-<INPUT TYPE="hidden" NAME="chr" VALUE="&#173;">
-<INPUT TYPE="hidden" NAME="chr" VALUE="®">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¯">
-<INPUT TYPE="hidden" NAME="chr" VALUE="°">
-<INPUT TYPE="hidden" NAME="chr" VALUE="±">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="²">
-<INPUT TYPE="hidden" NAME="chr" VALUE="³">
-<INPUT TYPE="hidden" NAME="chr" VALUE="´">
-<INPUT TYPE="hidden" NAME="chr" VALUE="µ">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¶">
-<INPUT TYPE="hidden" NAME="chr" VALUE="·">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¸">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¹">
-<INPUT TYPE="hidden" NAME="chr" VALUE="º">
-<INPUT TYPE="hidden" NAME="chr" VALUE="»">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¼">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="½">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¾">
-<INPUT TYPE="hidden" NAME="chr" VALUE="¿">
-<INPUT TYPE="hidden" NAME="chr" VALUE="À">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Á">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="Â">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ã">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ä">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Å">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Æ">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ç">
-<INPUT TYPE="hidden" NAME="chr" VALUE="È">
-<INPUT TYPE="hidden" NAME="chr" VALUE="É">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ê">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ë">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ì">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Í">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="Î">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ï">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ð">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ñ">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ò">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ó">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ô">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Õ">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ö">
-<INPUT TYPE="hidden" NAME="chr" VALUE="×">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ø">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ù">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ú">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Û">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ü">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Ý">
-<INPUT TYPE="hidden" NAME="chr" VALUE="Þ">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="ß">
-<INPUT TYPE="hidden" NAME="chr" VALUE="à">
-<INPUT TYPE="hidden" NAME="chr" VALUE="á">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="â">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ã">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ä">
-<INPUT TYPE="hidden" NAME="chr" VALUE="å">
-<INPUT TYPE="hidden" NAME="chr" VALUE="æ">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ç">
-<INPUT TYPE="hidden" NAME="chr" VALUE="è">
-<INPUT TYPE="hidden" NAME="chr" VALUE="é">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ê">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ë">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ì">
-<INPUT TYPE="hidden" NAME="chr" VALUE="í">
-<INPUT TYPE="hidden" NAME="chr" VALUE="î">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ï">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="ð">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ñ">
-
-<INPUT TYPE="hidden" NAME="chr" VALUE="ò">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ó">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ô">
-<INPUT TYPE="hidden" NAME="chr" VALUE="õ">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ö">
-<INPUT TYPE="hidden" NAME="chr" VALUE="÷">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ø">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ù">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ú">
-<INPUT TYPE="hidden" NAME="chr" VALUE="û">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ü">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ý">
-<INPUT TYPE="hidden" NAME="chr" VALUE="þ">
-<INPUT TYPE="hidden" NAME="chr" VALUE="ÿ">
-
-<TABLE CELLSPACING=0 BORDER=0>
-    <TR>
-
-        <TD COLSPAN=3 ALIGN=CENTER><IMG SRC="qnmqwtde/qnmtfed.png" width="0" height="0"><br /><br /></TD>
-    </TR>
-    <TR>
-        <TD COLSPAN=3 HEIGHT=20></TD>
-    </TR>
-</TABLE>
-<TABLE CELLSPACING=0 BORDER=0>
-    <TR>
-
-        <TD COLSPAN=3 ALIGN=CENTER>
-
-<CENTER><TABLE BORDER=0><TR><TD>
-<A NAME="bottom"></A><IMG SRC="qnmqwtde/charmaps/quake.gif" BORDER=0 width="256" height="256" USEMAP=#lettermap ISMAP><BR>
-<MAP NAME="lettermap">
-<!-- AREA SHAPE="rect" coords="0,0,16,16"       HREF="javascript:buttonClick(0)" -->
-<AREA SHAPE="rect" coords="16,0,32,16"      HREF="javascript:buttonClick(1)">
-<AREA SHAPE="rect" coords="32,0,48,16"      HREF="javascript:buttonClick(2)">
-<AREA SHAPE="rect" coords="48,0,64,16"      HREF="javascript:buttonClick(3)">
-<AREA SHAPE="rect" coords="64,0,80,16"      HREF="javascript:buttonClick(4)">
-<AREA SHAPE="rect" coords="80,0,96,16"      HREF="javascript:buttonClick(5)">
-<AREA SHAPE="rect" coords="96,0,112,16"     HREF="javascript:buttonClick(6)">
-<AREA SHAPE="rect" coords="112,0,128,16"    HREF="javascript:buttonClick(7)">
-<AREA SHAPE="rect" coords="128,0,144,16"    HREF="javascript:buttonClick(8)">
-<!-- AREA SHAPE="rect" coords="144,0,160,16"    HREF="javascript:buttonClick(9)" -->
-<!-- AREA SHAPE="rect" coords="160,0,176,16"    HREF="javascript:buttonClick(10)" -->
-
-<AREA SHAPE="rect" coords="176,0,192,16"    HREF="javascript:buttonClick(11)">
-
-<!-- AREA SHAPE="rect" coords="192,0,208,16"    HREF="javascript:buttonClick(12)" -->
-<!-- AREA SHAPE="rect" coords="208,0,224,16"    HREF="javascript:buttonClick(13)" MAGIC TRIANGLE -->
-<AREA SHAPE="rect" coords="224,0,240,16"    HREF="javascript:buttonClick(14)">
-<AREA SHAPE="rect" coords="240,0,256,16"    HREF="javascript:buttonClick(15)">
-<AREA SHAPE="rect" coords="0,16,16,32"      HREF="javascript:buttonClick(16)">
-<AREA SHAPE="rect" coords="16,16,32,32"     HREF="javascript:buttonClick(17)">
-<AREA SHAPE="rect" coords="32,16,48,32"     HREF="javascript:buttonClick(18)">
-<AREA SHAPE="rect" coords="48,16,64,32"     HREF="javascript:buttonClick(19)">
-<AREA SHAPE="rect" coords="64,16,80,32"     HREF="javascript:buttonClick(20)">
-<AREA SHAPE="rect" coords="80,16,96,32"     HREF="javascript:buttonClick(21)">
-<AREA SHAPE="rect" coords="96,16,112,32"    HREF="javascript:buttonClick(22)">
-<AREA SHAPE="rect" coords="112,16,128,32"   HREF="javascript:buttonClick(23)">
-<AREA SHAPE="rect" coords="128,16,144,32"   HREF="javascript:buttonClick(24)">
-<AREA SHAPE="rect" coords="144,16,160,32"   HREF="javascript:buttonClick(25)">
-<AREA SHAPE="rect" coords="160,16,176,32"   HREF="javascript:buttonClick(26)">
-<AREA SHAPE="rect" coords="176,16,192,32"   HREF="javascript:buttonClick(27)">
-
-<AREA SHAPE="rect" coords="192,16,208,32"   HREF="javascript:buttonClick(28)">
-<AREA SHAPE="rect" coords="208,16,224,32"   HREF="javascript:buttonClick(29)">
-<AREA SHAPE="rect" coords="224,16,240,32"   HREF="javascript:buttonClick(30)">
-<AREA SHAPE="rect" coords="240,16,256,32"   HREF="javascript:buttonClick(31)">
-<AREA SHAPE="rect" coords="0,32,16,48"      HREF="javascript:buttonClick(32)">
-<AREA SHAPE="rect" coords="16,32,32,48"     HREF="javascript:buttonClick(33)">
-<AREA SHAPE="rect" coords="32,32,48,48"     HREF="javascript:buttonClick(34)">
-<AREA SHAPE="rect" coords="48,32,64,48"     HREF="javascript:buttonClick(35)">
-<AREA SHAPE="rect" coords="64,32,80,48"     HREF="javascript:buttonClick(36)">
-<AREA SHAPE="rect" coords="80,32,96,48"     HREF="javascript:buttonClick(37)">
-<AREA SHAPE="rect" coords="96,32,112,48"    HREF="javascript:buttonClick(38)">
-<AREA SHAPE="rect" coords="112,32,128,48"   HREF="javascript:buttonClick(39)">
-<AREA SHAPE="rect" coords="128,32,144,48"   HREF="javascript:buttonClick(40)">
-<AREA SHAPE="rect" coords="144,32,160,48"   HREF="javascript:buttonClick(41)">
-<AREA SHAPE="rect" coords="160,32,176,48"   HREF="javascript:buttonClick(42)">
-<AREA SHAPE="rect" coords="176,32,192,48"   HREF="javascript:buttonClick(43)">
-<AREA SHAPE="rect" coords="192,32,208,48"   HREF="javascript:buttonClick(44)">
-
-<AREA SHAPE="rect" coords="208,32,224,48"   HREF="javascript:buttonClick(45)">
-<AREA SHAPE="rect" coords="224,32,240,48"   HREF="javascript:buttonClick(46)">
-<AREA SHAPE="rect" coords="240,32,256,48"   HREF="javascript:buttonClick(47)">
-<AREA SHAPE="rect" coords="0,48,16,64"      HREF="javascript:buttonClick(48)">
-<AREA SHAPE="rect" coords="16,48,32,64"     HREF="javascript:buttonClick(49)">
-<AREA SHAPE="rect" coords="32,48,48,64"     HREF="javascript:buttonClick(50)">
-<AREA SHAPE="rect" coords="48,48,64,64"     HREF="javascript:buttonClick(51)">
-<AREA SHAPE="rect" coords="64,48,80,64"     HREF="javascript:buttonClick(52)">
-<AREA SHAPE="rect" coords="80,48,96,64"     HREF="javascript:buttonClick(53)">
-<AREA SHAPE="rect" coords="96,48,112,64"    HREF="javascript:buttonClick(54)">
-<AREA SHAPE="rect" coords="112,48,128,64"   HREF="javascript:buttonClick(55)">
-<AREA SHAPE="rect" coords="128,48,144,64"   HREF="javascript:buttonClick(56)">
-<AREA SHAPE="rect" coords="144,48,160,64"   HREF="javascript:buttonClick(57)">
-<AREA SHAPE="rect" coords="160,48,176,64"   HREF="javascript:buttonClick(58)">
-<AREA SHAPE="rect" coords="176,48,192,64"   HREF="javascript:buttonClick(59)">
-<AREA SHAPE="rect" coords="192,48,208,64"   HREF="javascript:buttonClick(60)">
-
-<AREA SHAPE="rect" coords="208,48,224,64"   HREF="javascript:buttonClick(61)">
-
-<AREA SHAPE="rect" coords="224,48,240,64"   HREF="javascript:buttonClick(62)">
-<AREA SHAPE="rect" coords="240,48,256,64"   HREF="javascript:buttonClick(63)">
-<AREA SHAPE="rect" coords="0,64,16,80"      HREF="javascript:buttonClick(64)">
-<AREA SHAPE="rect" coords="16,64,32,80"     HREF="javascript:buttonClick(65)">
-<AREA SHAPE="rect" coords="32,64,48,80"     HREF="javascript:buttonClick(66)">
-<AREA SHAPE="rect" coords="48,64,64,80"     HREF="javascript:buttonClick(67)">
-<AREA SHAPE="rect" coords="64,64,80,80"     HREF="javascript:buttonClick(68)">
-<AREA SHAPE="rect" coords="80,64,96,80"     HREF="javascript:buttonClick(69)">
-<AREA SHAPE="rect" coords="96,64,112,80"    HREF="javascript:buttonClick(70)">
-<AREA SHAPE="rect" coords="112,64,128,80"   HREF="javascript:buttonClick(71)">
-<AREA SHAPE="rect" coords="128,64,144,80"   HREF="javascript:buttonClick(72)">
-<AREA SHAPE="rect" coords="144,64,160,80"   HREF="javascript:buttonClick(73)">
-<AREA SHAPE="rect" coords="160,64,176,80"   HREF="javascript:buttonClick(74)">
-<AREA SHAPE="rect" coords="176,64,192,80"   HREF="javascript:buttonClick(75)">
-<AREA SHAPE="rect" coords="192,64,208,80"   HREF="javascript:buttonClick(76)">
-
-<AREA SHAPE="rect" coords="208,64,224,80"   HREF="javascript:buttonClick(77)">
-<AREA SHAPE="rect" coords="224,64,240,80"   HREF="javascript:buttonClick(78)">
-
-<AREA SHAPE="rect" coords="240,64,256,80"   HREF="javascript:buttonClick(79)">
-<AREA SHAPE="rect" coords="0,80,16,96"      HREF="javascript:buttonClick(80)">
-<AREA SHAPE="rect" coords="16,80,32,96"     HREF="javascript:buttonClick(81)">
-<AREA SHAPE="rect" coords="32,80,48,96"     HREF="javascript:buttonClick(82)">
-<AREA SHAPE="rect" coords="48,80,64,96"     HREF="javascript:buttonClick(83)">
-<AREA SHAPE="rect" coords="64,80,80,96"     HREF="javascript:buttonClick(84)">
-<AREA SHAPE="rect" coords="80,80,96,96"     HREF="javascript:buttonClick(85)">
-<AREA SHAPE="rect" coords="96,80,112,96"    HREF="javascript:buttonClick(86)">
-<AREA SHAPE="rect" coords="112,80,128,96"   HREF="javascript:buttonClick(87)">
-<AREA SHAPE="rect" coords="128,80,144,96"   HREF="javascript:buttonClick(88)">
-<AREA SHAPE="rect" coords="144,80,160,96"   HREF="javascript:buttonClick(89)">
-<AREA SHAPE="rect" coords="160,80,176,96"   HREF="javascript:buttonClick(90)">
-<AREA SHAPE="rect" coords="176,80,192,96"   HREF="javascript:buttonClick(91)">
-<AREA SHAPE="rect" coords="192,80,208,96"   HREF="javascript:buttonClick(92)">
-
-<AREA SHAPE="rect" coords="208,80,224,96"   HREF="javascript:buttonClick(93)">
-<AREA SHAPE="rect" coords="224,80,240,96"   HREF="javascript:buttonClick(94)">
-<AREA SHAPE="rect" coords="240,80,256,96"   HREF="javascript:buttonClick(95)">
-
-<AREA SHAPE="rect" coords="0,96,16,112"     HREF="javascript:buttonClick(96)">
-<AREA SHAPE="rect" coords="16,96,32,112"    HREF="javascript:buttonClick(97)">
-<AREA SHAPE="rect" coords="32,96,48,112"    HREF="javascript:buttonClick(98)">
-<AREA SHAPE="rect" coords="48,96,64,112"    HREF="javascript:buttonClick(99)">
-<AREA SHAPE="rect" coords="64,96,80,112"    HREF="javascript:buttonClick(100)">
-<AREA SHAPE="rect" coords="80,96,96,112"    HREF="javascript:buttonClick(101)">
-<AREA SHAPE="rect" coords="96,96,112,112"   HREF="javascript:buttonClick(102)">
-<AREA SHAPE="rect" coords="112,96,128,112"  HREF="javascript:buttonClick(103)">
-<AREA SHAPE="rect" coords="128,96,144,112"  HREF="javascript:buttonClick(104)">
-<AREA SHAPE="rect" coords="144,96,160,112"  HREF="javascript:buttonClick(105)">
-<AREA SHAPE="rect" coords="160,96,176,112"  HREF="javascript:buttonClick(106)">
-<AREA SHAPE="rect" coords="176,96,192,112"  HREF="javascript:buttonClick(107)">
-<AREA SHAPE="rect" coords="192,96,208,112"  HREF="javascript:buttonClick(108)">
-
-<AREA SHAPE="rect" coords="208,96,224,112"  HREF="javascript:buttonClick(109)">
-<AREA SHAPE="rect" coords="224,96,240,112"  HREF="javascript:buttonClick(110)">
-<AREA SHAPE="rect" coords="240,96,256,112"  HREF="javascript:buttonClick(111)">
-<AREA SHAPE="rect" coords="0,112,16,128"    HREF="javascript:buttonClick(112)">
-
-<AREA SHAPE="rect" coords="16,112,32,128"   HREF="javascript:buttonClick(113)">
-<AREA SHAPE="rect" coords="32,112,48,128"   HREF="javascript:buttonClick(114)">
-<AREA SHAPE="rect" coords="48,112,64,128"   HREF="javascript:buttonClick(115)">
-<AREA SHAPE="rect" coords="64,112,80,128"   HREF="javascript:buttonClick(116)">
-<AREA SHAPE="rect" coords="80,112,96,128"   HREF="javascript:buttonClick(117)">
-<AREA SHAPE="rect" coords="96,112,112,128"  HREF="javascript:buttonClick(118)">
-<AREA SHAPE="rect" coords="112,112,128,128" HREF="javascript:buttonClick(119)">
-<AREA SHAPE="rect" coords="128,112,144,128" HREF="javascript:buttonClick(120)">
-<AREA SHAPE="rect" coords="144,112,160,128" HREF="javascript:buttonClick(121)">
-<AREA SHAPE="rect" coords="160,112,176,128" HREF="javascript:buttonClick(122)">
-<AREA SHAPE="rect" coords="176,112,192,128" HREF="javascript:buttonClick(123)">
-<AREA SHAPE="rect" coords="192,112,208,128" HREF="javascript:buttonClick(124)">
-
-<AREA SHAPE="rect" coords="208,112,224,128" HREF="javascript:buttonClick(125)">
-<AREA SHAPE="rect" coords="224,112,240,128" HREF="javascript:buttonClick(126)">
-<AREA SHAPE="rect" coords="240,112,256,128" HREF="javascript:buttonClick(127)">
-<AREA SHAPE="rect" coords="0,128,16,144"    HREF="javascript:buttonClick(128)">
-<AREA SHAPE="rect" coords="16,128,32,144"   HREF="javascript:buttonClick(129)">
-
-<AREA SHAPE="rect" coords="32,128,48,144"   HREF="javascript:buttonClick(130)">
-<AREA SHAPE="rect" coords="48,128,64,144"   HREF="javascript:buttonClick(131)">
-<AREA SHAPE="rect" coords="64,128,80,144"   HREF="javascript:buttonClick(132)">
-<AREA SHAPE="rect" coords="80,128,96,144"   HREF="javascript:buttonClick(133)">
-<AREA SHAPE="rect" coords="96,128,112,144"  HREF="javascript:buttonClick(134)">
-<AREA SHAPE="rect" coords="112,128,128,144" HREF="javascript:buttonClick(135)">
-<AREA SHAPE="rect" coords="128,128,144,144" HREF="javascript:buttonClick(136)">
-<AREA SHAPE="rect" coords="144,128,160,144" HREF="javascript:buttonClick(137)">
-<AREA SHAPE="rect" coords="160,128,176,144" HREF="javascript:buttonClick(138)">
-<AREA SHAPE="rect" coords="176,128,192,144" HREF="javascript:buttonClick(139)">
-<AREA SHAPE="rect" coords="192,128,208,144" HREF="javascript:buttonClick(140)">
-
-<AREA SHAPE="rect" coords="208,128,224,144" HREF="javascript:buttonClick(141)">
-<AREA SHAPE="rect" coords="224,128,240,144" HREF="javascript:buttonClick(142)">
-<AREA SHAPE="rect" coords="240,128,256,144" HREF="javascript:buttonClick(143)">
-<AREA SHAPE="rect" coords="0,144,16,160"    HREF="javascript:buttonClick(144)">
-<AREA SHAPE="rect" coords="16,144,32,160"   HREF="javascript:buttonClick(145)">
-<AREA SHAPE="rect" coords="32,144,48,160"   HREF="javascript:buttonClick(146)">
-
-<AREA SHAPE="rect" coords="48,144,64,160"   HREF="javascript:buttonClick(147)">
-<AREA SHAPE="rect" coords="64,144,80,160"   HREF="javascript:buttonClick(148)">
-<AREA SHAPE="rect" coords="80,144,96,160"   HREF="javascript:buttonClick(149)">
-<AREA SHAPE="rect" coords="96,144,112,160"  HREF="javascript:buttonClick(150)">
-<AREA SHAPE="rect" coords="112,144,128,160" HREF="javascript:buttonClick(151)">
-<AREA SHAPE="rect" coords="128,144,144,160" HREF="javascript:buttonClick(152)">
-<AREA SHAPE="rect" coords="144,144,160,160" HREF="javascript:buttonClick(153)">
-<AREA SHAPE="rect" coords="160,144,176,160" HREF="javascript:buttonClick(154)">
-<AREA SHAPE="rect" coords="176,144,192,160" HREF="javascript:buttonClick(155)">
-<AREA SHAPE="rect" coords="192,144,208,160" HREF="javascript:buttonClick(156)">
-
-<AREA SHAPE="rect" coords="208,144,224,160" HREF="javascript:buttonClick(157)">
-<AREA SHAPE="rect" coords="224,144,240,160" HREF="javascript:buttonClick(158)">
-<AREA SHAPE="rect" coords="240,144,256,160" HREF="javascript:buttonClick(159)">
-<AREA SHAPE="rect" coords="0,160,16,176"    HREF="javascript:buttonClick(160)">
-<AREA SHAPE="rect" coords="16,160,32,176"   HREF="javascript:buttonClick(161)">
-<AREA SHAPE="rect" coords="32,160,48,176"   HREF="javascript:buttonClick(162)">
-<AREA SHAPE="rect" coords="48,160,64,176"   HREF="javascript:buttonClick(163)">
-
-<AREA SHAPE="rect" coords="64,160,80,176"   HREF="javascript:buttonClick(164)">
-<AREA SHAPE="rect" coords="80,160,96,176"   HREF="javascript:buttonClick(165)">
-<AREA SHAPE="rect" coords="96,160,112,176"  HREF="javascript:buttonClick(166)">
-<AREA SHAPE="rect" coords="112,160,128,176" HREF="javascript:buttonClick(167)">
-<AREA SHAPE="rect" coords="128,160,144,176" HREF="javascript:buttonClick(168)">
-<AREA SHAPE="rect" coords="144,160,160,176" HREF="javascript:buttonClick(169)">
-<AREA SHAPE="rect" coords="160,160,176,176" HREF="javascript:buttonClick(170)">
-<AREA SHAPE="rect" coords="176,160,192,176" HREF="javascript:buttonClick(171)">
-<AREA SHAPE="rect" coords="192,160,208,176" HREF="javascript:buttonClick(172)">
-
-<!-- AREA SHAPE="rect" coords="208,160,224,176" HREF="javascript:buttonClick(173)" -->
-<AREA SHAPE="rect" coords="224,160,240,176" HREF="javascript:buttonClick(174)">
-<AREA SHAPE="rect" coords="240,160,256,176" HREF="javascript:buttonClick(175)">
-<AREA SHAPE="rect" coords="0,176,16,192"    HREF="javascript:buttonClick(176)">
-<AREA SHAPE="rect" coords="16,176,32,192"   HREF="javascript:buttonClick(177)">
-<AREA SHAPE="rect" coords="32,176,48,192"   HREF="javascript:buttonClick(178)">
-<AREA SHAPE="rect" coords="48,176,64,192"   HREF="javascript:buttonClick(179)">
-<AREA SHAPE="rect" coords="64,176,80,192"   HREF="javascript:buttonClick(180)">
-
-<AREA SHAPE="rect" coords="80,176,96,192"   HREF="javascript:buttonClick(181)">
-<AREA SHAPE="rect" coords="96,176,112,192"  HREF="javascript:buttonClick(182)">
-<AREA SHAPE="rect" coords="112,176,128,192" HREF="javascript:buttonClick(183)">
-<AREA SHAPE="rect" coords="128,176,144,192" HREF="javascript:buttonClick(184)">
-<AREA SHAPE="rect" coords="144,176,160,192" HREF="javascript:buttonClick(185)">
-<AREA SHAPE="rect" coords="160,176,176,192" HREF="javascript:buttonClick(186)">
-<AREA SHAPE="rect" coords="176,176,192,192" HREF="javascript:buttonClick(187)">
-<AREA SHAPE="rect" coords="192,176,208,192" HREF="javascript:buttonClick(188)">
-
-<AREA SHAPE="rect" coords="208,176,224,192" HREF="javascript:buttonClick(189)">
-<AREA SHAPE="rect" coords="224,176,240,192" HREF="javascript:buttonClick(190)">
-<AREA SHAPE="rect" coords="240,176,256,192" HREF="javascript:buttonClick(191)">
-<AREA SHAPE="rect" coords="0,192,16,208"    HREF="javascript:buttonClick(192)">
-<AREA SHAPE="rect" coords="16,192,32,208"   HREF="javascript:buttonClick(193)">
-<AREA SHAPE="rect" coords="32,192,48,208"   HREF="javascript:buttonClick(194)">
-<AREA SHAPE="rect" coords="48,192,64,208"   HREF="javascript:buttonClick(195)">
-<AREA SHAPE="rect" coords="64,192,80,208"   HREF="javascript:buttonClick(196)">
-<AREA SHAPE="rect" coords="80,192,96,208"   HREF="javascript:buttonClick(197)">
-
-<AREA SHAPE="rect" coords="96,192,112,208"  HREF="javascript:buttonClick(198)">
-<AREA SHAPE="rect" coords="112,192,128,208" HREF="javascript:buttonClick(199)">
-<AREA SHAPE="rect" coords="128,192,144,208" HREF="javascript:buttonClick(200)">
-<AREA SHAPE="rect" coords="144,192,160,208" HREF="javascript:buttonClick(201)">
-<AREA SHAPE="rect" coords="160,192,176,208" HREF="javascript:buttonClick(202)">
-<AREA SHAPE="rect" coords="176,192,192,208" HREF="javascript:buttonClick(203)">
-<AREA SHAPE="rect" coords="192,192,208,208" HREF="javascript:buttonClick(204)">
-
-<AREA SHAPE="rect" coords="208,192,224,208" HREF="javascript:buttonClick(205)">
-<AREA SHAPE="rect" coords="224,192,240,208" HREF="javascript:buttonClick(206)">
-<AREA SHAPE="rect" coords="240,192,256,208" HREF="javascript:buttonClick(207)">
-<AREA SHAPE="rect" coords="0,208,16,224"    HREF="javascript:buttonClick(208)">
-<AREA SHAPE="rect" coords="16,208,32,224"   HREF="javascript:buttonClick(209)">
-<AREA SHAPE="rect" coords="32,208,48,224"   HREF="javascript:buttonClick(210)">
-<AREA SHAPE="rect" coords="48,208,64,224"   HREF="javascript:buttonClick(211)">
-<AREA SHAPE="rect" coords="64,208,80,224"   HREF="javascript:buttonClick(212)">
-<AREA SHAPE="rect" coords="80,208,96,224"   HREF="javascript:buttonClick(213)">
-<AREA SHAPE="rect" coords="96,208,112,224"  HREF="javascript:buttonClick(214)">
-
-<AREA SHAPE="rect" coords="112,208,128,224" HREF="javascript:buttonClick(215)">
-<AREA SHAPE="rect" coords="128,208,144,224" HREF="javascript:buttonClick(216)">
-<AREA SHAPE="rect" coords="144,208,160,224" HREF="javascript:buttonClick(217)">
-<AREA SHAPE="rect" coords="160,208,176,224" HREF="javascript:buttonClick(218)">
-<AREA SHAPE="rect" coords="176,208,192,224" HREF="javascript:buttonClick(219)">
-<AREA SHAPE="rect" coords="192,208,208,224" HREF="javascript:buttonClick(220)">
-
-<AREA SHAPE="rect" coords="208,208,224,224" HREF="javascript:buttonClick(221)">
-<AREA SHAPE="rect" coords="224,208,240,224" HREF="javascript:buttonClick(222)">
-<AREA SHAPE="rect" coords="240,208,256,224" HREF="javascript:buttonClick(223)">
-<AREA SHAPE="rect" coords="0,224,16,240"    HREF="javascript:buttonClick(224)">
-<AREA SHAPE="rect" coords="16,224,32,240"   HREF="javascript:buttonClick(225)">
-<AREA SHAPE="rect" coords="32,224,48,240"   HREF="javascript:buttonClick(226)">
-<AREA SHAPE="rect" coords="48,224,64,240"   HREF="javascript:buttonClick(227)">
-<AREA SHAPE="rect" coords="64,224,80,240"   HREF="javascript:buttonClick(228)">
-<AREA SHAPE="rect" coords="80,224,96,240"   HREF="javascript:buttonClick(229)">
-<AREA SHAPE="rect" coords="96,224,112,240"  HREF="javascript:buttonClick(230)">
-<AREA SHAPE="rect" coords="112,224,128,240" HREF="javascript:buttonClick(231)">
-
-<AREA SHAPE="rect" coords="128,224,144,240" HREF="javascript:buttonClick(232)">
-<AREA SHAPE="rect" coords="144,224,160,240" HREF="javascript:buttonClick(233)">
-<AREA SHAPE="rect" coords="160,224,176,240" HREF="javascript:buttonClick(234)">
-<AREA SHAPE="rect" coords="176,224,192,240" HREF="javascript:buttonClick(235)">
-<AREA SHAPE="rect" coords="192,224,208,240" HREF="javascript:buttonClick(236)">
-
-<AREA SHAPE="rect" coords="208,224,224,240" HREF="javascript:buttonClick(237)">
-<AREA SHAPE="rect" coords="224,224,240,240" HREF="javascript:buttonClick(238)">
-<AREA SHAPE="rect" coords="240,224,256,240" HREF="javascript:buttonClick(239)">
-<AREA SHAPE="rect" coords="0,240,16,256"    HREF="javascript:buttonClick(240)">
-<AREA SHAPE="rect" coords="16,240,32,256"   HREF="javascript:buttonClick(241)">
-<AREA SHAPE="rect" coords="32,240,48,256"   HREF="javascript:buttonClick(242)">
-<AREA SHAPE="rect" coords="48,240,64,256"   HREF="javascript:buttonClick(243)">
-<AREA SHAPE="rect" coords="64,240,80,256"   HREF="javascript:buttonClick(244)">
-<AREA SHAPE="rect" coords="80,240,96,256"   HREF="javascript:buttonClick(245)">
-<AREA SHAPE="rect" coords="96,240,112,256"  HREF="javascript:buttonClick(246)">
-<AREA SHAPE="rect" coords="112,240,128,256" HREF="javascript:buttonClick(247)">
-<AREA SHAPE="rect" coords="128,240,144,256" HREF="javascript:buttonClick(248)">
-
-<AREA SHAPE="rect" coords="144,240,160,256" HREF="javascript:buttonClick(249)">
-<AREA SHAPE="rect" coords="160,240,176,256" HREF="javascript:buttonClick(250)">
-<AREA SHAPE="rect" coords="176,240,192,256" HREF="javascript:buttonClick(251)">
-<AREA SHAPE="rect" coords="192,240,208,256" HREF="javascript:buttonClick(252)">
-
-<AREA SHAPE="rect" coords="208,240,224,256" HREF="javascript:buttonClick(253)">
-<AREA SHAPE="rect" coords="224,240,240,256" HREF="javascript:buttonClick(254)">
-<AREA SHAPE="rect" coords="240,240,256,256" HREF="javascript:buttonClick(255)">
-</MAP></TD></TR></TABLE></CENTER>
-
-        </TD>
-    </TR>
-    <TR>
-        <TD HEIGHT=35 VALIGN=BOTTOM>
-
-            <A HREF="index.html" onClick="resetName();">
-            <IMG SRC="./qnmqwtde/start_over.png" name="reset" BORDER=0></A>
-
-        </TD>
-        <TD HEIGHT=35 VALIGN=BOTTOM>
-            <A HREF="index.html#bottom" onClick="addSpace();">
-            <IMG SRC="./qnmqwtde/add_space.png" name="space" BORDER=0></A>
-        </TD>
-        <TD HEIGHT=35 VALIGN=BOTTOM>
-            <A HREF="index.html#bottom" onClick="backSpace();">
-
-            <IMG SRC="./qnmqwtde/backspace.png" name="back" BORDER=0></A>
-
-        </TD>
-    </TR>
-    <TR>
-        <TD HEIGHT=5></TD>
-    </TR>
-    <TR>
-        <TD COLSPAN=3>
-            <FONT COLOR=#AAAAAA SIZE=+1 FACE="Helvetica, Arial">Preview</FONT> <BR>            
-            <TABLE CELLSPACING=0 CELLPADDING=0 BORDER=0>
-
-                <TR>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    <TD><IMG SRC="chars/quake/032.gif" WIDTH=16 HEIGHT=16 BORDER=0></TD>
-                    
-                </TR>
-            </TABLE>
-
-        </TD>
-    </TR>
-    <TR>
-        <TD HEIGHT=10></TD>
-    </TR>
-    <TR>
-
-        <TD COLSPAN=3>
-            <FONT COLOR=#AAAAAA SIZE=+1 FACE="Helvetica, Arial">Your name</FONT><BR>
-
-            <INPUT TYPE="text" STYLE="width=100%;color='black'" name="name" value="" SIZE=38>
-        </TD>
-    </TR>
-</TABLE>
-</FORM>
-
-<SCRIPT LANGUAGE="JavaScript">
-
-    // RESET ALL OF THE FIELDS
-
-    document.oqnm.name.value = '';
-
-    for (loop=0; loop<21; loop++) {
-        document.oqnm.code[loop].value = '032';
-        document.images[loop+5].src = "./qnmqwtde/chars/quake/" + document.oqnm.code[loop].value + ".gif"
-    }
-
-
-</SCRIPT>
-
-<br>
-
-<FONT size=-3 FACE="Helvetica, Arial" COLOR=#725951>
-Based on code by Ryan Lowe 1997-1999<BR>
-</FONT>
-
-<BR>
-
-</CENTER>
-
-</BODY>
-
-</HTML>
+</html>
