@@ -105,7 +105,7 @@
         <input type="hidden" name="code" value="032">
         <input type="hidden" name="code" value="032">
         <input type="hidden" name="code" value="032">
-         <!-- Row 1 - 0-15 -->
+        <!-- Row 1 - 0-15 -->
         <input type="hidden" name="chr" value="&#0;">
         <input type="hidden" name="chr" value="&#1;">
         <input type="hidden" name="chr" value="&#2;">
@@ -292,7 +292,7 @@
         <input type="hidden" name="chr" value="&#1085;">
         <input type="hidden" name="chr" value="&#174;">
         <input type="hidden" name="chr" value="&#175;">
-        
+
         <!-- Row 12 - Bronze 123456 - 176-191 -->
         <input type="hidden" name="chr" value="&#176;">
         <input type="hidden" name="chr" value="&#177;">
@@ -310,7 +310,7 @@
         <input type="hidden" name="chr" value="&#189;">
         <input type="hidden" name="chr" value="&#190;">
         <input type="hidden" name="chr" value="&#191;">
-        
+
         <!-- Row 13 - Bronze @ABCDE - 192-207 -->
         <input type="hidden" name="chr" value="&#192;">
         <input type="hidden" name="chr" value="&#193;">
@@ -328,7 +328,7 @@
         <input type="hidden" name="chr" value="&#205;">
         <input type="hidden" name="chr" value="&#206;">
         <input type="hidden" name="chr" value="&#207;">
-        
+
         <!-- Row 14 - Bronze PQRST - 208-223 -->
         <input type="hidden" name="chr" value="&#208;">
         <input type="hidden" name="chr" value="&#209;">
@@ -346,7 +346,7 @@
         <input type="hidden" name="chr" value="&#221;">
         <input type="hidden" name="chr" value="&#222;">
         <input type="hidden" name="chr" value="&#223;">
-        
+
         <!-- Row 15 - Bronze 'abcde - 224-239 -->
         <input type="hidden" name="chr" value="&#224;">
         <input type="hidden" name="chr" value="&#225;">
@@ -364,7 +364,7 @@
         <input type="hidden" name="chr" value="&#237;">
         <input type="hidden" name="chr" value="&#238;">
         <input type="hidden" name="chr" value="&#239;">
-        
+
         <!-- Row 16 - Bronze pqrst - 240-255 -->
         <input type="hidden" name="chr" value="&#240;">
         <input type="hidden" name="chr" value="&#241;">
@@ -382,12 +382,13 @@
         <input type="hidden" name="chr" value="&#253;">
         <input type="hidden" name="chr" value="&#254;">
         <input type="hidden" name="chr" value="&#255;">
-        
+
 
         <div id="container">
             <div id="selections">
                 <div id="qcharstable">
-                    <a name="bottom"></a><img src="images/charmaps/quake.gif" border=0 width="400" height="400" usemap=#lettermap ismap><br>
+                    <a name="bottom"></a><img src="images/charmaps/quake.gif" width="400" height="400"
+                        usemap=#lettermap ismap><br>
                     <map name="lettermap">
                         <!-- Row 1 - 0-15 -->
                         <!-- area shape="rect" coords="0,0,16,16"       href="javascript:buttonClick(0)" -->
@@ -423,7 +424,7 @@
                         <area shape="rect" coords="208,16,224,32" href="javascript:buttonClick(29)">
                         <area shape="rect" coords="224,16,240,32" href="javascript:buttonClick(30)">
                         <area shape="rect" coords="240,16,256,32" href="javascript:buttonClick(31)">
-                         <!-- Row 3 - White - !"#$% - 32-47 -->
+                        <!-- Row 3 - White - !"#$% - 32-47 -->
                         <area shape="rect" coords="0,32,16,48" href="javascript:buttonClick(32)">
                         <area shape="rect" coords="16,32,32,48" href="javascript:buttonClick(33)">
                         <area shape="rect" coords="32,32,48,48" href="javascript:buttonClick(34)">
@@ -627,7 +628,7 @@
                         <area shape="rect" coords="208,208,224,224" href="javascript:buttonClick(221)">
                         <area shape="rect" coords="224,208,240,224" href="javascript:buttonClick(222)">
                         <area shape="rect" coords="240,208,256,224" href="javascript:buttonClick(223)">
-                         <!-- Row 15 - Bronze 'abcde - 224-239 -->
+                        <!-- Row 15 - Bronze 'abcde - 224-239 -->
                         <area shape="rect" coords="0,224,16,240" href="javascript:buttonClick(224)">
                         <area shape="rect" coords="16,224,32,240" href="javascript:buttonClick(225)">
                         <area shape="rect" coords="32,224,48,240" href="javascript:buttonClick(226)">
@@ -720,7 +721,7 @@
                     </div>
 
                     <div id="dropZone">
-                        View: Drag and drop a name file here or click to select one (set encoding to windows-1252)
+                        View: Drag and drop a name file here or click to select one (windows-1252 encoding recommended)
                         <input type="file" id="fileInput" style="display: none;" />
                     </div>
 
@@ -730,45 +731,92 @@
                 </div>
             </div>
         </div>
-        </div>
     </form>
 
     <script>
 
-function saveName() {
-    var name = document.oqnm.name.value; // Get the value from the name field
-    var filename = document.getElementById('filename').value; // Get the filename from the new input field
+        function saveName() {
+            var quakename = document.oqnm.name.value;
+            var dequakename = translateName(document.oqnm.name.value);
+            var formattedName = `// dequake name\n// ${dequakename}\n\nname "${quakename}"`;
+            var filename = document.getElementById('filename').value;
 
-    // Modify the name to include the format 'name "value"'
-    var formattedName = `name "${name}"`;
+            // Prepare the form data for the POST request
+            var formData = new FormData();
+            formData.append('name', formattedName);
+            formData.append('filename', filename);
 
-    // Use FormData to build the POST data
-    var formData = new FormData();
-    formData.append('name', formattedName);
-    formData.append('filename', filename);
+            // Send a POST request to the server-side PHP script to save the file
+            fetch('save-name.php', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    // Create a blob URL for the response
+                    var url = window.URL.createObjectURL(blob);
 
-    // Send a POST request to the server-side PHP script
-    fetch('save-name.php', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.blob())
-    .then(blob => {
-        // Create a link and click it to download the file
-        var url = window.URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
+                    // Create an invisible anchor element and click it to trigger the download
+                    var a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
 
+                    // Clean up by revoking the blob URL and removing the anchor element
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                })
+                .catch((error) => {
+                    // Log any errors to the console
+                    console.error('Error:', error);
+                });
+        }
+
+        function translateName(name) {
+            var translatedName = '';
+
+            for (var i = 0; i < name.length; i++) {
+                var character = name.charAt(i);
+                var numericCodeAsString = map[character];
+                var quakeChar = deQuakeMap[numericCodeAsString];
+
+                if (quakeChar !== undefined) {
+                    if (quakeChar.startsWith('&#')) {
+                        var parser = new DOMParser();
+                        var dom = parser.parseFromString(quakeChar, 'text/html');
+                        quakeChar = dom.body.textContent;
+                    }
+                    translatedName += quakeChar;
+                } else {
+                    translatedName += character;
+                }
+            }
+
+            console.log('Final translated name:', translatedName);
+            return translatedName;
+        }
+
+        deQuakeMap = {
+            0: '&#183;', 1: '0', 2: '0', 3: '0', 4: '0', 5: '&#183;', 6: '0', 7: '0', 8: '0', 9: '0', 10: '\n', 11: '&#25A0', 12: ' ', 13: '&#25B6', 14: '&#183;', 15: '&#183;',
+            16: '&#301A', 17: '&#301B', 18: '0', 19: '1', 20: '2', 21: '3', 22: '4', 23: '5', 24: '6', 25: '7', 26: '8', 27: '9', 28: '&#183;', 29: '-', 30: '-', 31: '-',
+            32: ' ', 33: '!', 34: '"', 35: '#', 36: '$', 37: '%', 38: '&', 39: "'", 40: '(', 41: ')', 42: '*', 43: '+', 44: ',', 45: '-', 46: '.', 47: '/',
+            48: '0', 49: '1', 50: '2', 51: '3', 52: '4', 53: '5', 54: '6', 55: '7', 56: '8', 57: '9', 58: ':', 59: ';', 60: '<', 61: '=', 62: '>', 63: '?',
+            64: '@', 65: 'A', 66: 'B', 67: 'C', 68: 'D', 69: 'E', 70: 'F', 71: 'G', 72: 'H', 73: 'I', 74: 'J', 75: 'K', 76: 'L', 77: 'M', 78: 'N', 79: 'O',
+            80: 'P', 81: 'Q', 82: 'R', 83: 'S', 84: 'T', 85: 'U', 86: 'V', 87: 'W', 88: 'X', 89: 'Y', 90: 'Z', 91: '[', 92: '\\', 93: ']', 94: '^', 95: '_',
+            96: '`', 97: 'a', 98: 'b', 99: 'c', 100: 'd', 101: 'e', 102: 'f', 103: 'g', 104: 'h', 105: 'i', 106: 'j', 107: 'k', 108: 'l', 109: 'm', 110: 'n', 111: 'o',
+            112: 'p', 113: 'q', 114: 'r', 115: 's', 116: 't', 117: 'u', 118: 'v', 119: 'w', 120: 'x', 121: 'y', 122: 'z', 123: '{', 124: '|', 125: '}', 126: '~', 127: '0x2190',
+            128: '-', 129: '-', 130: '-', 131: '-', 132: '0', 133: '&#2022', 134: '0', 135: '0', 136: '0', 137: '0', 138: '\n', 139: '&#25A0', 140: ' ', 141: '&#25B6', 142: '&#2022', 143: '&#2022',
+            144: '&#301A', 145: '&#301B', 146: '0', 147: '1', 148: '2', 149: '3', 150: '4', 151: '5', 152: '6', 153: '7', 154: '8', 155: '9', 156: '&#2022', 157: '0', 158: '0', 159: '0',
+            160: '0', 161: '!', 162: '"', 163: '#', 164: '$', 165: '%', 166: '&', 167: "'", 168: '(', 169: ')', 170: '*', 171: '+', 172: ',', 173: '-', 174: '.', 175: '/',
+            176: '0', 177: '1', 178: '2', 179: '3', 180: '4', 181: '5', 182: '6', 183: '7', 184: '8', 185: '9', 186: ':', 187: ';', 188: '<', 189: '=', 190: '>', 191: '?',
+            192: '@', 193: 'A', 194: 'B', 195: 'C', 196: 'D', 197: 'E', 198: 'F', 199: 'G', 200: 'H', 201: 'I', 202: 'J', 203: 'K', 204: 'L', 205: 'M', 206: 'N', 207: 'O',
+            208: 'P', 209: 'Q', 210: 'R', 211: 'S', 212: 'T', 213: 'U', 214: 'V', 215: 'W', 216: 'X', 217: 'Y', 218: 'Z', 219: '[', 220: '\\', 221: ']', 222: '^', 223: '_',
+            224: '`', 225: 'a', 226: 'b', 227: 'c', 228: 'd', 229: 'e', 230: 'f', 231: 'g', 232: 'h', 233: 'i', 234: 'j', 235: 'k', 236: 'l', 237: 'm', 238: 'n', 239: 'o',
+            240: 'p', 241: 'q', 242: 'r', 243: 's', 244: 't', 245: 'u', 246: 'v', 247: 'w', 248: 'x', 249: 'y', 250: 'z', 251: '{', 252: '|', 253: '}', 254: '~', 255: '&#2190'
+
+        }
 
         function scaleMapCoords(factor) {
             // Get all area elements
@@ -817,12 +865,12 @@ function saveName() {
             }
 
             navigator.clipboard.writeText(copyText.value)
-            .then(() => {
-                console.log('Text successfully copied to clipboard');
-            })
-            .catch((err) => {
-                console.error('Failed to copy text to clipboard', err);
-            });
+                .then(() => {
+                    console.log('Text successfully copied to clipboard');
+                })
+                .catch((err) => {
+                    console.error('Failed to copy text to clipboard', err);
+                });
         }
 
         var dropZone = document.getElementById('dropZone');
@@ -862,59 +910,59 @@ function saveName() {
         });
 
         function updateNamePreview(content) {
-    // Split the content by new lines
-    var lines = content.split(/\r?\n/);
+            // Split the content by new lines
+            var lines = content.split(/\r?\n/);
 
-    // Filter and process lines
-    var processedLines = lines.map(function(line) {
-        // Remove lines that start with "//"
-        if (line.trim().startsWith('//')) {
-            return '';
+            // Filter and process lines
+            var processedLines = lines.map(function (line) {
+                // Remove lines that start with "//"
+                if (line.trim().startsWith('//')) {
+                    return '';
+                }
+
+                // Find and process lines containing 'name "someName"'
+                var nameMatch = line.match(/name\s+"([^"]+)"/);
+                if (nameMatch) {
+                    return nameMatch[1]; // Return just the name without 'name ""'
+                }
+
+                return line; // Return the line unmodified if no name pattern is found
+            }).filter(function (line) {
+                return line.length > 0; // Filter out any empty lines resulting from the removal
+            });
+
+            // Join the processed lines back into a single string
+            var nameValue = processedLines.join('\n');
+
+            // Clear the existing name and codes to prevent duplication in the preview
+            document.oqnm.name.value = '';
+            for (var i = 0; i < 21; i++) {
+                document.oqnm.code[i].value = '032'; // '032' is assumed to be the default blank character code
+                document.images[i + 4].src = "images/chars/quake/032.gif";
+            }
+
+            // Update the images and hidden inputs based on the nameValue
+            for (var i = 0, j = 0; i < nameValue.length && j < 21; i++) {
+                var char = nameValue[i];
+                // Skip newline characters in the preview
+                if (char === '\n') continue;
+
+                console.log("Processing character: " + char); // Debug print
+
+                if (map.hasOwnProperty(char)) {
+                    var asciiValue = map[char]; // Get the ASCII value from the map
+                    var formattedCharCode = ("00" + asciiValue).slice(-3); // Format as three-digit code
+                    document.oqnm.code[j].value = formattedCharCode;
+                    document.images[j + 4].src = "images/chars/quake/" + formattedCharCode + ".gif";
+                    j++; // Only increment j when a character is processed
+                } else {
+                    console.error("Character '" + char + "' not found in map");
+                }
+            }
+
+            document.oqnm.name.value = nameValue.slice(0, 21);
         }
 
-        // Find and process lines containing 'name "someName"'
-        var nameMatch = line.match(/name\s+"([^"]+)"/);
-        if (nameMatch) {
-            return nameMatch[1]; // Return just the name without 'name ""'
-        }
-
-        return line; // Return the line unmodified if no name pattern is found
-    }).filter(function(line) {
-        return line.length > 0; // Filter out any empty lines resulting from the removal
-    });
-
-    // Join the processed lines back into a single string
-    var nameValue = processedLines.join('\n');
-
-    // Clear the existing name and codes to prevent duplication in the preview
-    document.oqnm.name.value = '';
-    for (var i = 0; i < 21; i++) {
-        document.oqnm.code[i].value = '032'; // '032' is assumed to be the default blank character code
-        document.images[i + 4].src = "images/chars/quake/032.gif";
-    }
-
-    // Update the images and hidden inputs based on the nameValue
-    for (var i = 0, j = 0; i < nameValue.length && j < 21; i++) {
-        var char = nameValue[i];
-        // Skip newline characters in the preview
-        if (char === '\n') continue;
-
-        console.log("Processing character: " + char); // Debug print
-
-        if (map.hasOwnProperty(char)) {
-            var asciiValue = map[char]; // Get the ASCII value from the map
-            var formattedCharCode = ("00" + asciiValue).slice(-3); // Format as three-digit code
-            document.oqnm.code[j].value = formattedCharCode;
-            document.images[j + 4].src = "images/chars/quake/" + formattedCharCode + ".gif";
-            j++; // Only increment j when a character is processed
-        } else {
-            console.error("Character '" + char + "' not found in map");
-        }
-    }
-
-    // Set the name value to the nameValue
-    document.oqnm.name.value = nameValue.slice(0, 21);
-}
         map = {
             '': 0, '\u0001': 1, '\u0002': 2, '\u0003': 3, '\u0004': 4, '\u0005': 5, '\u0006': 6, '\u0007': 7,
             '\u0008': 8, '': 9, '': 10, '\u000B': 11, '': 12, '\u008D': 13, '\u000E': 14, '\u000F': 15,
@@ -980,40 +1028,39 @@ function saveName() {
         });
 
         function handleFiles(files) {
-    if (files.length > 0) {
-        var file = files[0];
-        var reader = new FileReader();
+            if (files.length > 0) {
+                var file = files[0];
+                var reader = new FileReader();
 
-        // Define the onload callback for readAsBinaryString
-        reader.onload = function (e) {
-            var binaryString = e.target.result;
+                // Define the onload callback for readAsBinaryString
+                reader.onload = function (e) {
+                    var binaryString = e.target.result;
 
-            // Attempt to detect the encoding
-            var detected = jschardet.detect(binaryString);
-            console.log(detected); // Logs the detected encoding to the console
+                    // Attempt to detect the encoding
+                    var detected = jschardet.detect(binaryString);
+                    console.log(detected); // Logs the detected encoding to the console
 
-            // Check if the detected encoding is UTF-8
-            if (detected.encoding === "UTF-8") {
-                // If UTF-8, read the file as text
-                var textReader = new FileReader();
-                textReader.onload = function(e) {
-                    updateNamePreview(e.target.result);
+                    // Check if the detected encoding is UTF-8
+                    if (detected.encoding === "UTF-8") {
+                        // If UTF-8, read the file as text
+                        var textReader = new FileReader();
+                        textReader.onload = function (e) {
+                            updateNamePreview(e.target.result);
+                        };
+                        textReader.readAsText(file);
+                    } else {
+                        // If not UTF-8, attempt to read the file as 'windows-1252'
+                        var textReader = new FileReader();
+                        textReader.onload = function (e) {
+                            updateNamePreview(e.target.result);
+                        };
+                        textReader.readAsText(file, 'windows-1252');
+                    }
                 };
-                textReader.readAsText(file);
-            } else {
-            // If not UTF-8, attempt to read the file as 'windows-1252'
-            var textReader = new FileReader();
-                textReader.onload = function(e) {
-                    updateNamePreview(e.target.result);
-                };
-                textReader.readAsText(file, 'windows-1252');
-                        }
-                    };
-                    // Read the file as a binary string for encoding detection
-                    reader.readAsBinaryString(file);
-                }
+                // Read the file as a binary string for encoding detection
+                reader.readAsBinaryString(file);
+            }
         }
-        
 
         // RESET ALL OF THE FIELDS
 

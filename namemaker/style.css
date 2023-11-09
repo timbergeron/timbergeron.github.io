@@ -60,7 +60,7 @@
 
 #yourname {
     margin-top: 8px;
-    
+
 }
 
 #converted {
@@ -101,9 +101,10 @@
     margin-top: 8px;
 }
 
-#controls a:link, #controls a:visited {
+#controls a:link,
+#controls a:visited {
     text-decoration: none;
-    color: inherit; 
+    color: inherit;
 }
 
 #qcharstable {
@@ -118,30 +119,30 @@
 
 #dropZone {
     transition: background-color 0.3s ease;
-    border: 2px dotted #686868; 
-    padding: 20px; 
-    width: 300px; 
-    text-align: center; 
+    border: 2px dotted #686868;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
     cursor: pointer;
     margin-top: 20px;
     border-radius: 15px;
 
 }
+
 #dropZone.active {
-    background-color: #4d4d4d; /* Change to your preferred active color */
+    background-color: #4d4d4d;
 }
 
 .input-button.fa {
     font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands", sans-serif;
-    color:  #7b6c4d;
+    color: #7b6c4d;
     font-size: 14pt;
     background-color: transparent;
     border-radius: 5px;
     border: 0px;
-    
+
 }
 
 .input-button.fa:active {
-    color:  #584c34;
+    color: #584c34;
 }
-
