@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CTF Capture Records</title>
+    <meta name="description" content="CTF Capture Time Records - Quake Competitive CTF">
+    <link rel="icon" href="../img/favicon.png" sizes="32x32" type="image/png">
+    <script src="https://kit.fontawesome.com/f02f75478d.js" crossorigin="anonymous"></script>
+    <style>
+        /* === Reset & Base === */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        ::selection { background: #595858; }
+        ::-moz-selection { background: #595858; }
+
+        body {
+            background: #353535;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        a { color: #7cb4e8; text-decoration: none; transition: color .2s; }
+        a:hover { color: #a8d0f5; text-decoration: underline; }
+
+        /* === Header === */
+        .site-header {
+            background: linear-gradient(135deg, #192440 0%, #3a1a1a 100%);
+            border-bottom: 3px solid #987b5b;
+            padding: 1rem 1.5rem;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-title h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: .5px;
+        }
+
+        .header-title .subtitle {
+            color: #987b5b;
+            font-size: .95rem;
+            font-weight: 400;
+        }
+
+        .header-nav a {
+            color: #987b5b;
+            font-size: .9rem;
+            transition: color .2s;
+        }
+
+        .header-nav a:hover { color: #c9a46c; text-decoration: none; }
+
+        /* === Container === */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* === Loading / Error === */
+        .loading {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .loading .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #555;
+            border-top-color: #987b5b;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-msg {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #e05555;
+            font-size: 1rem;
+        }
+
+        /* === Stats Bar === */
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            padding: 1.25rem 1.5rem;
+            background: #2e2e2e;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #987b5b;
+        }
+
+        /* === Map Card === */
+        .map-card {
+            background: #2e2e2e;
+            border: 1px solid #444;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: border-color .2s;
+        }
+
+        .map-card:hover { border-color: #987b5b; }
+
+        .map-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .6rem 1.5rem;
+            background: linear-gradient(135deg, #192440 0%, #1e2d4a 100%);
+            border-bottom: 2px solid #987b5b;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .map-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: .5px;
+        }
+
+        .map-header .toggle-icon {
+            color: #987b5b;
+            font-size: .85rem;
+            transition: transform .2s;
+        }
+
+        .map-card.collapsed .toggle-icon { transform: rotate(-90deg); }
+        .map-card.collapsed .map-body { display: none; }
+
+        .map-body { padding: 0; }
+
+        /* === Category Section === */
+        .category-section { padding: 1rem 1.5rem; }
+        .category-section + .category-section { border-top: 1px solid #3a3a3a; }
+
+        .category-label {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: .8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #888;
+            margin-bottom: .75rem;
+        }
+
+        .category-label .badge-trial {
+            background: #2a5a3a;
+            color: #6fcf97;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: .7rem;
+        }
+
+        .category-label .badge-match {
+            background: #5a3a2a;
+            color: #cf8f6f;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: .7rem;
+        }
+
+        /* === Records Table === */
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .records-table .col-rank { width: 40px; padding-right: 0 !important; }
+        .records-table .col-player { width: 100px; padding-left: 8px !important; }
+        .records-table .col-time { width: 90px; }
+        .records-table .col-date { }
+        .records-table .col-matchtime { }
+        .records-table .col-server { }
+        .records-table .col-ping { width: 70px; }
+        .records-table .col-video { width: 30px; }
+
+        .records-table th {
+            text-align: left;
+            font-size: .7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            padding: .4rem .5rem;
+            border-bottom: 1px solid #3a3a3a;
+            overflow: hidden;
+        }
+
+        .records-table td {
+            padding: .6rem .5rem;
+            font-size: .95rem;
+            vertical-align: middle;
+        }
+
+        .records-table tbody tr {
+            transition: background .15s;
+        }
+
+        .records-table tbody tr:hover { background: #363636; }
+        .records-table tbody tr + tr { border-top: 1px solid #333; }
+
+        /* === Rank Styling === */
+        .rank {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: .8rem;
+            font-weight: 700;
+        }
+
+        .rank-1 { background: linear-gradient(135deg, #d4a51a, #f5d26e); color: #1a1a0a; }
+        .rank-2 { background: linear-gradient(135deg, #8a8a8a, #c0c0c0); color: #1a1a1a; }
+        .rank-3 { background: linear-gradient(135deg, #a0603a, #cd7f32); color: #1a1a0a; }
+        .rank-other { background: #444; color: #aaa; }
+
+        /* === Time Display === */
+        .record-time {
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .rank-1-row .record-time { color: #f5d26e; }
+
+        /* === Player Name === */
+        .player-name {
+            font-weight: 500;
+            color: #ddd;
+        }
+
+        /* === Date === */
+        .record-date {
+            color: #888;
+            font-size: .85rem;
+        }
+
+        /* === Server === */
+        .record-server {
+            color: #777;
+            font-size: .85rem;
+        }
+
+        /* === Ping === */
+        .record-ping {
+            font-family: monospace;
+            color: #888;
+            font-size: .85rem;
+        }
+
+        /* === Video Link Placeholder === */
+        .video-link {
+            color: #555;
+            font-size: .85rem;
+            cursor: default;
+        }
+
+        .video-link.has-video {
+            color: #987b5b;
+            cursor: pointer;
+        }
+
+        .video-link.has-video:hover { color: #c9a46c; }
+
+        /* === Footer === */
+        .site-footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #555;
+            font-size: .8rem;
+            border-top: 1px solid #3a3a3a;
+            margin-top: 2rem;
+        }
+
+        /* === Responsive === */
+        @media (max-width: 768px) {
+            .header-title h1 { font-size: 1.5rem; }
+            .stats-bar { gap: 1.25rem; }
+            .stat-value { font-size: 1.2rem; }
+            .category-section { padding: 1rem; }
+            .map-header { padding: .85rem 1rem; }
+            .map-name { font-size: 1.2rem; }
+
+            .records-table { font-size: .85rem; }
+            .records-table th, .records-table td { padding: .4rem .35rem; }
+
+            /* hide less important columns on mobile */
+            .col-server, .col-ping, .col-date, .col-matchtime { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .header-inner { flex-direction: column; align-items: flex-start; }
+            .stats-bar { flex-direction: column; gap: .75rem; }
+        }
+
+        /* === Quake Colors === */
+        .qcolor-0  { color: #ffffff; }
+        .qcolor-1  { color: #8b4513; }
+        .qcolor-2  { color: #c0c0c0; }
+        .qcolor-3  { color: #6b8e23; }
+        .qcolor-4  { color: #ff0000; }
+        .qcolor-5  { color: #d4a017; }
+        .qcolor-6  { color: #ff8c00; }
+        .qcolor-7  { color: #ffd700; }
+        .qcolor-8  { color: #9b59b6; }
+        .qcolor-9  { color: #8e44ad; }
+        .qcolor-10 { color: #2ecc71; }
+        .qcolor-11 { color: #27ae60; }
+        .qcolor-12 { color: #f1c40f; }
+        .qcolor-13 { color: #3498db; }
+        .qcolor-14 { color: #e74c3c; }
+
+        /* Quake color 5 (pants) enrichment */
+        .qpants-5 .player-name { color: #d4a017; }
+        .qpants-14 .player-name { color: #e74c3c; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="header-title">
+                <div>
+                    <h1><i class="fa-solid fa-flag" style="color: #987b5b; margin-right: .5rem;"></i>CTF Capture Records</h1>
+                    <span class="subtitle">NetQuake Competitive CTF</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Stats summary -->
+        <div class="stats-bar" id="stats-bar" style="display: none;">
+            <div class="stat-item">
+                <span class="stat-label">Maps</span>
+                <span class="stat-value" id="stat-maps">-</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Records</span>
+                <span class="stat-value" id="stat-records">-</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Players</span>
+                <span class="stat-value" id="stat-players">-</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Fastest Cap</span>
+                <span class="stat-value" id="stat-fastest">-</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Most Trial #1s</span>
+                <span class="stat-value" id="stat-trial-leader">-</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Most Match #1s</span>
+                <span class="stat-value" id="stat-match-leader">-</span>
+            </div>
+        </div>
+
+        <!-- Records container -->
+        <div id="records-container">
+            <div class="loading">
+                <div class="spinner"></div>
+                <div>Loading capture records...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+
+    <script>
+    // Name aliases: maps alternate names to a canonical name
+    const NAME_ALIASES = {
+        'uns': 'unspoken',
+        'unspoked': 'unspoken',
+        'fz': 'frenzy',
+        'infin': 'infiniti',
+    };
+
+    function resolveAlias(name) {
+        return NAME_ALIASES[name.toLowerCase()] || name;
+    }
+
+    const SHEET_ID = '1ClswtB2X8vMd34b-0QNiE8b1l7IDoanAHgC2gs-zLxE';
+    const GID = 1461642282;
+    const API_KEY = 'AIzaSyDE6T31doI4klTup7eEEfogPqLF6xVTTNs';
+    const SHEETS_API = 'https://sheets.googleapis.com/v4/spreadsheets';
+
+    // Step 1: Get the sheet name for our gid
+    async function getSheetName() {
+        const url = `${SHEETS_API}/${SHEET_ID}?key=${API_KEY}&fields=sheets.properties`;
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error(`Metadata fetch failed: HTTP ${resp.status}`);
+        const data = await resp.json();
+        const sheet = data.sheets.find(s => s.properties.sheetId === GID);
+        if (!sheet) throw new Error(`Sheet with gid ${GID} not found`);
+        return sheet.properties.title;
+    }
+
+    // Step 2: Fetch all values from the sheet
+    async function fetchSheetData(sheetName) {
+        const url = `${SHEETS_API}/${SHEET_ID}/values/${encodeURIComponent(sheetName)}?key=${API_KEY}&valueRenderOption=UNFORMATTED_VALUE&dateTimeRenderOption=FORMATTED_STRING`;
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error(`Data fetch failed: HTTP ${resp.status}`);
+        const data = await resp.json();
+        return data.values || [];
+    }
+
+    // Parse the structured spreadsheet data
+    function parseRecords(rows) {
+        const maps = [];
+        let currentMap = null;
+        let currentCategory = null;
+
+        // Skip header row (row 0)
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            if (!row || row.length === 0) continue;
+
+            const colA = String(row[0] || '').trim();
+            const colB = String(row[1] || '').trim();
+            const colC = String(row[2] || '').trim();
+            const colD = String(row[3] || '').trim();
+            const colE = String(row[4] || '').trim();
+            const colF = String(row[5] || '').trim();
+            const colG = String(row[6] || '').trim();
+            // Column H = Hex Name (skip), Column I = Ping
+            const colI = String(row[8] || '').trim();
+
+            // Check if all cells are empty
+            if (!colA && !colB && !colC && !colD) continue;
+
+            // Check for category header (TRIAL or MATCH)
+            if (colA === 'TRIAL' || colA === 'MATCH') {
+                currentCategory = colA;
+                continue;
+            }
+
+            // Check if colA is a number (rank) - this is a record row
+            const rank = parseInt(colA);
+            if (!isNaN(rank) && colB) {
+                if (currentMap && currentCategory) {
+                    const record = {
+                        rank: rank,
+                        name: resolveAlias(colB),
+                        color: colC,
+                        time: parseFloat(colD) || 0,
+                        timeStr: colD,
+                        date: colE,
+                        timeInMatch: colF,
+                        server: colG.toLowerCase().includes('denver.quakeone.com') ? 'Denver' : colG,
+                        ping: colI
+                    };
+
+                    if (currentCategory === 'TRIAL') {
+                        currentMap.trial.push(record);
+                    } else {
+                        currentMap.match.push(record);
+                    }
+                }
+                continue;
+            }
+
+            // Otherwise it's a map name
+            if (colA && colA !== 'Map' && isNaN(parseInt(colA))) {
+                currentMap = {
+                    name: colA,
+                    trial: [],
+                    match: []
+                };
+                maps.push(currentMap);
+                currentCategory = null;
+            }
+        }
+
+        return maps;
+    }
+
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        try {
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+            return d.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        } catch {
+            return dateStr;
+        }
+    }
+
+    function getRankClass(rank) {
+        if (rank === 1) return 'rank-1';
+        if (rank === 2) return 'rank-2';
+        if (rank === 3) return 'rank-3';
+        return 'rank-other';
+    }
+
+    function buildRecordRow(record) {
+        const rankClass = getRankClass(record.rank);
+        const isFirst = record.rank === 1 ? 'rank-1-row' : '';
+        const dateFormatted = formatDate(record.date);
+
+        return `
+            <tr class="${isFirst}">
+                <td class="col-rank"><span class="rank ${rankClass}">${record.rank}</span></td>
+                <td class="col-player player-name">${escapeHtml(record.name)}</td>
+                <td class="col-time record-time">${record.time > 0 ? record.time.toFixed(3) : escapeHtml(record.timeStr)}s</td>
+                <td class="col-date record-date">${dateFormatted}</td>
+                <td class="col-matchtime">${record.timeInMatch ? escapeHtml(record.timeInMatch) : ''}</td>
+                <td class="col-server record-server">${escapeHtml(record.server)}</td>
+                <td class="col-ping record-ping">${record.ping ? escapeHtml(record.ping) + 'ms' : ''}</td>
+                <td class="col-video video-link" title="Demo/video coming soon"><i class="fa-solid fa-video" style="opacity: 0.25;"></i></td>
+            </tr>
+        `;
+    }
+
+    function buildCategorySection(category, records) {
+        if (records.length === 0) return '';
+        const badgeClass = category === 'TRIAL' ? 'badge-trial' : 'badge-match';
+        const icon = category === 'TRIAL' ? 'fa-stopwatch' : 'fa-gamepad';
+
+        return `
+            <div class="category-section">
+                <div class="category-label">
+                    <i class="fa-solid ${icon}"></i>
+                    <span class="${badgeClass}">${category}</span>
+                </div>
+                <table class="records-table">
+                    <thead>
+                        <tr>
+                            <th class="col-rank">#</th>
+                            <th class="col-player">Player</th>
+                            <th class="col-time">Time</th>
+                            <th class="col-date">Date</th>
+                            <th class="col-matchtime">Match Time</th>
+                            <th class="col-server">Server</th>
+                            <th class="col-ping">Ping</th>
+                            <th class="col-video"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${records.map(r => buildRecordRow(r)).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    function buildMapCard(map) {
+        return `
+            <div class="map-card" id="map-${escapeHtml(map.name)}">
+                <div class="map-header" onclick="toggleMap(this)">
+                    <span class="map-name"><i class="fa-solid fa-map" style="color: #987b5b; margin-right: .5rem; font-size: .9em;"></i>${escapeHtml(map.name)}</span>
+                    <span class="toggle-icon"><i class="fa-solid fa-chevron-down"></i></span>
+                </div>
+                <div class="map-body">
+                    ${buildCategorySection('TRIAL', map.trial)}
+                    ${buildCategorySection('MATCH', map.match)}
+                </div>
+            </div>
+        `;
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function toggleMap(header) {
+        header.closest('.map-card').classList.toggle('collapsed');
+    }
+
+    function countFirstPlace(maps, category) {
+        const counts = {};
+        maps.forEach(m => {
+            const records = category === 'TRIAL' ? m.trial : m.match;
+            const first = records.find(r => r.rank === 1);
+            if (first) counts[first.name] = (counts[first.name] || 0) + 1;
+        });
+        let topName = '-', topCount = 0;
+        for (const [name, count] of Object.entries(counts)) {
+            if (count > topCount) { topName = name; topCount = count; }
+        }
+        return topCount > 0 ? `${topName} (${topCount})` : '-';
+    }
+
+    function updateStats(maps) {
+        const allRecords = maps.flatMap(m => [...m.trial, ...m.match]);
+        const players = new Set(allRecords.map(r => r.name));
+        const fastest = allRecords.reduce((min, r) => r.time > 0 && r.time < min ? r.time : min, Infinity);
+
+        document.getElementById('stat-maps').textContent = maps.length;
+        document.getElementById('stat-records').textContent = allRecords.length;
+        document.getElementById('stat-players').textContent = players.size;
+        document.getElementById('stat-fastest').textContent = fastest === Infinity ? '-' : fastest.toFixed(3) + 's';
+        document.getElementById('stat-trial-leader').textContent = countFirstPlace(maps, 'TRIAL');
+        document.getElementById('stat-match-leader').textContent = countFirstPlace(maps, 'MATCH');
+        document.getElementById('stats-bar').style.display = 'flex';
+    }
+
+    async function loadRecords() {
+        const container = document.getElementById('records-container');
+
+        try {
+            // Get the sheet name from metadata, then fetch values
+            const sheetName = await getSheetName();
+            const rows = await fetchSheetData(sheetName);
+            const maps = parseRecords(rows);
+
+            if (maps.length === 0) {
+                container.innerHTML = '<div class="error-msg">No records found. The spreadsheet may be empty or the format may have changed.</div>';
+                return;
+            }
+
+            maps.sort((a, b) => a.name.localeCompare(b.name));
+            updateStats(maps);
+            container.innerHTML = maps.map(m => buildMapCard(m)).join('');
+
+        } catch (err) {
+            console.error('Failed to load records:', err);
+            container.innerHTML = `
+                <div class="error-msg">
+                    <p>Unable to load records.</p>
+                    <p style="margin-top: .5rem; font-size: .8rem; color: #666;">Error: ${escapeHtml(err.message)}</p>
+                </div>
+            `;
+        }
+    }
+
+    // Load on page ready
+    loadRecords();
+    </script>
+</body>
+</html>
