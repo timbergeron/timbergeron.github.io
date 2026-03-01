@@ -233,6 +233,13 @@
         }
 
 
+        .map-desc {
+            font-weight: 400;
+            font-size: .85rem;
+            color: #999;
+            margin-left: .25rem;
+        }
+
         .map-body { padding: 0; }
 
         /* === Category Section === */
@@ -689,11 +696,28 @@
         `;
     }
 
+    let mapDescriptions = {};
+
+    async function loadMapDescriptions() {
+        try {
+            const resp = await fetch('mapdesc.json');
+            const data = await resp.json();
+            data.forEach(m => {
+                if (m.description && m.description !== 'empty-description') {
+                    mapDescriptions[m.name.toLowerCase()] = m.description;
+                }
+            });
+        } catch (e) {
+            console.warn('Could not load map descriptions:', e);
+        }
+    }
+
     function buildMapCard(map) {
+        const desc = mapDescriptions[map.name.toLowerCase()] || '';
         return `
             <div class="map-card" id="map-${escapeHtml(map.name)}">
                 <div class="map-header">
-                    <span class="map-name"><i class="fa-solid fa-map" style="color: #987b5b; margin-right: .5rem; font-size: .9em;"></i>${escapeHtml(map.name)}</span>
+                    <span class="map-name"><i class="fa-solid fa-map" style="color: #987b5b; margin-right: .5rem; font-size: .9em;"></i>${escapeHtml(map.name)}${desc ? '<span class="map-desc"> &mdash; ' + escapeHtml(desc) + '</span>' : ''}</span>
                     <select class="map-select" onchange="jumpToMap(this.value)"><option value="">Jump to map...</option></select>
                 </div>
                 <div class="map-body">
@@ -817,8 +841,9 @@
     async function loadRecords() {
         const container = document.getElementById('records-container');
 
+        await loadMapDescriptions().catch(() => {});
+
         try {
-            // Get the sheet name from metadata, then fetch values
             const sheetName = await getSheetName();
             const rows = await fetchSheetData(sheetName);
             const maps = parseRecords(rows);
