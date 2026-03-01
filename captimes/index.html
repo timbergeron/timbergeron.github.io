@@ -805,7 +805,7 @@
         const withDates = allRecords.filter(r => r.date).map(r => ({ ...r, dateObj: new Date(r.date) })).filter(r => !isNaN(r.dateObj));
         withDates.sort((a, b) => b.dateObj - a.dateObj);
         if (withDates.length > 0) {
-            const fmt = d => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const fmt = d => (d.getMonth()+1) + '/' + d.getDate() + '/' + String(d.getFullYear()).slice(2);
             document.getElementById('stat-recent').textContent = fmt(withDates[0].dateObj);
             document.getElementById('tooltip-recent').innerHTML = withDates.slice(0, 10)
                 .map((r) => tooltipRow(r.rank, r.name + ' · ' + r.mapName, r.time.toFixed(3) + 's · ' + fmt(r.dateObj))).join('');
