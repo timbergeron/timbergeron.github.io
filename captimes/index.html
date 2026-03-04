@@ -822,7 +822,7 @@
         if (sortedByTime.length > 0) {
             document.getElementById('stat-fastest').textContent = sortedByTime[0].time.toFixed(3) + 's';
             document.getElementById('tooltip-fastest').innerHTML = sortedByTime.slice(0, 3)
-                .map((r, i) => tooltipRow(i + 1, r.name + ' · ' + r.mapName, r.time.toFixed(3) + 's')).join('');
+                .map((r, i) => tooltipRow(i + 1, r.name + ' · ' + r.mapName, r.time.toFixed(3) + 's', r.category)).join('');
         }
 
         // Trial #1s - top 3
