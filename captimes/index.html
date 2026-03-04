@@ -196,6 +196,10 @@
         .tooltip-rank-3 { background: linear-gradient(135deg, #a0603a, #cd7f32); color: #1a1a0a; }
         .tooltip-rank-other { background: #444; color: #aaa; }
 
+        .tooltip-cat { font-size: .65rem; flex-shrink: 0; width: 16px; text-align: center; }
+        .tooltip-cat-trial { color: #6fcf97; }
+        .tooltip-cat-match { color: #cf8f6f; }
+
         .tooltip-name { flex: 1; color: #e0e0e0; }
 
         .tooltip-value {
@@ -284,7 +288,7 @@
         }
 
         .records-table .col-rank { width: 40px; padding-right: 0 !important; }
-        .records-table .col-player { width: 100px; padding-left: 8px !important; }
+        .records-table .col-player { width: 140px; padding-left: 8px !important; }
         .records-table .col-time { width: 90px; }
         .records-table .col-date { }
         .records-table .col-matchtime { }
@@ -600,8 +604,9 @@
                         timeStr: colD,
                         date: colE,
                         timeInMatch: colF,
-                        server: colG.toLowerCase().includes('denver.quakeone.com') ? 'Denver' : colG,
-                        ping: colI
+                        server: colG.toLowerCase().includes('denver.quakeone.com') ? 'Denver' : colG.toLowerCase().includes('dallas.quakeone.com') ? 'Dallas' : colG,
+                        ping: colI,
+                        category: currentCategory
                     };
 
                     if (currentCategory === 'TRIAL') {
@@ -760,10 +765,16 @@
         });
     }
 
-    function tooltipRow(rank, name, value) {
+    function tooltipRow(rank, name, value, category) {
         const rankClass = rank <= 3 ? 'tooltip-rank-' + rank : 'tooltip-rank-other';
+        const catIcon = category === 'TRIAL'
+            ? '<span class="tooltip-cat tooltip-cat-trial" title="Trial"><i class="fa-solid fa-stopwatch"></i></span>'
+            : category === 'MATCH'
+            ? '<span class="tooltip-cat tooltip-cat-match" title="Match"><i class="fa-solid fa-gamepad"></i></span>'
+            : '';
         return `<div class="tooltip-row">
             <span class="tooltip-rank ${rankClass}">${rank}</span>
+            ${catIcon}
             <span class="tooltip-name">${escapeHtml(name)}</span>
             <span class="tooltip-value">${escapeHtml(value)}</span>
         </div>`;
@@ -837,7 +848,7 @@
             const fmt = d => (d.getMonth()+1) + '/' + d.getDate() + '/' + String(d.getFullYear()).slice(2);
             document.getElementById('stat-recent').textContent = fmt(withDates[0].dateObj);
             document.getElementById('tooltip-recent').innerHTML = withDates.slice(0, 10)
-                .map((r) => tooltipRow(r.rank, r.name + ' · ' + r.mapName, r.time.toFixed(3) + 's · ' + fmt(r.dateObj))).join('');
+                .map((r) => tooltipRow(r.rank, r.name + ' · ' + r.mapName, r.time.toFixed(3) + 's · ' + fmt(r.dateObj), r.category)).join('');
         }
 
         document.getElementById('stats-bar').style.display = 'flex';
