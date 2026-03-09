@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quake Bunnyhop Trainer</title>
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --panel: #121722;
+      --panel-2: #1a2130;
+      --text: #e8edf7;
+      --muted: #a8b3c7;
+      --accent: #7cc7ff;
+      --accent-2: #9d7cff;
+      --good: #7dffb3;
+      --warn: #ffd36e;
+      --border: rgba(255,255,255,.08);
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124, 199, 255, 0.14), transparent 32%),
+        radial-gradient(circle at top right, rgba(157, 124, 255, 0.12), transparent 28%),
+        linear-gradient(180deg, #0a0d14 0%, #0b0d12 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 72px 0 36px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-main {
+      padding: 32px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(124,199,255,.09);
+      border: 1px solid rgba(124,199,255,.18);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 18px 0 14px;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 68ch;
+    }
+
+    .hero-actions {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #07111e;
+      border: none;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+    }
+
+    .hero-side {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      justify-content: space-between;
+    }
+
+    .mini-stat {
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+    }
+
+    .mini-stat strong {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .section {
+      padding: 18px 0 10px;
+    }
+
+    .section h2 {
+      font-size: clamp(1.5rem, 2vw, 2.3rem);
+      margin: 0 0 12px;
+      letter-spacing: -.02em;
+    }
+
+    .section p.section-intro {
+      color: var(--muted);
+      margin: 0 0 24px;
+      max-width: 75ch;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 22px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .panel ul, .panel ol {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .panel li + li { margin-top: 8px; }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 16px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .step-num {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, rgba(124,199,255,.18), rgba(157,124,255,.18));
+      border: 1px solid rgba(255,255,255,.08);
+      color: var(--text);
+    }
+
+    .step p { margin: 0; color: var(--muted); }
+    .step h3 { margin: 0 0 6px; }
+
+    .callout {
+      padding: 18px 20px;
+      border-left: 4px solid var(--warn);
+      border-radius: 14px;
+      background: rgba(255, 211, 110, 0.08);
+      color: #ffe7aa;
+      margin: 18px 0 0;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .video-card {
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .video-card iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      display: block;
+      background: #000;
+    }
+
+    .video-card .content {
+      padding: 18px;
+    }
+
+    .video-card h3 {
+      margin: 0 0 8px;
+    }
+
+    .video-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .practice-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 16px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .practice-table th,
+    .practice-table td {
+      text-align: left;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .practice-table th {
+      color: var(--text);
+      background: rgba(255,255,255,.03);
+      font-size: .95rem;
+    }
+
+    .practice-table td {
+      color: var(--muted);
+    }
+
+    .practice-table tr:last-child td { border-bottom: none; }
+
+    .footer {
+      padding: 32px 0 60px;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    code.kbd {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 8px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .92em;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-3,
+      .grid-2,
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(100% - 20px, 1180px); }
+      .hero { padding-top: 40px; }
+      .hero-main, .hero-side, .panel { padding: 18px; }
+      .step { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container hero-grid">
+      <section class="card hero-main">
+        <div class="eyebrow">Quake Movement Trainer</div>
+        <h1>Learn How to Bunnyhop in Quake</h1>
+        <p class="lead">
+          This page teaches the core ideas behind Quake-style bunnyhopping using two great video references.
+          The main idea is simple: you do <strong>not</strong> gain speed by mindlessly holding forward in a straight line.
+          You gain speed from <strong>turning, strafing, timing your jumps, and controlling your movement in the air</strong>.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#start">Start Learning</a>
+          <a class="btn btn-secondary" href="#videos">Watch the Videos</a>
+        </div>
+      </section>
+
+      <aside class="card hero-side">
+        <div class="mini-stat">
+          <strong>Core concept</strong>
+          Speed comes from turning + strafing, not just running straight.
+        </div>
+        <div class="mini-stat">
+          <strong>Why jumping matters</strong>
+          Ground friction slows you down, but air movement lets you preserve speed.
+        </div>
+        <div class="mini-stat">
+          <strong>Best beginner mindset</strong>
+          Think of each movement key as a “hand” grabbing a pole and swinging around it.
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="start" class="section">
+      <h2>What bunnyhopping actually is</h2>
+      <p class="section-intro">
+        Bunnyhopping is the combination of an initial speed-building move on the ground, a well-timed jump,
+        and repeated air control so you keep that speed instead of letting friction destroy it. In Quake and
+        Quake-like movement systems, this creates movement that feels more like racing than ordinary walking.
+      </p>
+
+      <div class="grid-3">
+        <article class="panel">
+          <h3>1. Build speed with a turn</h3>
+          <p style="color: var(--muted); margin: 0;">
+            Turning while using the correct movement input increases your speed more effectively than just moving straight forward.
+          </p>
+        </article>
+        <article class="panel">
+          <h3>2. Jump before friction wins</h3>
+          <p style="color: var(--muted); margin: 0;">
+            Ground friction pulls your speed back down. Jumping at the right moment lets you carry your built-up speed into the air.
+          </p>
+        </article>
+        <article class="panel">
+          <h3>3. Keep steering in the air</h3>
+          <p style="color: var(--muted); margin: 0;">
+            Once airborne, your strafe keys and mouse movement let you curve smoothly and preserve momentum across repeated jumps.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>The simplest mental model: “grab the pole”</h2>
+      <p class="section-intro">
+        One of the best ideas from the turning-behavior video is to imagine your movement key as a hand grabbing a pole.
+        If you press right strafe, imagine there is a pole on your right and you are swinging around it. If you press left,
+        you are orbiting a pole on your left. This makes turning behavior much easier to feel and predict.
+      </p>
+
+      <div class="grid-2">
+        <article class="panel">
+          <h3>How to visualize it</h3>
+          <ul>
+            <li><code class="kbd">D</code> / right strafe = grab a pole on your right and swing around it.</li>
+            <li><code class="kbd">A</code> / left strafe = grab a pole on your left and swing around it.</li>
+            <li>Diagonal inputs are just diagonal “hands” grabbing a diagonal pole.</li>
+            <li>The direction of your view changes how that arc feels, but the same principle still applies.</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Why this helps</h3>
+          <ul>
+            <li>It stops you from thinking movement is just “hold forward and steer.”</li>
+            <li>It helps explain why new players often fail when they try to force intuitive car-like steering.</li>
+            <li>It makes sideways and diagonal movement feel natural instead of weird.</li>
+            <li>It teaches maneuvering, not just raw speed.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout">
+        Beginner mistake: holding forward and trying to turn normally in the air often feels wrong because Quake-style air movement is not ordinary steering.
+        Think in arcs, not straight lines.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Step-by-step: your first bunnyhop</h2>
+      <p class="section-intro">
+        Use this as your beginner sequence. The goal is not perfect speed immediately. The goal is to understand the rhythm:
+        strafe, turn, jump, land cleanly, and repeat.
+      </p>
+
+      <div class="steps">
+        <article class="step">
+          <div class="step-num">01</div>
+          <div>
+            <h3>Start moving and build a small arc</h3>
+            <p>
+              Begin with a short run-up. Instead of only pushing straight forward, start turning gently while using an appropriate strafe input.
+              You are trying to build speed through a curve, not a line.
+            </p>
+          </div>
+        </article>
+
+        <article class="step">
+          <div class="step-num">02</div>
+          <div>
+            <h3>Jump as you carry that speed</h3>
+            <p>
+              The jump transfers your speed from the ground into the air before friction drags you back toward normal movement speed.
+            </p>
+          </div>
+        </article>
+
+        <article class="step">
+          <div class="step-num">03</div>
+          <div>
+            <h3>Release the “walk straight” mindset</h3>
+            <p>
+              In the air, think about curving with your mouse and strafe keys instead of trying to push straight forward.
+              The goal is smooth control, not jerky correction.
+            </p>
+          </div>
+        </article>
+
+        <article class="step">
+          <div class="step-num">04</div>
+          <div>
+            <h3>Land and jump again quickly</h3>
+            <p>
+              Repeated jumps keep your speed alive. If you spend too long on the ground, friction eats your momentum.
+            </p>
+          </div>
+        </article>
+
+        <article class="step">
+          <div class="step-num">05</div>
+          <div>
+            <h3>Use left and right arcs rhythmically</h3>
+            <p>
+              Bunnyhopping often becomes a smooth left-right pattern. Each jump is an opportunity to keep curving and preserving speed.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What the videos say matters most</h2>
+      <div class="grid-2">
+        <article class="panel">
+          <h3>From the turning behavior video</h3>
+          <ul>
+            <li>Speed is gained by turning.</li>
+            <li>Different movement keys create different turning centers.</li>
+            <li>You can bunnyhop sideways, diagonally, or forward depending on the situation.</li>
+            <li>Circle jumps and pre-strafes are based on the same turning principle.</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>From the beginner speedrunning guide</h3>
+          <ul>
+            <li>Bunnyhopping combines strafe jump, repeated jumps, and air control.</li>
+            <li>It is not only about maximum speed; it is also about precise maneuvering.</li>
+            <li>Good runners adjust angle and speed based on the geometry of the room.</li>
+            <li>Related movement tools include wall hugging, ground strafing, zigzagging, and power bunnyhopping.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Practice plan</h2>
+      <p class="section-intro">
+        Train one skill at a time. Do not try to learn every advanced movement option at once.
+      </p>
+
+      <table class="practice-table">
+        <thead>
+          <tr>
+            <th>Stage</th>
+            <th>Focus</th>
+            <th>What to feel for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Ground turning</td>
+            <td>Notice that curved movement builds speed better than simply running straight.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Single strafe jump</td>
+            <td>Feel the moment where the jump preserves the speed you just built.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Two to three chained jumps</td>
+            <td>Work on smooth landings and immediate re-jumps without panic-correcting.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Air control</td>
+            <td>Use mouse turning plus strafe input to create a clean arc in the air.</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Maneuvering</td>
+            <td>Practice not just speed, but steering through spaces without hitting walls or ceilings.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Common beginner mistakes</h2>
+      <div class="grid-3">
+        <article class="panel">
+          <h3>Holding forward like it is normal movement</h3>
+          <p style="color: var(--muted); margin: 0;">
+            That often makes bunnyhopping feel clumsy. Focus on the arc created by strafe input and mouse turn.
+          </p>
+        </article>
+        <article class="panel">
+          <h3>Landing too long on the ground</h3>
+          <p style="color: var(--muted); margin: 0;">
+            Ground friction is the enemy. The longer you stay grounded, the more speed you lose.
+          </p>
+        </article>
+        <article class="panel">
+          <h3>Only thinking about speed</h3>
+          <p style="color: var(--muted); margin: 0;">
+            Bunnyhopping is also for positioning and maneuvering. The fastest path is not always a straight one.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="videos" class="section">
+      <h2>Referenced videos</h2>
+      <p class="section-intro">
+        Your browser is blocking the embedded YouTube player here, so this section uses reliable direct links instead.
+        Click either card to open the video on YouTube in a new tab.
+      </p>
+
+      <div class="video-grid">
+        <article class="video-card">
+          <a href="https://www.youtube.com/watch?v=HfpmGJiuJkc" target="_blank" rel="noopener noreferrer" style="display:block; color:inherit; text-decoration:none;">
+            <div style="aspect-ratio:16/9; display:grid; place-items:center; background:linear-gradient(135deg, #161b26, #0d1220); border-bottom:1px solid var(--border); padding:24px; text-align:center;">
+              <div>
+                <div style="font-size:3rem; line-height:1; margin-bottom:12px;">▶</div>
+                <div style="font-size:1.05rem; font-weight:800; color:var(--text); margin-bottom:6px;">Open on YouTube</div>
+                <div style="color:var(--muted);">Bunnyhop Turning Behavior in Quake/Source</div>
+              </div>
+            </div>
+          </a>
+          <div class="content">
+            <h3>Bunnyhop Turning Behavior in Quake/Source</h3>
+            <p>
+              Best for understanding the “grab the pole” analogy and how different movement inputs create different turning behavior.
+              <br><br>
+              <a href="https://www.youtube.com/watch?v=HfpmGJiuJkc" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+            </p>
+          </div>
+        </article>
+
+        <article class="video-card">
+          <a href="https://www.youtube.com/watch?v=QRlftc0A5hA" target="_blank" rel="noopener noreferrer" style="display:block; color:inherit; text-decoration:none;">
+            <div style="aspect-ratio:16/9; display:grid; place-items:center; background:linear-gradient(135deg, #161b26, #0d1220); border-bottom:1px solid var(--border); padding:24px; text-align:center;">
+              <div>
+                <div style="font-size:3rem; line-height:1; margin-bottom:12px;">▶</div>
+                <div style="font-size:1.05rem; font-weight:800; color:var(--text); margin-bottom:6px;">Open on YouTube</div>
+                <div style="color:var(--muted);">The Complete Beginner's Guide to Quake Speedrunning</div>
+              </div>
+            </div>
+          </a>
+          <div class="content">
+            <h3>The Complete Beginner's Guide to Quake Speedrunning</h3>
+            <p>
+              Best for seeing how strafe jumps, continuous jumps, air control, damage boosts, and movement planning all fit together.
+              <br><br>
+              <a href="https://www.youtube.com/watch?v=QRlftc0A5hA" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Quick recap</h2>
+      <div class="panel">
+        <p style="margin: 0; color: var(--muted);">
+          To bunnyhop well in Quake, think in curves. Build speed by turning, jump before ground friction slows you down,
+          and keep steering in the air with your mouse and strafe keys. Use the “grab the pole” idea to understand how turning works,
+          and remember that bunnyhopping is not just about going fast — it is about moving exactly where you want with momentum.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    Built as a beginner-friendly learning page using concepts from:
+    <a href="https://www.youtube.com/watch?v=HfpmGJiuJkc" target="_blank" rel="noopener noreferrer">Bunnyhop Turning Behavior in Quake/Source</a>
+    and
+    <a href="https://www.youtube.com/watch?v=QRlftc0A5hA" target="_blank" rel="noopener noreferrer">The Complete Beginner's Guide to Quake Speedrunning</a>.
+  </footer>
+</body>
+</html>
