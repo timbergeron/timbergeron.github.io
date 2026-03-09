@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetQuake vs QuakeWorld Physics Differences</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0f14;
+      --panel: rgba(21, 27, 35, 0.92);
+      --panel-strong: rgba(26, 34, 44, 0.97);
+      --text: #edf2f7;
+      --muted: #a5b1bf;
+      --accent: #f0c35a;
+      --accent-2: #77c8ff;
+      --border: #2c3642;
+      --shadow: rgba(0, 0, 0, 0.26);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(119, 200, 255, 0.12), transparent 34%),
+        linear-gradient(180deg, #0d1218 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 36px 20px 56px;
+    }
+
+    header {
+      margin-bottom: 28px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      color: var(--accent);
+      letter-spacing: 0.01em;
+    }
+
+    h2 {
+      margin-top: 34px;
+      color: var(--accent);
+      font-size: 1.4rem;
+    }
+
+    h3 {
+      color: var(--accent-2);
+      font-size: 1rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+      max-width: 75ch;
+    }
+
+    .lede {
+      font-size: 1.08rem;
+      color: #f4f7fb;
+    }
+
+    .note,
+    .small {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 18px 0 10px;
+    }
+
+    .card,
+    .callout {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 14px 40px var(--shadow);
+    }
+
+    .callout {
+      background: var(--panel-strong);
+    }
+
+    .code-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 18px 0;
+    }
+
+    pre,
+    code {
+      font-family: Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    pre {
+      margin: 0 0 10px;
+      padding: 14px;
+      border-radius: 12px;
+      background: rgba(7, 10, 14, 0.9);
+      border: 1px solid #1f2833;
+      overflow-x: auto;
+      color: #dce8f4;
+    }
+
+    code {
+      color: #f7de8b;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 14px 40px var(--shadow);
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.015);
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 18px 0 6px;
+    }
+
+    .summary strong {
+      display: block;
+      color: var(--accent-2);
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 720px) {
+      main {
+        padding: 28px 14px 44px;
+      }
+
+      th,
+      td {
+        padding: 10px 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>NetQuake vs QuakeWorld</h1>
+      <p class="lede">The old rule of thumb still holds: classic NetQuake is more server-bound, friction-heavy, and awkward around walls, while classic QuakeWorld is built to replay movement cleanly and preserve speed through hops.</p>
+      <p class="note">Original summary compiled by Tonik. This version expands it after checking the current QSS-M tree on the NetQuake side and ezQuake on the QuakeWorld side.</p>
+    </header>
+
+    <section>
+      <h2>The Big Split</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>NetQuake / QSS-M default path</h3>
+          <p>QSS-M still carries the classic NetQuake server movement path in <code>sv_phys.c</code>: <code>SV_Physics_Client</code> drives <code>SV_WalkMove</code>, and wall drag is applied through <code>SV_WallFriction</code>. Its default <code>sv_nqplayerphysics 1</code> setting keeps that authoritative NQ feel.</p>
+        </article>
+        <article class="card">
+          <h3>QuakeWorld / ezQuake path</h3>
+          <p>ezQuake is built around shared <code>pmove</code>. The server fills <code>movevars</code> in <code>sv_user.c</code>, runs <code>PM_PlayerMove()</code>, and the client reruns the same usercmd stream in <code>cl_pred.c</code> and <code>cl_main.c</code> so movement can be predicted locally.</p>
+        </article>
+        <article class="card">
+          <h3>Why that changes the feel</h3>
+          <p>NQ tends to expose server timing, pre-jump friction, edge drag, and wall stickiness. QW turns movement into a repeatable command replay problem, which is why it supports true bunnyhopping, tighter tele exits, and much more reliable strafe timing under latency.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>The Bunnyhop Difference in One Glance</h2>
+      <div class="code-grid">
+        <article class="callout">
+          <h3>NQ-leaning order</h3>
+          <pre>PM_Friction();
+PM_CheckJump();</pre>
+          <p>QSS-M exposes both orders, but its default <code>pm_bunnyfriction 1</code> keeps the NetQuake style: speed is taxed before the jump, so chained hops do not keep building forever.</p>
+        </article>
+        <article class="callout">
+          <h3>QW order</h3>
+          <pre>PM_CheckJump();
+PM_Friction();</pre>
+          <p>ezQuake's <code>PM_PlayerMove()</code> does the QuakeWorld order directly. That missing friction frame is the core reason QW bunnyhops keep momentum and reward exact strafing.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>Source-Backed Differences</h2>
+      <table>
+        <tr>
+          <th>Topic</th>
+          <th>NetQuake / QSS-M</th>
+          <th>QuakeWorld / ezQuake</th>
+          <th>Practical result</th>
+        </tr>
+        <tr>
+          <td>Movement authority</td>
+          <td>Classic movement still lives in the server-side walk physics path, and QSS-M only switches to shared <code>pmove</code> when prediction is explicitly enabled.</td>
+          <td>Shared <code>pmove</code> is the normal design: server and client both run the same movement code.</td>
+          <td>NQ feels more tied to server cadence; QW feels immediate because the client can rehearse the move before the server reply lands.</td>
+        </tr>
+        <tr>
+          <td>Prediction</td>
+          <td>Optional. QSS-M even prints a message when server movement prediction becomes active, which underlines that it is a mode rather than the baseline.</td>
+          <td>Core behavior. ezQuake uses <code>CL_PredictMove()</code> and <code>CL_PredictUsercmd()</code>; prediction is only absent if you deliberately disable it.</td>
+          <td>QW movement is much easier to place precisely in online play.</td>
+        </tr>
+        <tr>
+          <td>Jump and friction order</td>
+          <td>Defaults to the NQ friction-first hop through <code>pm_bunnyfriction</code>.</td>
+          <td>Checks the jump before applying friction.</td>
+          <td>This is the heart of the bunnyhop split: NQ burns speed on takeoff, QW keeps it.</td>
+        </tr>
+        <tr>
+          <td>Edge friction</td>
+          <td><code>pm_edgefriction</code> is exposed, and QSS-M can choose between an NQ-style line test and the QW-style edge-box behavior.</td>
+          <td><code>PM_Friction()</code> doubles ground friction when the forward trace hangs over a dropoff.</td>
+          <td>Both punish sloppy ledge movement, but the trigger geometry differs, so the slowdown starts at different moments.</td>
+        </tr>
+        <tr>
+          <td>Wall friction</td>
+          <td>Classic server physics still calls <code>SV_WallFriction</code> after step traces.</td>
+          <td>No equivalent heavy wall-friction pass exists in ezQuake's <code>pmove.c</code>.</td>
+          <td>NQ wall scrapes feel sticky; QW lines along walls keep more speed.</td>
+        </tr>
+        <tr>
+          <td>Step and ramp handling</td>
+          <td>Classic step logic remains, but QSS-M adds many compatibility knobs such as <code>pm_slidefix</code>, <code>pm_stepdown</code>, <code>pm_slidyslopes</code>, <code>pm_airstep</code>, and <code>pm_walljump</code>.</td>
+          <td>Modern QW exposes competitive movement switches such as <code>pm_slidefix</code>, <code>pm_airstep</code>, <code>pm_pground</code>, and <code>pm_rampjump</code>.</td>
+          <td>Modern ports can blur the old line, but QW still starts from the more air-control-friendly baseline.</td>
+        </tr>
+        <tr>
+          <td>Timing model</td>
+          <td>Shared <code>pmove</code> uses <code>cmd.seconds * gamespeed</code>, while the classic NQ path is still closely tied to server physics frames.</td>
+          <td><code>PM_PlayerMove()</code> runs on <code>cmd.msec * 0.001</code>, and the same usercmds are replayed locally.</td>
+          <td>QW is engineered around exact usercmd replay; NQ historically leaks more tick-rate quirks into movement.</td>
+        </tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Classic Gameplay Differences Players Usually Mean</h2>
+      <p class="small">These are the long-standing ruleset differences people usually mean when they say "NQ physics" versus "QW physics." Modern engines can emulate parts of both.</p>
+      <table>
+        <tr>
+          <th>Topic</th>
+          <th>NetQuake</th>
+          <th>QuakeWorld</th>
+          <th>What it changes</th>
+        </tr>
+        <tr>
+          <td>Bunnyhopping</td>
+          <td>There is a friction frame before the hop, so speed gain is limited and depends much more on server timing.</td>
+          <td>The friction frame is effectively absent, so acceleration can be chained continuously.</td>
+          <td>QW rewards repeatable speed-building routes; NQ rewards cleaner, more conservative lines.</td>
+        </tr>
+        <tr>
+          <td>Teleport exits</td>
+          <td>The classic backpedal lock after a teleport forces a committed turn or reposition.</td>
+          <td>No comparable lock, so you can re-enter or backpedal much more aggressively.</td>
+          <td>QW tele routes are faster and less committal.</td>
+        </tr>
+        <tr>
+          <td>Projectile launch ("newmis")</td>
+          <td>Projectiles launch from the old origin logic.</td>
+          <td>Projectiles are nudged forward by the player's velocity on spawn.</td>
+          <td>That changes rocket-jump timing, corner shots, and the order in which jump and attack can be buffered.</td>
+        </tr>
+        <tr>
+          <td>Edge play</td>
+          <td>Edge slowdown arrives earlier and is usually more noticeable.</td>
+          <td>Edge handling is milder in feel and combines with freer air control.</td>
+          <td>Tight ledges and lip-strafes are less punishing in QW.</td>
+        </tr>
+        <tr>
+          <td>Ramps and slopes</td>
+          <td>Vertical speed is easier to preserve, and classic NQ slope behavior can create odd boosts or sticky wall-slope interactions.</td>
+          <td>Ground handling is more normalized, and modern QW servers often expose explicit rampjump toggles.</td>
+          <td>The same ramp can be a speed bump, a boost, or a dead line depending on ruleset.</td>
+        </tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Mod-Specific Combat: KTX vs CRMod7</h2>
+      <p class="small">This section is not about base engine laws anymore. It compares two competitive mods checked in the sibling trees: KTX on the QuakeWorld side and CRMod7 on the NetQuake side.</p>
+      <table>
+        <tr>
+          <th>Topic</th>
+          <th>KTX (QW mod)</th>
+          <th>CRMod7 (NQ mod)</th>
+          <th>What it means in play</th>
+        </tr>
+        <tr>
+          <td>Rocket direct-hit damage</td>
+          <td><code>T_MissileTouch()</code> fixes direct-hit rockets at <code>110</code> damage, then applies the usual <code>120</code> splash pass.</td>
+          <td>Direct-hit rockets still roll <code>100 + random()*20</code>, then apply the usual <code>120</code> splash pass.</td>
+          <td>KTX rockets are more deterministic. CRMod7 keeps the classic NQ-style direct-hit damage spread.</td>
+        </tr>
+        <tr>
+          <td>Lightning beam damage</td>
+          <td><code>W_FireLightning()</code> feeds <code>30</code> damage into <code>LightningDamage()</code>.</td>
+          <td><code>W_FireLightning()</code> also feeds <code>30</code> damage into <code>LightningDamage()</code>.</td>
+          <td>LG itself is not the random weapon here. In both trees, shaft beam damage is fixed; the bigger variance is in rockets and pellet spread.</td>
+        </tr>
+        <tr>
+          <td>Lightning beam shape</td>
+          <td>KTX uses a single beam trace and logs hits for its LG stats modes.</td>
+          <td>CRMod7 explicitly preserves the historical single center trace instead of widening the beam.</td>
+          <td>Despite the NQ/QW split, these two mods converge on a very similar practical LG hit model.</td>
+        </tr>
+        <tr>
+          <td>Shot and grenade randomness</td>
+          <td><code>FireBullets()</code> can switch to non-random pellet layouts in Yawnmode or with the player <code>nrb</code> setting, and Yawnmode also zeroes grenade-launch aim randomness.</td>
+          <td>Shot spread still uses <code>crandom()</code>, and rocket direct hits still keep their classic random roll.</td>
+          <td>KTX can be configured to feel much more deterministic than stock Quake weapon spread. CRMod7 stays closer to classic variance.</td>
+        </tr>
+        <tr>
+          <td>Underwater lightning / discharge</td>
+          <td>Underwater shaft empties the cell pool; in normal play it can discharge for <code>35 * cells</code>, while some arena-style branches simply strip the ammo or hard-punish the shooter.</td>
+          <td>Underwater shaft also empties the cell pool; outside arena-style branches it discharges for <code>35 * cells</code>, while arena play uses a separate discharge branch.</td>
+          <td>Both mods treat underwater LG as a special ruleset case. The exact punishment is mode-driven, not a simple NQ vs QW constant.</td>
+        </tr>
+        <tr>
+          <td>Damage multipliers and burst windows</td>
+          <td>Quad is normally <code>x4</code>, becomes <code>x8</code> in <code>dmm4</code> unless the server overrides it, and CTF strength / resistance are both cvar-scaled rather than hard-coded.</td>
+          <td>CTF strength is a hard <code>x2</code> damage multiplier and resistance is a hard <code>/2</code> incoming damage multiplier.</td>
+          <td>KTX lets the server decide how violent power spikes become. CRMod7 locks in sharper default thresholds, so rune fights are easier to read but less tuneable.</td>
+        </tr>
+        <tr>
+          <td>Haste and regeneration runes</td>
+          <td>Haste directly multiplies <code>maxspeed</code>, and regeneration adds <code>+5</code> health and <code>+5</code> armor toward <code>150</code> with tick speed also scaled by cvar.</td>
+          <td>Haste shortens key refires to <code>0.3</code> (SG), <code>0.42</code> (SSG), <code>0.36</code> (GL), and <code>0.48</code> (RL). Regeneration restores <code>+5/+5</code> every <code>0.5s</code> and raises max health to <code>150</code>.</td>
+          <td>KTX haste changes route speed first. CRMod7 haste changes damage output rhythm first, which matters a lot in chase and escort fights.</td>
+        </tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>DM / CTF Ruleset Management: KTX vs CRMod7</h2>
+      <table>
+        <tr>
+          <th>Topic</th>
+          <th>KTX (QW mod)</th>
+          <th>CRMod7 (NQ mod)</th>
+          <th>Practical result</th>
+        </tr>
+        <tr>
+          <td>Weapon autoswitch logic</td>
+          <td>When a gun runs dry, <code>W_CheckNoAmmo()</code> drops straight to <code>W_BestWeapon()</code>. Pickup switching is configurable through <code>w_switch</code>, <code>b_switch</code>, and custom weapon order via <code>w_rank</code>.</td>
+          <td>New clients start with <code>CLANRING_SMART_WEAPON</code>. SmartWeapon can auto-switch on pickup or empty-weapon states, but if you turn it off the gun can stay selected and just click dry.</td>
+          <td>KTX leans toward ranking-driven automatic weapon choice. CRMod7 treats autoswitching more as a player feature flag.</td>
+        </tr>
+        <tr>
+          <td>Pickup weapon handling</td>
+          <td><code>DoWeaponChange()</code> compares the new pickup against the player's configured switch threshold and rank order.</td>
+          <td>Weapon and backpack pickup code both check SmartWeapon and <code>w_switch</code> before forcing a change.</td>
+          <td>KTX exposes more server-and-user tuning around pickup behavior; CRMod7 exposes more explicit on/off smart-switch behavior.</td>
+        </tr>
+        <tr>
+          <td>Spawn system philosophy</td>
+          <td>KTX exposes multiple respawn models, from normal QW to <code>KT SpawnSafety</code>, <code>Kombat Teams</code>, <code>KTX</code>, and <code>KTX2</code>. It also tracks last spawn, fair-spawn weights, and short anti-repeat windows.</td>
+          <td>CRMod7 does simpler random spawn selection, but rejects spots near your last death or last spawn and scans nearby players to avoid obvious spawn telefrags.</td>
+          <td>KTX makes spawn behavior a configurable tournament rule. CRMod7 focuses on local anti-repeat and anti-spawnfrag filtering.</td>
+        </tr>
+        <tr>
+          <td>Spawn-frag mitigation</td>
+          <td>KTX marks a short <code>k_1spawn</code> safety window, rechecks repeated spawn picks, tracks spawn frags in stats, and blocks attack/jump for <code>50ms</code> after respawn.</td>
+          <td>CRMod7's spawn search checks a <code>128</code>-unit radius around candidate spawns for live players before accepting the point.</td>
+          <td>KTX spreads the solution across spawn models and short post-spawn movement/input rules; CRMod7 attacks the problem mostly at spawn selection time.</td>
+        </tr>
+        <tr>
+          <td>CTF spawn policy</td>
+          <td>Initial CTF spawns can force players to their home base, and <code>k_ctf_based_spawn 2</code> mixes neutral and team-base spawns specifically to avoid the "fish in a barrel" base-overrun problem.</td>
+          <td>CRMod7 uses team spawns in CTF when present and falls back to deathmatch spawns on non-CTF maps.</td>
+          <td>KTX exposes more deliberate base-spawn policy knobs. CRMod7 stays closer to map-defined spawn structure.</td>
+        </tr>
+        <tr>
+          <td>Prewar protection state</td>
+          <td>KTX mostly protects players through safer spawn selection, CTF base-spawn rules, and short post-spawn input locks. Some specialized modes also add temporary invulnerability windows.</td>
+          <td>CRMod7 adds a true prewar <code>leave-me-alone</code> mode for DM/CTF match setup, making the player intangible and non-telefragging until they opt back in. Arena-like modes also grant timed invulnerability on spawn.</td>
+          <td>CRMod7 has the more explicit "safe prewar" state. KTX tends to solve the same problem with spawn policy and short mechanical guard rails.</td>
+        </tr>
+        <tr>
+          <td>CTF extras</td>
+          <td>KTX exposes hook, rune power, and base-spawn behavior through cvars such as <code>k_ctf_hook</code>, <code>k_ctf_runes</code>, and <code>k_ctf_based_spawn</code>.</td>
+          <td>CRMod7 bundles hook, runes, ghosts, pause flow, and capture-oriented match logic into a more monolithic all-in-one tournament ruleset.</td>
+          <td>KTX feels more cvar-driven and server-tunable. CRMod7 feels more integrated and mode-suite-oriented.</td>
+        </tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Weapon Refire &amp; Damage Reference</h2>
+      <p class="small">Base refire times are identical in both mods. The difference is what haste does and where competitive modes change the numbers.</p>
+      <table>
+        <tr>
+          <th>Weapon</th>
+          <th>Base refire</th>
+          <th>KTX haste</th>
+          <th>CRMod7 haste</th>
+          <th>Damage / notes</th>
+        </tr>
+        <tr>
+          <td>Axe</td>
+          <td><code>0.5s</code></td>
+          <td><code>0.5 - (hst_power / 10)</code></td>
+          <td><code>0.3s</code></td>
+          <td>Melee only, random swing animation.</td>
+        </tr>
+        <tr>
+          <td>Shotgun</td>
+          <td><code>0.5s</code></td>
+          <td><code>0.5 - (hst_power / 10)</code></td>
+          <td><code>0.3s</code></td>
+          <td>Pellet spread: KTX can go deterministic via <code>nrb</code> / Yawnmode. CRMod7 always uses <code>crandom()</code>.</td>
+        </tr>
+        <tr>
+          <td>Super Shotgun</td>
+          <td><code>0.7s</code></td>
+          <td><code>0.5 - (hst_power / 20)</code></td>
+          <td><code>0.42s</code></td>
+          <td>KTX Yawnmode raises base to <code>0.8s</code>. Two shells per shot.</td>
+        </tr>
+        <tr>
+          <td>Nailgun</td>
+          <td><code>0.2s</code></td>
+          <td>No explicit haste branch</td>
+          <td>No explicit haste branch</td>
+          <td><code>9</code> damage per nail at <code>1000</code> u/s. CRMod7 haste doubles nail speed to <code>2000</code>. KTX Yawnmode raises to <code>1800</code>.</td>
+        </tr>
+        <tr>
+          <td>Super Nailgun</td>
+          <td><code>0.2s</code></td>
+          <td>No explicit haste branch</td>
+          <td>No explicit haste branch</td>
+          <td><code>18</code> damage per pair (<code>9</code> &times; 2). KTX Yawnmode reduces to <code>16</code>. Fires 2 nails per shot.</td>
+        </tr>
+        <tr>
+          <td>Grenade Launcher</td>
+          <td><code>0.6s</code></td>
+          <td><code>0.5 - (hst_power / 10)</code></td>
+          <td><code>0.36s</code></td>
+          <td><code>120</code> splash, <code>2.5s</code> fuse, <code>600</code> u/s base speed. CRMod7 "no spooge" mode limits GL to <code>4</code> shots then forces weapon switch.</td>
+        </tr>
+        <tr>
+          <td>Rocket Launcher</td>
+          <td><code>0.8s</code></td>
+          <td><code>0.5 - (hst_power / 20)</code></td>
+          <td><code>0.48s</code></td>
+          <td>Direct: KTX <code>110</code> fixed, CRMod7 <code>100 + random()*20</code>. Splash: <code>120</code> in both.</td>
+        </tr>
+        <tr>
+          <td>Lightning Gun</td>
+          <td><code>0.1s</code></td>
+          <td>No haste modifier</td>
+          <td>No haste modifier</td>
+          <td><code>30</code> damage per tick, single center trace in both.</td>
+        </tr>
+      </table>
+      <p class="small">KTX haste is cvar-driven (<code>k_ctf_rune_power_hst</code>), so the exact refire depends on the server's rune power setting. CRMod7 haste is hard-coded at a flat <code>60%</code> of normal refire across all affected weapons. In both mods, NG/SNG fire through <code>player_nail1()</code> animation frames rather than the main <code>W_Attack</code> switch, so their effective rate is frame-driven at <code>0.2s</code>.</p>
+    </section>
+
+    <section>
+      <h2>Item Economy &amp; Respawn Timing</h2>
+      <p class="small">Powerup control and death-drop economics shape TDM and CTF pacing more than any single weapon stat. These are the numbers that drive item timing calls.</p>
+      <table>
+        <tr>
+          <th>Topic</th>
+          <th>KTX (QW mod)</th>
+          <th>CRMod7 (NQ mod)</th>
+          <th>What it changes</th>
+        </tr>
+        <tr>
+          <td>Quad respawn</td>
+          <td><code>60s</code> after pickup. HoonyMode shortens to <code>180s</code> (5-min rounds) or <code>240s</code> (10-min rounds). Practice mode: <code>30s</code>.</td>
+          <td><code>60s</code> after pickup (standard). Can be disabled entirely via <code>CLANRING_NO_QUAD</code>.</td>
+          <td>Both share the 60s base. HoonyMode's extended respawns make quad a once-per-half event in shorter KTX rounds.</td>
+        </tr>
+        <tr>
+          <td>Pent / Ring respawn</td>
+          <td><code>300s</code> (5 minutes) after pickup. HoonyMode: <code>180s</code> or <code>240s</code>. Practice: <code>30s</code>.</td>
+          <td>Standard powerup respawn model. Can be disabled entirely via <code>CLANRING_NO_PENT</code> / <code>CLANRING_NO_RING</code>.</td>
+          <td>KTX pent and ring are rare tournament events. CRMod7 can simply remove them from the map, creating a very different control layer.</td>
+        </tr>
+        <tr>
+          <td>Weapon respawn</td>
+          <td><code>30s</code> standard. <code>15s</code> in DMM3/DMM5. FreshTeams configurable via <code>k_freshteams_weapon_time</code>.</td>
+          <td>Depends on deathmatch mode. Standard <code>20s</code> in most modes.</td>
+          <td>KTX weapon denial is longer by default, making weapon control a heavier commitment.</td>
+        </tr>
+        <tr>
+          <td>Armor respawn</td>
+          <td><code>20s</code></td>
+          <td><code>20s</code></td>
+          <td>Identical. Armor timing is the same in both mods.</td>
+        </tr>
+        <tr>
+          <td>Mega health behavior</td>
+          <td>Gives <code>100</code> HP above cap (up to <code>250</code>). Rots at <code>1 HP/s</code> to <code>max_health</code>, then <code>20s</code> respawn. Regen rune <strong>prevents rot entirely</strong>.</td>
+          <td>Gives <code>100</code> HP above cap (up to <code>250</code>). Rots at <code>1 HP/s</code> to <code>max_health</code>, then <code>20s</code> respawn. Regen rune delays total respawn to <code>~120s</code> from pickup.</td>
+          <td>A KTX regen-carrier who takes mega keeps the health buffer indefinitely. A CRMod7 regen-carrier still loses the mega eventually, but the item stays off the map much longer.</td>
+        </tr>
+        <tr>
+          <td>Backpack on death</td>
+          <td>Drops <strong>actual ammo</strong> by default. Yawnmode caps at <code>25/50/25/25</code> (shells/nails/rockets/cells). FreshTeams caps further via cvars. Suicides drop nothing (except in Yawnmode).</td>
+          <td>Drops current weapon plus <strong>actual ammo</strong> (up to <code>100/200/100/100</code>). Backpack persists for <code>120s</code>.</td>
+          <td>CRMod7 backpacks are much fatter by default, making kills more rewarding for the winner's restack. KTX competitive modes deliberately starve the economy.</td>
+        </tr>
+        <tr>
+          <td>Fairpack system</td>
+          <td>Three modes: <code>0</code> = current weapon, <code>1</code> = best weapon owned, <code>2</code> = last weapon fired. Yawnmode in DMM1 only drops current weapon if the player was actively shooting.</td>
+          <td>No fairpack modes. Backpack always contains current weapon.</td>
+          <td>KTX fairpacks change what the pack is worth and whether a dying player can "deny" a good weapon by switching before death.</td>
+        </tr>
+        <tr>
+          <td>Powerup drops on death</td>
+          <td>Configurable: <code>dq</code> (drop quad), <code>dr</code> (drop ring), <code>dp</code> (drop pack). FFA defaults to drops enabled.</td>
+          <td>Configurable: <code>CLANRING_POWERUP_DROP</code> flag. League rules can also remove powerup types entirely.</td>
+          <td>Both mods make powerup drops a server rule. KTX FFA defaults to dropping. CRMod7's toggle-per-type approach gives more granular control.</td>
+        </tr>
+        <tr>
+          <td>Health packs</td>
+          <td>Small: <code>25 HP</code>. Rotten: <code>15 HP</code>. Respawn: <code>20s</code>.</td>
+          <td>Small: <code>25 HP</code>. Rotten: <code>5-10 HP</code>. Respawn: <code>20s</code>.</td>
+          <td>KTX rotten health is slightly more valuable (<code>15</code> vs <code>5-10</code>), which matters for low-stack scraping after respawn.</td>
+        </tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Match Rules, Teamplay &amp; Edge Cases</h2>
+      <p class="small">These are the structural rules that shape endgame, friendly fire decisions, and movement edge cases in competitive play.</p>
+      <table>
+        <tr>
+          <th>Topic</th>
+          <th>KTX (QW mod)</th>
+          <th>CRMod7 (NQ mod)</th>
+          <th>What it changes</th>
+        </tr>
+        <tr>
+          <td>Teamplay modes</td>
+          <td>Five modes: <code>TP1</code> = no self or team damage (armor still affected). <code>TP3</code> = no team damage, self-damage applies. <code>TP4</code> = no team HP/armor damage but knockback applies. <code>TP5</code> = full friendly fire.</td>
+          <td>Friendly fire enabled in team modes. Hook cannot latch teammates. Team checks on all damage paths.</td>
+          <td>KTX lets the server choose exactly how punishing same-team rockets are. CRMod7 keeps it simpler but always has consequences for bad aim in team fights.</td>
+        </tr>
+        <tr>
+          <td>Overtime</td>
+          <td>Four modes: <code>0</code> = none, <code>1</code> = time extension, <code>2</code> = sudden death (first frag wins), <code>3</code> = tiebreak (allows 1-frag tolerance). Requires exactly 2 teams in TDM/CTF.</td>
+          <td>Three modes: positive value = sudden death with time limit, negative = pure sudden death (no time cap), zero = no overtime.</td>
+          <td>KTX's tiebreak mode encourages aggressive endgame play without instant-loss risk. CRMod7's uncapped sudden death can extend indefinitely until someone breaks the tie.</td>
+        </tr>
+        <tr>
+          <td>Fall damage</td>
+          <td><code>5</code> damage at <code>-650</code> velocity. Map-specific overrides: <code>q1dm17</code> raises threshold to <code>-1000</code>. Clan Arena disables fall damage entirely.</td>
+          <td><code>5</code> damage at <code>-650</code> velocity. No per-map overrides or mode exemptions.</td>
+          <td>KTX CA removes a movement penalty entirely, which changes vertical map routing. The q1dm17 override means the long drop is survivable without penalizing movement.</td>
+        </tr>
+        <tr>
+          <td>Telefrag rules</td>
+          <td>Instant kill. Pent holder survives and reflects the kill. Teammate telefrag configurable via <code>k_tp_tele_death</code> (affects frag counting, not prevention).</td>
+          <td><code>50000</code> damage. Pent holder survives. Teammate telefrags allowed. <code>leave-me-alone</code> prewar mode prevents telefrags.</td>
+          <td>Both respect pent immunity. KTX tweaks how telefrag frags count in stats. CRMod7's prewar protection is the more unique feature.</td>
+        </tr>
+        <tr>
+          <td>Armor values</td>
+          <td>GA: <code>100</code> at <code>0.3</code> absorption (Yawnmode: <code>0.4</code>). YA: <code>150</code> at <code>0.6</code>. RA: <code>200</code> at <code>0.8</code>. No armor rot.</td>
+          <td>GA: <code>100</code> at <code>0.3</code>. YA: <code>150</code> at <code>0.6</code>. RA: <code>200</code> at <code>0.8</code>. No armor rot.</td>
+          <td>Identical outside Yawnmode. KTX Yawnmode's <code>0.4</code> GA absorption means green armor blocks <code>33%</code> more damage, which changes early-game armor decisions on maps with contested GA.</td>
+        </tr>
+        <tr>
+          <td>GL spam protection</td>
+          <td>No built-in GL spam limit.</td>
+          <td>"No spooge" mode: limits GL to <code>4</code> shots, then forces a weapon switch.</td>
+          <td>CRMod7 can mechanically prevent hallway grenade spam in modes where it is considered degenerate.</td>
+        </tr>
+        <tr>
+          <td>Discharge (underwater LG)</td>
+          <td><code>35 &times; cells</code> damage. DMM4 special: <code>50%</code> chance of instant self-kill. Yawnmode: always kills self in DMM4. Configurable via <code>k_dis</code>.</td>
+          <td><code>35 &times; cells</code> damage. Arena branches use separate discharge rules.</td>
+          <td>Same base formula. KTX DMM4 makes accidental discharge a coin flip for survival, which changes cell-carrying risk calculations in that mode.</td>
+        </tr>
+        <tr>
+          <td>CRMod7 arena loadout</td>
+          <td>KTX CA is map-dependent with configurable spawn logic.</td>
+          <td>All weapons, <code>200</code> health, RA (<code>0.8</code> absorption), ammo: <code>30/80/30/30</code> (shells/nails/rockets/cells). Starts with RL selected.</td>
+          <td>CRMod7 arena gives everyone a full loadout and high stack, so rounds are decided purely by aim and positioning rather than item control.</td>
+        </tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>What Those Rules Change in Real Matches</h2>
+      <p class="small">This is the layer strong players usually care about most: not just what the code says, but what actually changes in live combat, item fights, and team comms.</p>
+      <table>
+        <tr>
+          <th>Fight theme</th>
+          <th>KTX (QW mod)</th>
+          <th>CRMod7 (NQ mod)</th>
+          <th>Real-world consequence</th>
+        </tr>
+        <tr>
+          <td>Rocket confirmation</td>
+          <td>A clean direct rocket is always <code>110</code>, so "he ate a direct" is reliable information for the second peeker.</td>
+          <td>A clean direct rocket is <code>100-120</code>, so the same-looking hit does not always leave the same cleanup.</td>
+          <td>KTX rewards tighter synchronized re-peeks and cleaner focus-fire calls. CRMod7 teams usually leave a slightly wider safety margin before collapsing.</td>
+        </tr>
+        <tr>
+          <td>Lightning fights</td>
+          <td>LG is a fixed <code>30</code>-damage single center trace, and QW prediction makes repeated shaft entries more consistent online.</td>
+          <td>LG is also a fixed <code>30</code>-damage single center trace, but the surrounding NQ movement and spawn rules make re-entry patterns less identical.</td>
+          <td>The beam itself is similar. The larger difference is how repeatably players can place themselves into ideal shaft range.</td>
+        </tr>
+        <tr>
+          <td>Rune burst versus sustain</td>
+          <td>Rune power is heavily server-driven: strength, resistance, haste, and regeneration all scale off cvars.</td>
+          <td>Rune behavior is more binary and default-strong: <code>x2</code> strength, <code>/2</code> resistance, fixed haste refires, fixed <code>0.5s</code> regen ticks.</td>
+          <td>KTX CTF can swing from mild to extreme depending on config. CRMod7 produces more stable, role-like rune expectations from match to match.</td>
+        </tr>
+        <tr>
+          <td>Hook as combat tool</td>
+          <td>Hook style is a pre-match rules decision: <code>smooth</code>, <code>fast</code>, <code>classic</code>, or <code>crhook</code>, mainly changing travel feel, throw speed, and reset timing.</td>
+          <td>The hook is also a real harassment weapon: it hits for <code>10</code>, enforces minimum fire/pull speeds of <code>1200</code> / <code>850</code>, slows underwater, and can tear away under strain.</td>
+          <td>KTX hook prep is route-first. CRMod7 hook prep is route plus peel, chase disruption, and occasional finish damage.</td>
+        </tr>
+        <tr>
+          <td>Powerup relay discipline</td>
+          <td><code>k_pow_pickup</code> can forbid taking the same powerup again while it is already active.</td>
+          <td>League rules can live-toggle no-quad, no-pent, or no-ring behavior.</td>
+          <td>KTX changes who can safely relay powerups. CRMod7 can remove entire powerup layers and force the game back onto weapons, spawns, and objectives.</td>
+        </tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Advanced TDM Strategy: What Strong Teams Exploit</h2>
+      <p class="small">These are mod-specific tournament consequences, not universal truths about every NQ or QW server.</p>
+      <table>
+        <tr>
+          <th>Theme</th>
+          <th>KTX (QW mod)</th>
+          <th>CRMod7 (NQ mod)</th>
+          <th>Why it matters</th>
+        </tr>
+        <tr>
+          <td>Focus-fire collapses</td>
+          <td>Because direct rockets are fixed at <code>110</code>, two-man traps and cleanup swings can be called very tightly.</td>
+          <td>Because direct rockets still roll <code>100-120</code>, identical rocket calls do not always imply identical post-hit stack.</td>
+          <td>Good KTX teams commit earlier once damage is confirmed. Good CRMod7 teams confirm a little more before overextending for the finish.</td>
+        </tr>
+        <tr>
+          <td>Weapon-flow scripting</td>
+          <td><code>w_rank</code>, <code>w_switch</code>, and <code>b_switch</code> let each player predefine how routes auto-upgrade through pickups and dry weapons.</td>
+          <td>SmartWeapon is on by default for new clients, but veterans can still turn that behavior down and keep manual weapon discipline.</td>
+          <td>KTX supports very explicit role scripting per player. CRMod7 leaves more room for personal preference and bait pickups.</td>
+        </tr>
+        <tr>
+          <td>Post-wipe economy</td>
+          <td>In <code>dmm1</code>, <code>k_freshteams</code> and <code>k_nosweep</code> can heavily shrink the reward for sweeping a wipe: default caps include only <code>5</code> rockets and <code>10</code> cells in packs, and just <code>1</code> RL rocket or <code>3</code> LG cells on sweep pickups.</td>
+          <td>CRMod7 does not layer the same sweep-limiting economy system on top of classic weapon flow.</td>
+          <td>KTX can stop one wipe from turning into an instant full restack. CRMod7 punishes lost item fights more directly once the winners own the floor.</td>
+        </tr>
+        <tr>
+          <td>Spawn conversion</td>
+          <td>Respawn behavior is a server rule as much as a map rule: KTX exposes multiple spawn models, tracks short spawn-safety windows, and even counts spawn frags.</td>
+          <td>CRMod7 stays closer to classic random spawns, but rejects bad origins near your last death, last spawn, and nearby live players.</td>
+          <td>KTX TDM prep starts with the server config. CRMod7 TDM prep starts with learning the map's real spawn clusters and denial lines.</td>
+        </tr>
+        <tr>
+          <td>Powerup handoffs</td>
+          <td><code>k_pow_pickup</code> discourages wasteful same-player re-grabs, and KTX quad can be <code>x4</code> or <code>x8</code> depending on mode.</td>
+          <td>CRMod7 can strip quad, pent, or ring in real time, which can flatten the entire pacing of a TDM ruleset.</td>
+          <td>KTX rewards cleaner relay planning. CRMod7 makes league settings themselves part of the metagame.</td>
+        </tr>
+      </table>
+      <p>In practice, strong KTX TDM teams codify more: exact rocket calls, preset weapon ranks, and wipe timings that respect FreshTeams or NoSweep. Strong CRMod7 TDM teams leave more slack in the damage math and get more mileage from reading classical spawn flow and choosing when to trust SmartWeapon versus manual control.</p>
+    </section>
+
+    <section>
+      <h2>Advanced CTF Strategy: Escort, Defense, and Capture Timing</h2>
+      <table>
+        <tr>
+          <th>Theme</th>
+          <th>KTX (QW mod)</th>
+          <th>CRMod7 (NQ mod)</th>
+          <th>Why it matters</th>
+        </tr>
+        <tr>
+          <td>Capture sequencing</td>
+          <td>Captures are worth <code>15</code>, team bonus is <code>10</code>, return assists stay alive for <code>4s</code>, and frag-carrier assists stay alive for <code>6s</code>.</td>
+          <td>Captures are worth <code>5</code>, team bonus is <code>10</code>, return assists stay alive for <code>4s</code>, frag-carrier assists for <code>6s</code>, and a teammate can also earn a separate <code>strategic return</code> if the return lands within <code>5s</code> of the cap.</td>
+          <td>Both mods reward sequencing, but CRMod7 is more explicit about valuing the late returner. KTX weights the carrier's own finish much more heavily.</td>
+        </tr>
+        <tr>
+          <td>Defense geometry</td>
+          <td>Carrier-danger defense lasts <code>4s</code>, and flag / carrier defense checks are built around tight <code>400</code>-unit proximity tests. Defending the flag is worth <code>2</code>.</td>
+          <td>Carrier-danger defense lasts <code>2s</code>, and attacker-side protection checks extend out to a <code>550</code>-unit radius, with separate scoring for base-flag and dropped-flag defense.</td>
+          <td>KTX favors tighter escort packs and closer base fights. CRMod7 rewards wider perimeter defenders and trailing peel more often.</td>
+        </tr>
+        <tr>
+          <td>Spawn pressure and base traps</td>
+          <td><code>k_ctf_based_spawn 2</code> deliberately mixes neutral and home-base spawns to avoid the "fish in a barrel" base-overrun problem.</td>
+          <td>CRMod7 follows team spawns and fallback spawns more directly, so base pressure is more map-defined than cvar-defined.</td>
+          <td>KTX offenses must understand the server's spawn policy before designing traps. CRMod7 offenses care more about the map's native lockout routes.</td>
+        </tr>
+        <tr>
+          <td>Hook offense</td>
+          <td>Because hookstyle is votable before the match, serious KTX teams should practice separate cap and recovery routes for <code>smooth</code>, <code>fast</code>, <code>classic</code>, and <code>crhook</code>.</td>
+          <td>The hook is part mobility tool, part combat tool: it can chip for <code>10</code>, pull hard enough to disrupt aim, and punish sloppy chases with tear-away behavior.</td>
+          <td>KTX CTF is often solved by route rehearsal. CRMod7 CTF gets extra value from hook harassment during both escorts and returns.</td>
+        </tr>
+        <tr>
+          <td>Rune job assignment</td>
+          <td>Haste changes route speed directly, regeneration tick rate can be tuned, and strength / resistance scale from cvars, so rune jobs depend heavily on server setup.</td>
+          <td>Rune identities are sharper out of the box: strength is your burst fragger, resistance is the tank, haste is the spammer or chaser, and regeneration is the sustain carrier or anchor.</td>
+          <td>Good KTX teams inspect the config first, then assign runes. Good CRMod7 teams can build more standardized rune roles from map to map.</td>
+        </tr>
+      </table>
+      <p>The broad pattern is simple: KTX CTF meta starts by solving the server config, then the map. CRMod7 CTF meta starts by solving the scoring windows and fixed rune or hook interactions, because the mod already tells you which support actions it wants to reward.</p>
+    </section>
+
+    <section>
+      <h2>Modern Engines Blur the Old Binary</h2>
+      <div class="summary">
+        <div class="card">
+          <strong>QSS-M is still NQ-first</strong>
+          <span>Its defaults keep classic NetQuake server physics, but it also ships a large compatibility layer: shared prediction, QW-style bunnyhop options, edge-friction switches, walljump, airstep, and more.</span>
+        </div>
+        <div class="card">
+          <strong>ezQuake is still QW-first</strong>
+          <span>Its normal path assumes predicted QuakeWorld movement, but it also has NQ compatibility pieces such as <code>cl_nqdemo.c</code> for NetQuake demo playback and server-controlled movement cvars.</span>
+        </div>
+        <div class="card">
+          <strong>Bottom line</strong>
+          <span>If you want a one-sentence memory aid: NQ is authoritative, sticky, and friction-first; QW is replayable, speed-preserving, and prediction-first.</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
