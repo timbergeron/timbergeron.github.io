@@ -305,6 +305,113 @@
 
     .practice-table tr:last-child td { border-bottom: none; }
 
+    .math-shell {
+      display: grid;
+      grid-template-columns: minmax(280px, 340px) 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .control-panel {
+      padding: 20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .control-group {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .control-group:last-child { margin-bottom: 0; }
+
+    .control-group label {
+      font-weight: 700;
+      font-size: .95rem;
+    }
+
+    .control-help {
+      margin: 0;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .control-panel select,
+    .control-panel input[type="range"] {
+      width: 100%;
+    }
+
+    .control-panel select {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      font: inherit;
+    }
+
+    .math-results {
+      display: grid;
+      gap: 18px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .result-card {
+      padding: 18px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border: 1px solid var(--border);
+    }
+
+    .result-label {
+      display: block;
+      color: var(--accent);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .result-value {
+      display: block;
+      margin: 8px 0 6px;
+      font-size: clamp(1.45rem, 2.2vw, 2.1rem);
+      line-height: 1.05;
+      letter-spacing: -.03em;
+    }
+
+    .result-note {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .formula {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .94rem;
+      line-height: 1.7;
+      white-space: pre-line;
+    }
+
+    .source-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
     .footer {
       padding: 32px 0 60px;
       color: var(--muted);
@@ -326,7 +433,9 @@
       .hero-grid,
       .grid-3,
       .grid-2,
-      .video-grid {
+      .video-grid,
+      .math-shell,
+      .stat-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -671,6 +780,122 @@
       </div>
     </section>
 
+    <section id="math" class="section">
+      <h2>Source-checked bunnyhop math</h2>
+      <p class="section-intro">
+        These numbers are taken from the actual movement code in QSS-M and ezQuake, not from second-hand movement folklore.
+        Both engines use the same air-acceleration geometry, but they differ sharply on whether landing-frame friction can be skipped.
+      </p>
+
+      <div class="grid-2">
+        <article class="panel">
+          <h3>The air-angle math both codebases share</h3>
+          <p style="margin: 0; color: var(--muted);">
+            In both sources, air acceleration only works while the projection of your speed onto your intended movement direction
+            stays below <code class="kbd">30</code>. If <code class="kbd">s</code> is horizontal speed and <code class="kbd">δ</code> is the angle
+            between your current velocity and <code class="kbd">wishdir</code>, the useful part is:
+          </p>
+          <div class="formula">gain starts when s * cos(δ) &lt; 30
+δ_min = arccos(30 / s)</div>
+          <div class="formula">default Quake accel step = 10 * 320 * dt
+at normal frame times, best wishdir is almost 90° to velocity
+usable angle window near that best line = 90° - δ_min = arcsin(30 / s)</div>
+        </article>
+
+        <article class="panel">
+          <h3>Where QSS-M and ezQuake split</h3>
+          <ul>
+            <li><strong>ezQuake / QuakeWorld:</strong> <code class="kbd">PM_CheckJump()</code> runs before <code class="kbd">PM_Friction()</code>, so a same-frame landing jump skips ground friction.</li>
+            <li><strong>QSS-M / NetQuake-style:</strong> in the NQ <code class="kbd">bunnyfriction</code> path, <code class="kbd">PM_Friction()</code> runs first and <code class="kbd">PM_CheckJump()</code> runs after movement, so each chained hop pays one grounded frame.</li>
+            <li><strong>Manual timing:</strong> both codepaths keep a jump-held anti-pogo timer for roughly <code class="kbd">50 ms</code>, so manual hopping still needs a release and repress unless autobunny is enabled.</li>
+          </ul>
+          <p class="source-note">
+            QSS-M defaults also change the forward+strafe angle: <code class="kbd">cl_forwardspeed 200</code> and
+            <code class="kbd">cl_sidespeed 350</code> point the move vector <strong>60.26°</strong> off the camera, while ezQuake’s
+            <code class="kbd">400 / 400</code> defaults point it <strong>45°</strong> off the camera.
+          </p>
+        </article>
+      </div>
+
+      <div class="callout">
+        The real precision requirement is simple to state and hard to execute: as your speed rises, the correct line collapses into a tiny
+        band around perpendicular. At 500 u/s the usable band is about 3.44°. At 1000 u/s it shrinks to about 1.72°.
+      </div>
+
+      <div class="panel" style="margin-top: 18px;">
+        <h3>Math explorer</h3>
+        <p style="margin: 0 0 18px; color: var(--muted);">
+          This uses the source defaults from each engine for a normal forward+strafe bunnyhop input.
+        </p>
+
+        <div class="math-shell">
+          <div class="control-panel">
+            <div class="control-group">
+              <label for="modeSelect">Physics source</label>
+              <select id="modeSelect">
+                <option value="nq">QSS-M / NetQuake-style landing</option>
+                <option value="qw">ezQuake / QuakeWorld landing</option>
+              </select>
+              <p class="control-help" id="modeHelp"></p>
+            </div>
+
+            <div class="control-group">
+              <label for="speedRange">Horizontal speed: <span id="speedValue">500 u/s</span></label>
+              <input id="speedRange" type="range" min="100" max="1200" step="1" value="500" />
+              <p class="control-help">The faster you are already moving, the tighter the angle window becomes.</p>
+            </div>
+
+            <div class="control-group">
+              <label for="fpsRange">Command rate: <span id="fpsValue">72 fps</span></label>
+              <input id="fpsRange" type="range" min="30" max="200" step="1" value="72" />
+              <p class="control-help">That is <span id="frameTimeValue">13.89 ms</span> per movement command.</p>
+            </div>
+          </div>
+
+          <div class="math-results">
+            <div class="stat-grid">
+              <article class="result-card">
+                <span class="result-label">Gain Starts At</span>
+                <strong class="result-value" id="gainStartsValue">26.30°</strong>
+                <p class="result-note" id="gainStartsNote">Turn at least this far into the strafe before this default input even starts adding speed.</p>
+              </article>
+
+              <article class="result-card">
+                <span class="result-label">Best View Offset</span>
+                <strong class="result-value" id="optimalViewValue">29.74°</strong>
+                <p class="result-note" id="optimalViewNote">This is the camera offset that makes the input line almost perfectly sideways to your travel.</p>
+              </article>
+
+              <article class="result-card">
+                <span class="result-label">Usable Window</span>
+                <strong class="result-value" id="windowValue">3.44°</strong>
+                <p class="result-note" id="windowNote">Only this much view-angle error still produces speed with the selected setup.</p>
+              </article>
+
+              <article class="result-card">
+                <span class="result-label" id="landingLabel">Landing-Frame Loss</span>
+                <strong class="result-value" id="landingValue">27.78 u/s</strong>
+                <p class="result-note" id="landingNote">QSS-M NQ-style chaining pays one full ground-friction frame before the jump happens.</p>
+              </article>
+            </div>
+
+            <table class="practice-table">
+              <thead>
+                <tr>
+                  <th>Speed</th>
+                  <th>Gain begins</th>
+                  <th>Best view angle</th>
+                  <th>Window width</th>
+                  <th>Best air gain / cmd</th>
+                </tr>
+              </thead>
+              <tbody id="mathExamples"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="videos" class="section">
       <h2>Referenced videos</h2>
       <p class="section-intro">
@@ -751,7 +976,145 @@
     Built as a beginner-friendly learning page using concepts from:
     <a href="https://www.youtube.com/watch?v=HfpmGJiuJkc" target="_blank" rel="noopener noreferrer">Bunnyhop Turning Behavior in Quake/Source</a>
     and
-    <a href="https://www.youtube.com/watch?v=QRlftc0A5hA" target="_blank" rel="noopener noreferrer">The Complete Beginner's Guide to Quake Speedrunning</a>.
+    <a href="https://www.youtube.com/watch?v=QRlftc0A5hA" target="_blank" rel="noopener noreferrer">The Complete Beginner's Guide to Quake Speedrunning</a>,
+    plus source-checked movement math from QSS-M and ezQuake.
   </footer>
+
+  <script>
+    const modeSelect = document.getElementById('modeSelect');
+    const speedRange = document.getElementById('speedRange');
+    const fpsRange = document.getElementById('fpsRange');
+    const modeHelp = document.getElementById('modeHelp');
+    const speedValue = document.getElementById('speedValue');
+    const fpsValue = document.getElementById('fpsValue');
+    const frameTimeValue = document.getElementById('frameTimeValue');
+    const gainStartsValue = document.getElementById('gainStartsValue');
+    const gainStartsNote = document.getElementById('gainStartsNote');
+    const optimalViewValue = document.getElementById('optimalViewValue');
+    const optimalViewNote = document.getElementById('optimalViewNote');
+    const windowValue = document.getElementById('windowValue');
+    const windowNote = document.getElementById('windowNote');
+    const landingLabel = document.getElementById('landingLabel');
+    const landingValue = document.getElementById('landingValue');
+    const landingNote = document.getElementById('landingNote');
+    const mathExamples = document.getElementById('mathExamples');
+
+    const RAD_TO_DEG = 180 / Math.PI;
+    const AIR_CAP = 30;
+    const MODES = {
+      nq: {
+        inputAngle: Math.atan2(350, 200) * RAD_TO_DEG,
+        label: 'QSS-M defaults: forward 200, side 350, friction before jump in the NQ path.',
+        landingMode: 'forced-friction'
+      },
+      qw: {
+        inputAngle: 45,
+        label: 'ezQuake defaults: forward 400, side 400, jump before friction in the QW path.',
+        landingMode: 'skip-friction'
+      }
+    };
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function deg(value) {
+      return `${value.toFixed(2)}°`;
+    }
+
+    function speedText(value) {
+      return `${value.toFixed(2)} u/s`;
+    }
+
+    function bestAirGain(speed, accelStep, optimalWishAngle) {
+      const cosAngle = Math.cos(optimalWishAngle / RAD_TO_DEG);
+      const addedSpeed = Math.min(accelStep, Math.max(0, AIR_CAP - speed * cosAngle));
+      return Math.sqrt(speed * speed + addedSpeed * addedSpeed + 2 * speed * addedSpeed * cosAngle) - speed;
+    }
+
+    function compute(modeKey, speed, fps) {
+      const mode = MODES[modeKey];
+      const dt = 1 / fps;
+      const accelStep = 10 * 320 * dt;
+      const anyGainWishAngle = Math.acos(clamp(AIR_CAP / speed, -1, 1)) * RAD_TO_DEG;
+      const optimalWishAngle = accelStep >= AIR_CAP
+        ? 90
+        : Math.acos(clamp((AIR_CAP - accelStep) / speed, -1, 1)) * RAD_TO_DEG;
+      const anyGainViewAngle = Math.max(0, anyGainWishAngle - mode.inputAngle);
+      const optimalViewAngle = Math.max(0, optimalWishAngle - mode.inputAngle);
+      const windowWidth = Math.max(0, optimalWishAngle - anyGainWishAngle);
+      const control = Math.max(speed, 100);
+      const landingLoss = Math.min(speed, control * 4 * dt);
+      const missedQwLoss = landingLoss;
+
+      return {
+        mode,
+        dt,
+        accelStep,
+        anyGainViewAngle,
+        optimalViewAngle,
+        windowWidth,
+        landingLoss,
+        missedQwLoss,
+        optimalWishAngle,
+        bestAirGain: bestAirGain(speed, accelStep, optimalWishAngle)
+      };
+    }
+
+    function renderExampleRows(modeKey, fps) {
+      const speeds = [320, 500, 800, 1000];
+      mathExamples.innerHTML = speeds.map((speed) => {
+        const data = compute(modeKey, speed, fps);
+        return `
+          <tr>
+            <td>${speed} u/s</td>
+            <td>${deg(data.anyGainViewAngle)}</td>
+            <td>${deg(data.optimalViewAngle)}</td>
+            <td>${deg(data.windowWidth)}</td>
+            <td>${speedText(data.bestAirGain)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderMath() {
+      const modeKey = modeSelect.value;
+      const speed = Number(speedRange.value);
+      const fps = Number(fpsRange.value);
+      const data = compute(modeKey, speed, fps);
+
+      modeHelp.textContent = data.mode.label;
+      speedValue.textContent = `${speed} u/s`;
+      fpsValue.textContent = `${fps} fps`;
+      frameTimeValue.textContent = `${(data.dt * 1000).toFixed(2)} ms`;
+
+      gainStartsValue.textContent = deg(data.anyGainViewAngle);
+      gainStartsNote.textContent = `Below this camera offset, the default forward+strafe line points too far into your travel and the ${AIR_CAP} u/s air cap stops speed gain.`;
+
+      optimalViewValue.textContent = deg(data.optimalViewAngle);
+      optimalViewNote.textContent = `This places the default forward+strafe input at about ${deg(data.optimalWishAngle)} from your current velocity.`;
+
+      windowValue.textContent = deg(data.windowWidth);
+      windowNote.textContent = `At this speed you only have this many degrees between “starts gaining” and “best possible” with the selected source defaults.`;
+
+      if (data.mode.landingMode === 'forced-friction') {
+        landingLabel.textContent = 'Landing-Frame Loss';
+        landingValue.textContent = speedText(data.landingLoss);
+        landingNote.textContent = `QSS-M's NQ ordering applies one friction frame before the jump. At ${fps} fps that is ${(data.landingLoss / speed * 100).toFixed(2)}% of ${speed} u/s.`;
+      } else {
+        landingLabel.textContent = 'Perfect Landing Loss';
+        landingValue.textContent = speedText(0);
+        landingNote.textContent = `ezQuake's QW ordering can skip friction entirely on the landing frame. Miss by one command and you lose ${speedText(data.missedQwLoss)} instead.`;
+      }
+
+      renderExampleRows(modeKey, fps);
+    }
+
+    modeSelect.addEventListener('input', renderMath);
+    speedRange.addEventListener('input', renderMath);
+    fpsRange.addEventListener('input', renderMath);
+
+    renderMath();
+  </script>
 </body>
 </html>
