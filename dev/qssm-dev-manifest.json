@@ -1,40 +1,40 @@
 {
   "artifacts": {
     "QSS-M-linux-dev-latest.zip": {
-      "archive_sha256": "64778b99724e1945478496ccc9c7fd1c574c89f4e43fa14a6ef4abd90623e523",
-      "artifact_digest": "sha256:64778b99724e1945478496ccc9c7fd1c574c89f4e43fa14a6ef4abd90623e523",
-      "artifact_id": 11853283724,
+      "archive_sha256": "33cad9c565c6aca6b32743682867bc99fbf391d163bd8811045bfea5525f910c",
+      "artifact_digest": "sha256:33cad9c565c6aca6b32743682867bc99fbf391d163bd8811045bfea5525f910c",
+      "artifact_id": 12326785133,
       "artifact_name": "QSS-M-l64.zip",
-      "run_id": 38475444411,
-      "source_sha": "74d60d4d2d020a963d71af2afd81fe76f0ff254c"
+      "run_id": 39557590105,
+      "source_sha": "353f1d83c1b24a5843e9e712e191fb0d7eebce43"
     },
     "QSS-M-mac-dev-latest.zip": {
-      "archive_sha256": "3581d6352eb8999cb45843f69317a966f98eaf2303f56f69037004b797f4c901",
-      "artifact_digest": "sha256:3581d6352eb8999cb45843f69317a966f98eaf2303f56f69037004b797f4c901",
-      "artifact_id": 11853663092,
+      "archive_sha256": "9f8bc6a7ff92e1a67095b013c593f8c2072472029e9f608740286ab32a02147b",
+      "artifact_digest": "sha256:9f8bc6a7ff92e1a67095b013c593f8c2072472029e9f608740286ab32a02147b",
+      "artifact_id": 12326177732,
       "artifact_name": "QSS-M-macOS.zip",
-      "run_id": 38475444371,
-      "source_sha": "74d60d4d2d020a963d71af2afd81fe76f0ff254c"
+      "run_id": 39557590038,
+      "source_sha": "353f1d83c1b24a5843e9e712e191fb0d7eebce43"
     },
     "QSS-M-w32-dev-latest.zip": {
-      "archive_sha256": "23f501e97f7f0a88b521f69c79662da521ffe13f40164fa571fe8d969e5e40e5",
-      "artifact_digest": "sha256:23f501e97f7f0a88b521f69c79662da521ffe13f40164fa571fe8d969e5e40e5",
-      "artifact_id": 11853573384,
+      "archive_sha256": "2504f9d42054ea54053fd70609318c6480fba32f7b9ef6c800ed450baae6df1c",
+      "artifact_digest": "sha256:2504f9d42054ea54053fd70609318c6480fba32f7b9ef6c800ed450baae6df1c",
+      "artifact_id": 12326252666,
       "artifact_name": "QSS-M-w32.zip",
-      "run_id": 38475444313,
-      "source_sha": "74d60d4d2d020a963d71af2afd81fe76f0ff254c"
+      "run_id": 39557590188,
+      "source_sha": "353f1d83c1b24a5843e9e712e191fb0d7eebce43"
     },
     "QSS-M-w64-dev-latest.zip": {
-      "archive_sha256": "a9c2c197cbe773ea737f48018a4317d30f5b1cc3d90601b929357f903342b681",
-      "artifact_digest": "sha256:a9c2c197cbe773ea737f48018a4317d30f5b1cc3d90601b929357f903342b681",
-      "artifact_id": 11852494916,
+      "archive_sha256": "58ef01909daa182b8194c6b563642d16f16ce82638222a96e5c7ccd457ada5cc",
+      "artifact_digest": "sha256:58ef01909daa182b8194c6b563642d16f16ce82638222a96e5c7ccd457ada5cc",
+      "artifact_id": 12325344856,
       "artifact_name": "QSS-M-w64.zip",
-      "run_id": 38475444313,
-      "source_sha": "74d60d4d2d020a963d71af2afd81fe76f0ff254c"
+      "run_id": 39557590188,
+      "source_sha": "353f1d83c1b24a5843e9e712e191fb0d7eebce43"
     }
   },
-  "date": "2026-10-13",
+  "date": "2026-10-21",
   "schema": 1,
-  "source_sha": "74d60d4d2d020a963d71af2afd81fe76f0ff254c",
+  "source_sha": "353f1d83c1b24a5843e9e712e191fb0d7eebce43",
   "version": "1.6.9"
 }
